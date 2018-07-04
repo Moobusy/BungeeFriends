@@ -3,6 +3,7 @@ package net.simplyrin.bungeefriends.commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -110,7 +111,7 @@ public class FriendCommand extends Command {
 						@Override
 						public void run() {
 							try {
-								Thread.sleep(300000);
+								TimeUnit.MINUTES.sleep(5);
 							} catch (Exception e) {
 							}
 
