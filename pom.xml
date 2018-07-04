@@ -81,5 +81,10 @@
       <artifactId>Config</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>net.simplyrin.threadpool</groupId>
+      <artifactId>ThreadPool</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 </project>

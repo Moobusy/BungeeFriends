@@ -2,12 +2,14 @@ package net.simplyrin.bungeefriends;
 
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.simplyrin.bungeefriends.commands.FriendCommand;
 import net.simplyrin.bungeefriends.listeners.EventListener;
 import net.simplyrin.bungeefriends.utils.ConfigManager;
 import net.simplyrin.bungeefriends.utils.FriendManager;
+import net.simplyrin.bungeefriends.utils.MessageBuilder;
 import net.simplyrin.bungeefriends.utils.PlayerManager;
 
 /**
@@ -70,6 +72,10 @@ public class Main extends Plugin {
 	@SuppressWarnings("deprecation")
 	public void info(ProxiedPlayer player, String args) {
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPrefix() + args));
+	}
+
+	public void info(ProxiedPlayer player, TextComponent args) {
+		player.sendMessage(MessageBuilder.get(plugin.getPrefix()), args);
 	}
 
 }

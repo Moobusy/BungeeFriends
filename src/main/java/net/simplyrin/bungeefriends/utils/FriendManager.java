@@ -7,6 +7,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
+import net.simplyrin.bungeefriends.exceptions.FaliedRemovingException;
 import net.simplyrin.bungeefriends.exceptions.NotAddedException;
 
 /**
@@ -54,7 +55,6 @@ public class FriendManager {
 		public FriendUtils(UUID uuid) {
 			this.uuid = uuid;
 
-			// TODO: なかったら作れカス
 			if(FriendManager.this.plugin.getConfigManager().getConfig().get("Player." + this.uuid.toString()) == null) {
 				ProxiedPlayer player = FriendManager.this.plugin.getProxy().getPlayer(this.uuid);
 
@@ -68,7 +68,7 @@ public class FriendManager {
 		}
 
 		public ProxiedPlayer getPlayer() {
-			return FriendManager.this.plugin.getProxy().getPlayer(this.getName());
+			return FriendManager.this.plugin.getProxy().getPlayer(this.uuid);
 		}
 
 		public String getDisplayName() {
@@ -79,10 +79,6 @@ public class FriendManager {
 			return FriendManager.this.plugin.getConfigManager().getConfig().getString("Player." + this.uuid.toString() + ".Name");
 		}
 
-		public boolean isEnabledReceiveRequest() {
-			return FriendManager.this.plugin.getConfigManager().getConfig().getBoolean("Player." + this.uuid.toString() + ".Toggle-Reception-Request");
-		}
-
 		public FriendUtils setPrefix(String prefix) {
 			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Prefix", prefix);
 			return this;
@@ -90,6 +86,55 @@ public class FriendManager {
 
 		public String getPrefix() {
 			return FriendManager.this.plugin.getConfigManager().getConfig().getString("Player." + this.uuid.toString() + ".Prefix");
+		}
+
+		public UUID getUniqueId() {
+			return this.uuid;
+		}
+
+		public boolean isEnabledReceiveRequest() {
+			return FriendManager.this.plugin.getConfigManager().getConfig().getBoolean("Player." + this.uuid.toString() + ".Toggle-Reception-Request");
+		}
+
+		public List<String> getRequests() {
+			return FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
+		}
+
+		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException {
+			return this.addRequest(player.getUniqueId());
+		}
+
+		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException {
+			if(this.uuid.toString().equals(uuid.toString())) {
+				throw new FailedAddingException("You can't add yourself as a friend!");
+			}
+
+			List<String> list = this.getFriends();
+			if(list.contains(uuid.toString())) {
+				throw new AlreadyAddedException();
+			}
+
+			List<String> requests = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
+			if(requests.contains(uuid.toString())) {
+				throw new FailedAddingException();
+			}
+			requests.add(uuid.toString());
+			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Requests", requests);
+			return this;
+		}
+
+		public FriendUtils removeRequest(ProxiedPlayer player) throws NotAddedException {
+			return this.removeRequest(player.getUniqueId());
+		}
+
+		public FriendUtils removeRequest(UUID uuid) throws NotAddedException {
+			List<String> requests = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
+			if(!requests.contains(uuid.toString())) {
+				throw new NotAddedException();
+			}
+			requests.remove(uuid.toString());
+			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Requests", requests);
+			return this;
 		}
 
 		public List<String> getFriends() {
@@ -123,13 +168,13 @@ public class FriendManager {
 			return this;
 		}
 
-		public FriendUtils remove(ProxiedPlayer player) throws NotAddedException, FailedAddingException {
+		public FriendUtils remove(ProxiedPlayer player) throws NotAddedException, FaliedRemovingException {
 			return this.remove(player.getUniqueId());
 		}
 
-		public FriendUtils remove(UUID uuid) throws NotAddedException, FailedAddingException {
+		public FriendUtils remove(UUID uuid) throws NotAddedException, FaliedRemovingException {
 			if(this.uuid.toString().equals(uuid.toString())) {
-				throw new FailedAddingException(this.getDisplayName() + " &cisn't on your friends list!");
+				throw new FaliedRemovingException(this.getDisplayName() + " &cisn't on your friends list!");
 			}
 
 			List<String> list = this.getFriends();

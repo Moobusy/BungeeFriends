@@ -26,11 +26,23 @@ import net.md_5.bungee.api.chat.TextComponent;
  */
 public class MessageBuilder {
 
+	public static TextComponent get(String message) {
+		return new TextComponent(ChatColor.translateAlternateColorCodes('&', message));
+	}
+
 	public static TextComponent get(String message, String command, ChatColor color, String hover, boolean bold) {
-		TextComponent textComponent = new TextComponent(message);
-		textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
-		textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hover).create()));
-		textComponent.setColor(color);
+		TextComponent textComponent = new TextComponent(ChatColor.translateAlternateColorCodes('&', message));
+
+		if(command != null) {
+			textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
+		}
+		if(hover != null) {
+			textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', hover)).create()));
+		}
+		if(color != null) {
+			textComponent.setColor(color);
+		}
+
 		textComponent.setBold(bold);
 		return textComponent;
 	}

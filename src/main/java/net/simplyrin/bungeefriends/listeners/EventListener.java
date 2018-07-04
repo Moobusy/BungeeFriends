@@ -36,8 +36,10 @@ public class EventListener implements Listener {
 	public void onLogin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
 
-		this.plugin.getPlayerManager().getConfig().set(player.getName(), player.getUniqueId().toString());
-		this.plugin.getPlayerManager().getConfig().set(player.getUniqueId().toString(), player.getName());
+		this.plugin.getConfigManager().getConfig().set("Player." + player.getUniqueId().toString() + ".Name", player.getName());
+
+		this.plugin.getPlayerManager().getConfig().set("Name." + player.getName(), player.getUniqueId().toString());
+		this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName());
 	}
 
 }

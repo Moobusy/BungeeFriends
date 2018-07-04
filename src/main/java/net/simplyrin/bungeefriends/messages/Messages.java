@@ -22,5 +22,6 @@ public class Messages {
 
 	public static final String INGAME_ONLY = "&cThis command is available only in the game.";
 	public static final String NO_PERMISSION = "&cYou do not have access to this command!";
+	public static final String HYPHEN = "&9&m---------------------------------------------";
 
 }
