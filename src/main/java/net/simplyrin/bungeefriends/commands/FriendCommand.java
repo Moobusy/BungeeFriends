@@ -65,10 +65,10 @@ public class FriendCommand extends Command {
 		if(args.length > 0) {
 			if(args[0].equalsIgnoreCase("add")) {
 				if(args.length > 1) {
-					ProxiedPlayer target = this.plugin.getProxy().getPlayer(args[1]);
+					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat player is currently offline");
+						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
@@ -101,7 +101,9 @@ public class FriendCommand extends Command {
 
 					this.plugin.info(target, Messages.HYPHEN);
 					this.plugin.info(target, "&eFriend request from " + myFriends.getDisplayName() + "&e!");
-					target.sendMessage(prefix, accept, grayHyphen, deny);
+					if(targetFriends.getPlayer() != null) {
+						targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny);
+					}
 					this.plugin.info(target, Messages.HYPHEN);
 
 					ThreadPool.run(new Runnable() {
@@ -320,6 +322,47 @@ public class FriendCommand extends Command {
 				this.plugin.info(player, "&cUsage: /friend force-add <player>");
 				return;
 			}
+
+			if(args[0].equalsIgnoreCase("prefix")) {
+				if(!player.hasPermission(Permissions.FORCE)) {
+					this.plugin.info(player, Messages.NO_PERMISSION);
+					return;
+				}
+
+				if(args.length > 1) {
+					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
+					if(target == null) {
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, Messages.HYPHEN);
+						return;
+					}
+
+					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+
+					if(args.length > 2) {
+						String prefix = "";
+						for(int i = 2; i < args.length; i++) {
+							prefix = prefix + args[i] + " ";
+						}
+
+						if(!prefix.endsWith(" ")) {
+							prefix += " ";
+						}
+
+						this.plugin.info(player, "&7" + targetFriends.getDisplayName() + "&e's prefix has been changed to '" + ChatColor.translateAlternateColorCodes('&', prefix).substring(0, prefix.length() - 1) + "&e'");
+						targetFriends.setPrefix(prefix);
+						this.plugin.info(player, "&eNew display name is '&7" + targetFriends.getDisplayName() + "&e'");
+						return;
+					}
+
+					this.plugin.info(player, "&7" + targetFriends.getDisplayName() + "&e's currently prefix is '" + targetFriends.getPrefix().substring(0, targetFriends.getPrefix().length() - 1) + "&e'");
+					return;
+				}
+
+				this.plugin.info(player, "&cUsage: /friend prefix <player> <prefix>");
+				return;
+			}
 		}
 
 		this.plugin.info(player, Messages.HYPHEN);
@@ -329,6 +372,11 @@ public class FriendCommand extends Command {
 		this.plugin.info(player, "&e/friend accept &7- &bAccept a friend request");
 		this.plugin.info(player, "&e/friend deny &7- &bDecline a friend request");
 		this.plugin.info(player, "&e/friend list &7- &bList your friends");
+		if(player.hasPermission(Permissions.FORCE)) {
+			this.plugin.info(player, Messages.HYPHEN);
+			this.plugin.info(player, "&e/friend force-add &7- &bYou will be forced to be friends with the player.");
+			this.plugin.info(player, "&e/friend prefix &7- &bSet player prefix.");
+		}
 		this.plugin.info(player, Messages.HYPHEN);
 	}
 

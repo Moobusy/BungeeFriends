@@ -1,6 +1,7 @@
 package net.simplyrin.bungeefriends.utils;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import net.simplyrin.bungeefriends.Main;
@@ -41,12 +42,14 @@ public class FileBackupManager {
 			public void run() {
 				while(true) {
 					try {
-						Thread.sleep(60000);
+						TimeUnit.HOURS.sleep(2);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					
+					
 
-
+					File file = new File(folder, "");
 				}
 			}
 		};

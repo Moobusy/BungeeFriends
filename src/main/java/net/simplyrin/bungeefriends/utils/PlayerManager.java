@@ -60,7 +60,12 @@ public class PlayerManager implements Listener {
 	}
 
 	public UUID getPlayerUniqueId(String name) {
-		return UUID.fromString(this.config.getString("Name." + name.toLowerCase()));
+		UUID uuid = null;
+		try {
+			uuid = UUID.fromString(this.config.getString("Name." + name.toLowerCase()));
+		} catch (Exception e) {
+		}
+		return uuid;
 	}
 
 	public String getPlayerName(UUID uuid) {
