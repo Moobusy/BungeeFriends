@@ -1,5 +1,7 @@
 package net.simplyrin.bungeefriends;
 
+import java.util.UUID;
+
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -72,6 +74,14 @@ public class Main extends Plugin {
 	@SuppressWarnings("deprecation")
 	public void info(ProxiedPlayer player, String args) {
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPrefix() + args));
+	}
+
+	@SuppressWarnings("deprecation")
+	public void info(UUID uuid, String args) {
+		ProxiedPlayer player = this.getProxy().getPlayer(uuid);
+		if(player != null) {
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPrefix() + args));
+		}
 	}
 
 	public void info(ProxiedPlayer player, TextComponent args) {

@@ -135,11 +135,11 @@ public class FriendCommand extends Command {
 
 			if(args[0].equalsIgnoreCase("remove")) {
 				if(args.length > 1) {
-					ProxiedPlayer target = this.plugin.getProxy().getPlayer(args[1]);
+					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat player is currently offline");
-						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(target, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
@@ -172,11 +172,11 @@ public class FriendCommand extends Command {
 
 			if(args[0].equalsIgnoreCase("accept")) {
 				if(args.length > 1) {
-					ProxiedPlayer target = this.plugin.getProxy().getPlayer(args[1]);
+					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat player is currently offline");
-						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(target, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
@@ -213,11 +213,11 @@ public class FriendCommand extends Command {
 
 			if(args[0].equalsIgnoreCase("deny")) {
 				if(args.length > 1) {
-					ProxiedPlayer target = this.plugin.getProxy().getPlayer(args[1]);
+					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat player is currently offline");
-						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(target, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
@@ -283,11 +283,11 @@ public class FriendCommand extends Command {
 				}
 
 				if(args.length > 1) {
-					ProxiedPlayer target = this.plugin.getProxy().getPlayer(args[1]);
+					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat player is currently offline");
-						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(target, Messages.HYPHEN);
 						return;
 					}
 

@@ -41,8 +41,8 @@ public class EventListener implements Listener {
 
 		this.plugin.getConfigManager().getConfig().set("Player." + player.getUniqueId().toString() + ".Name", player.getName());
 
-		this.plugin.getPlayerManager().getConfig().set("Name." + player.getName(), player.getUniqueId().toString());
-		this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName());
+		this.plugin.getPlayerManager().getConfig().set("Name." + player.getName().toLowerCase(), player.getUniqueId().toString());
+		this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
 
 		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
 			if(!player.equals(target)) {

@@ -2,6 +2,7 @@ package net.simplyrin.bungeefriends.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Listener;
@@ -58,6 +59,14 @@ public class PlayerManager implements Listener {
 		this.plugin.getProxy().getScheduler().runAsync(this.plugin, this.runnable);
 	}
 
+	public UUID getPlayerUniqueId(String name) {
+		return UUID.fromString(this.config.getString("Name." + name.toLowerCase()));
+	}
+
+	public String getPlayerName(UUID uuid) {
+		return this.config.getString("UUID." + uuid.toString());
+	}
+
 	public void saveAndReload() {
 		File config = new File(this.plugin.getDataFolder(), "player.yml");
 
@@ -82,10 +91,10 @@ public class PlayerManager implements Listener {
 			this.config = Config.getConfig(config);
 
 			this.config.set("UUID.b0bb65a2-832f-4a5d-854e-873b7c4522ed", "SimplyRin");
-			this.config.set("Name.SimplyRin", "b0bb65a2-832f-4a5d-854e-873b7c4522ed");
+			this.config.set("Name.simplyrin", "b0bb65a2-832f-4a5d-854e-873b7c4522ed");
 
 			this.config.set("UUID.64636120-8633-4541-aa5f-412b42ddb04d", "SimplyFoxy");
-			this.config.set("Name.SimplyFoxy", "64636120-8633-4541-aa5f-412b42ddb04d");
+			this.config.set("Name.simplyfoxy", "64636120-8633-4541-aa5f-412b42ddb04d");
 
 			Config.saveConfig(this.config, config);
 		}
