@@ -137,9 +137,9 @@ public class FriendCommand extends Command {
 				if(args.length > 1) {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(target, Messages.HYPHEN);
-						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
-						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
@@ -174,9 +174,9 @@ public class FriendCommand extends Command {
 				if(args.length > 1) {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(target, Messages.HYPHEN);
-						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
-						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
@@ -215,9 +215,9 @@ public class FriendCommand extends Command {
 				if(args.length > 1) {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(target, Messages.HYPHEN);
-						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
-						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
@@ -285,9 +285,9 @@ public class FriendCommand extends Command {
 				if(args.length > 1) {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
-						this.plugin.info(target, Messages.HYPHEN);
-						this.plugin.info(target, "&cCan't find a player by the name of '" + args[1] + "'");
-						this.plugin.info(target, Messages.HYPHEN);
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
