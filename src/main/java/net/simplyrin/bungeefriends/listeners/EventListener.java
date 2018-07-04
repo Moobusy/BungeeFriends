@@ -52,6 +52,23 @@ public class EventListener implements Listener {
 				return;
 			}
 		}
+
+		/** if(myFriends.getRequests().size() > 0) {
+			ThreadPool.run(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						TimeUnit.SECONDS.sleep(2);
+					} catch (InterruptedException e) {
+					}
+
+					EventListener.this.plugin.info(player, Messages.HYPHEN);
+					EventListener.this.plugin.info(player, "&aYou have " + myFriends.getRequests().size() + " pending friend requests.");
+					EventListener.this.plugin.info(player, "&eUse &b/f requests &eto see them!");
+					EventListener.this.plugin.info(player, Messages.HYPHEN);
+				}
+			});
+		} */
 	}
 
 	@EventHandler

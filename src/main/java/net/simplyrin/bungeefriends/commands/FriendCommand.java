@@ -235,7 +235,7 @@ public class FriendCommand extends Command {
 					}
 
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&cDeclined " + targetFriends.getDisplayName() + "&e's friend request!");
+					this.plugin.info(player, "&eDeclined " + targetFriends.getDisplayName() + "&e's friend request!");
 					this.plugin.info(player, Messages.HYPHEN);
 					return;
 				}
@@ -278,6 +278,30 @@ public class FriendCommand extends Command {
 				this.plugin.info(player, Messages.HYPHEN);
 				return;
 			}
+
+			/** if(args[0].equalsIgnoreCase("requests")) {
+				this.plugin.info(player, Messages.HYPHEN);
+				if(myFriends.getRequests().size() > 0) {
+					for(String list : myFriends.getRequests()) {
+						FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(list));
+
+						TextComponent prefix = MessageBuilder.get(this.plugin.getPrefix());
+
+						TextComponent space = MessageBuilder.get(" ");
+						TextComponent name = MessageBuilder.get(myFriends.getDisplayName());
+
+						TextComponent accept = MessageBuilder.get("&a&l[ACCEPT]&r", "/friend accept " + targetFriends.getName(), ChatColor.GREEN, "&bClick to accept the friend request", true);
+						TextComponent deny = MessageBuilder.get("&c&l[DENY]&r", "/friend deny " + targetFriends.getName(), ChatColor.GREEN, "&bClick to deny the friend request", true);
+
+						player.sendMessage(prefix, name, space, accept, space, deny);
+					}
+					this.plugin.info(player, Messages.HYPHEN);
+				} else {
+					this.plugin.info(player, "&eThere is no request for you!");
+					this.plugin.info(player, Messages.HYPHEN);
+				}
+				return;
+			} */
 
 			if(args[0].equalsIgnoreCase("force-add")) {
 				if(!player.hasPermission(Permissions.FORCE)) {
@@ -373,6 +397,8 @@ public class FriendCommand extends Command {
 		this.plugin.info(player, "&e/friend accept &7- &bAccept a friend request");
 		this.plugin.info(player, "&e/friend deny &7- &bDecline a friend request");
 		this.plugin.info(player, "&e/friend list &7- &bList your friends");
+		// this.plugin.info(player, "&e/friend requests &7- &bView friend requests");
+		// this.plugin.info(player, "&e/friend toggle &7- &bToggle friend requests");
 		if(player.hasPermission(Permissions.FORCE)) {
 			this.plugin.info(player, Messages.HYPHEN);
 			this.plugin.info(player, "&e/friend force-add &7- &bYou will be forced to be friends with the player.");
