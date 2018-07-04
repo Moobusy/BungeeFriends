@@ -1,10 +1,12 @@
 package net.simplyrin.bungeefriends.listeners;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.simplyrin.bungeefriends.Main;
+import net.simplyrin.bungeefriends.utils.FriendManager.FriendUtils;
 
 /**
  * Created by SimplyRin on 2018/07/03.
@@ -35,11 +37,36 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onLogin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
+		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
 
 		this.plugin.getConfigManager().getConfig().set("Player." + player.getUniqueId().toString() + ".Name", player.getName());
 
 		this.plugin.getPlayerManager().getConfig().set("Name." + player.getName(), player.getUniqueId().toString());
 		this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName());
+
+		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
+			if(!player.equals(target)) {
+				if(myFriends.getFriends().contains(target.getUniqueId().toString())) {
+					this.plugin.info(target, "&8[&a+&8] &7" + myFriends.getDisplayName() + "&e joined.");
+				}
+				return;
+			}
+		}
+	}
+
+	@EventHandler
+	public void onDisconnect(PlayerDisconnectEvent event) {
+		ProxiedPlayer player = event.getPlayer();
+		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
+
+		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
+			if(!player.equals(target)) {
+				if(myFriends.getFriends().contains(target.getUniqueId().toString())) {
+					this.plugin.info(target, "&8[&a+&8] &7" + myFriends.getDisplayName() + "&e left.");
+				}
+				return;
+			}
+		}
 	}
 
 }
