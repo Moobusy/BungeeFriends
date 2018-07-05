@@ -304,7 +304,7 @@ public class FriendCommand extends Command {
 			} */
 
 			if(args[0].equalsIgnoreCase("force-add")) {
-				if(!player.hasPermission(Permissions.FORCE)) {
+				if(!player.hasPermission(Permissions.ADMIN)) {
 					this.plugin.info(player, Messages.NO_PERMISSION);
 					return;
 				}
@@ -349,7 +349,7 @@ public class FriendCommand extends Command {
 			}
 
 			if(args[0].equalsIgnoreCase("prefix")) {
-				if(!player.hasPermission(Permissions.FORCE)) {
+				if(!player.hasPermission(Permissions.ADMIN)) {
 					this.plugin.info(player, Messages.NO_PERMISSION);
 					return;
 				}
@@ -399,7 +399,7 @@ public class FriendCommand extends Command {
 		this.plugin.info(player, "&e/friend list &7- &bList your friends");
 		// this.plugin.info(player, "&e/friend requests &7- &bView friend requests");
 		// this.plugin.info(player, "&e/friend toggle &7- &bToggle friend requests");
-		if(player.hasPermission(Permissions.FORCE)) {
+		if(player.hasPermission(Permissions.ADMIN)) {
 			this.plugin.info(player, Messages.HYPHEN);
 			this.plugin.info(player, "&e/friend force-add &7- &bYou will be forced to be friends with the player.");
 			this.plugin.info(player, "&e/friend prefix &7- &bSet player prefix.");

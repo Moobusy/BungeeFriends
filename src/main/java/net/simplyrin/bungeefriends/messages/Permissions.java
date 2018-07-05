@@ -21,6 +21,6 @@ package net.simplyrin.bungeefriends.messages;
 public class Permissions {
 
 	public static final String MAIN = "friends.command.main";
-	public static final String FORCE = "friends.command.force";
+	public static final String ADMIN = "friends.command.admin";
 
 }
