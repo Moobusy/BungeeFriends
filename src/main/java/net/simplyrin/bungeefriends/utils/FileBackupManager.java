@@ -39,6 +39,7 @@ public class FileBackupManager {
 		}
 
 		this.runnable = new Runnable() {
+			@Override
 			public void run() {
 				while(true) {
 					try {
@@ -46,8 +47,6 @@ public class FileBackupManager {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					
-					
 
 					File file = new File(folder, "");
 				}

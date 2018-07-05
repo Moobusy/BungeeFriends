@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
@@ -46,7 +47,7 @@ public class ConfigManager {
 			public void run() {
 				while(true) {
 					try {
-						Thread.sleep(60000);
+						TimeUnit.MINUTES.sleep(1);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

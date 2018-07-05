@@ -3,6 +3,7 @@ package net.simplyrin.bungeefriends.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Listener;
@@ -46,7 +47,7 @@ public class PlayerManager implements Listener {
 			public void run() {
 				while(true) {
 					try {
-						Thread.sleep(60000);
+						TimeUnit.MINUTES.sleep(1);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
