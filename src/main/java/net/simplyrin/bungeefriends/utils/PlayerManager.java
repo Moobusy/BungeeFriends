@@ -3,7 +3,6 @@ package net.simplyrin.bungeefriends.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Listener;
@@ -42,22 +41,6 @@ public class PlayerManager implements Listener {
 
 		this.createConfig();
 		this.saveAndReload();
-
-		this.runnable = new Runnable() {
-			public void run() {
-				while(true) {
-					try {
-						TimeUnit.MINUTES.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					PlayerManager.this.saveAndReload();
-				}
-			}
-		};
-
-		this.plugin.getProxy().getScheduler().runAsync(this.plugin, this.runnable);
 	}
 
 	public UUID getPlayerUniqueId(String name) {

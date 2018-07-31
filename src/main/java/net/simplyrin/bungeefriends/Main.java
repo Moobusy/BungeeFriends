@@ -13,6 +13,7 @@ import net.simplyrin.bungeefriends.utils.ConfigManager;
 import net.simplyrin.bungeefriends.utils.FriendManager;
 import net.simplyrin.bungeefriends.utils.MessageBuilder;
 import net.simplyrin.bungeefriends.utils.PlayerManager;
+import net.simplyrin.bungeeparties.utils.NameManager;
 
 /**
  * Created by SimplyRin on 2018/07/03.
@@ -34,7 +35,6 @@ import net.simplyrin.bungeefriends.utils.PlayerManager;
  */
 public class Main extends Plugin {
 
-	// @Getter
 	private static Main plugin;
 
 	@Getter
@@ -54,6 +54,10 @@ public class Main extends Plugin {
 
 		plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin));
 		plugin.getProxy().getPluginManager().registerListener(plugin, new EventListener(plugin));
+
+		if(plugin.getProxy().getPluginManager().getPlugin("BungeeParties") != null) {
+			NameManager.setBungeeFriendsInstance(plugin);
+		}
 	}
 
 	@Override

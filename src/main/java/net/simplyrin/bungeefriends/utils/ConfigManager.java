@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
@@ -42,22 +41,6 @@ public class ConfigManager {
 
 		this.createConfig();
 		this.saveAndReload();
-
-		this.runnable = new Runnable() {
-			public void run() {
-				while(true) {
-					try {
-						TimeUnit.MINUTES.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					ConfigManager.this.saveAndReload();
-				}
-			}
-		};
-
-		this.plugin.getProxy().getScheduler().runAsync(this.plugin, this.runnable);
 	}
 
 	public void saveAndReload() {
