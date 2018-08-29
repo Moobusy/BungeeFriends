@@ -75,6 +75,7 @@ Prefix:
 
 Help:
   Command: "&eFriend Commands:"
+  Help: "&e/friend help &7- &bPrints this help message"
   Lang: "&e/friend lang &7- &bChange the displayed language"
   Add: "&e/friend add &7- &bAdd a player as a friend"
   Remove: "&e/friend remove &7- &bRemove a player from your friends"

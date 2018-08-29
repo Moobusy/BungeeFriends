@@ -71,71 +71,7 @@ public class FriendCommand extends Command {
 		if(args.length > 0) {
 			if(args[0].equalsIgnoreCase("add")) {
 				if(args.length > 1) {
-					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
-					if(target == null) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
-						this.plugin.info(player, Messages.HYPHEN);
-						return;
-					}
-					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
-					LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
-
-					try {
-						myFriends.addRequest(target);
-					} catch (AlreadyAddedException e) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, langUtils.getString("Exceptions.AlreadySent"));
-						this.plugin.info(player, Messages.HYPHEN);
-						return;
-					} catch (FailedAddingException e) {
-						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, langUtils.getString("Exceptions.AlreadyFriend"));
-						this.plugin.info(player, Messages.HYPHEN);
-						return;
-					}
-
-					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, langUtils.getString("Add.Sent").replace("%targetDisplayName", targetFriends.getDisplayName()));
-					this.plugin.info(player, langUtils.getString("Add.5-Minutes"));
-					this.plugin.info(player, Messages.HYPHEN);
-
-					TextComponent prefix = MessageBuilder.get(this.plugin.getPrefix());
-					TextComponent grayHyphen = MessageBuilder.get("&r &8- &r", null, ChatColor.DARK_GRAY, null, false);
-
-					TextComponent accept = MessageBuilder.get(targetLangUtils.getString("Add.Accept.Prefix"), "/friend accept " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Accept.Message"), true);
-					TextComponent deny = MessageBuilder.get(targetLangUtils.getString("Add.Deny.Prefix"), "/friend deny " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Deny.Message"), true);
-
-					this.plugin.info(target, Messages.HYPHEN);
-					this.plugin.info(target, targetLangUtils.getString("Add.Request.Received").replace("%displayName", myFriends.getDisplayName()));
-					if(targetFriends.getPlayer() != null) {
-						targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny);
-					}
-					this.plugin.info(target, Messages.HYPHEN);
-
-					ThreadPool.run(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								TimeUnit.MINUTES.sleep(5);
-							} catch (Exception e) {
-							}
-
-							try {
-								myFriends.removeRequest(target);
-							} catch (NotAddedException e) {
-								return;
-							}
-
-							FriendCommand.this.plugin.info(player, Messages.HYPHEN);
-							FriendCommand.this.plugin.info(player, langUtils.getString("Add.Expired.YourSelf").replace("%targetDisplayName", targetFriends.getDisplayName()));
-							FriendCommand.this.plugin.info(player, Messages.HYPHEN);
-
-							FriendCommand.this.plugin.info(target, Messages.HYPHEN);
-							FriendCommand.this.plugin.info(target, langUtils.getString("Add.Expired.Target").replace("%displayName", myFriends.getDisplayName()));
-							FriendCommand.this.plugin.info(target, Messages.HYPHEN);
-						}
-					});
+					this.add(player, myFriends, langUtils, args[1]);
 					return;
 				}
 				this.plugin.info(player, langUtils.getString("Add.Usage"));
@@ -412,10 +348,22 @@ public class FriendCommand extends Command {
 				this.plugin.info(player, langUtils.getString("Prefix.Usage"));
 				return;
 			}
-		}
 
+			if(args[0].equalsIgnoreCase("help")) {
+				this.printHelp(player, langUtils);
+				return;
+			}
+
+			this.add(player, myFriends, langUtils, args[0]);
+			return;
+		}
+		this.printHelp(player, langUtils);
+	}
+
+	public void printHelp(ProxiedPlayer player, LanguageUtils langUtils) {
 		this.plugin.info(player, Messages.HYPHEN);
 		this.plugin.info(player, langUtils.getString("Help.Command"));
+		this.plugin.info(player, langUtils.getString("Help.Help"));
 		this.plugin.info(player, langUtils.getString("Help.Lang"));
 		this.plugin.info(player, langUtils.getString("Help.Add"));
 		this.plugin.info(player, langUtils.getString("Help.Remove"));
@@ -428,6 +376,74 @@ public class FriendCommand extends Command {
 			this.plugin.info(player, langUtils.getString("Help.Prefix"));
 		}
 		this.plugin.info(player, Messages.HYPHEN);
+	}
+
+	public void add(ProxiedPlayer player, FriendUtils myFriends, LanguageUtils langUtils, String name) {
+		UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(name);
+		if(target == null) {
+			this.plugin.info(player, Messages.HYPHEN);
+			this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", name));
+			this.plugin.info(player, Messages.HYPHEN);
+			return;
+		}
+		FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+		LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
+
+		try {
+			myFriends.addRequest(target);
+		} catch (AlreadyAddedException e) {
+			this.plugin.info(player, Messages.HYPHEN);
+			this.plugin.info(player, langUtils.getString("Exceptions.AlreadySent"));
+			this.plugin.info(player, Messages.HYPHEN);
+			return;
+		} catch (FailedAddingException e) {
+			this.plugin.info(player, Messages.HYPHEN);
+			this.plugin.info(player, langUtils.getString("Exceptions.AlreadyFriend"));
+			this.plugin.info(player, Messages.HYPHEN);
+			return;
+		}
+
+		this.plugin.info(player, Messages.HYPHEN);
+		this.plugin.info(player, langUtils.getString("Add.Sent").replace("%targetDisplayName", targetFriends.getDisplayName()));
+		this.plugin.info(player, langUtils.getString("Add.5-Minutes"));
+		this.plugin.info(player, Messages.HYPHEN);
+
+		TextComponent prefix = MessageBuilder.get(this.plugin.getPrefix());
+		TextComponent grayHyphen = MessageBuilder.get("&r &8- &r", null, ChatColor.DARK_GRAY, null, false);
+
+		TextComponent accept = MessageBuilder.get(targetLangUtils.getString("Add.Accept.Prefix"), "/friend accept " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Accept.Message"), true);
+		TextComponent deny = MessageBuilder.get(targetLangUtils.getString("Add.Deny.Prefix"), "/friend deny " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Deny.Message"), true);
+
+		this.plugin.info(target, Messages.HYPHEN);
+		this.plugin.info(target, targetLangUtils.getString("Add.Request.Received").replace("%displayName", myFriends.getDisplayName()));
+		if(targetFriends.getPlayer() != null) {
+			targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny);
+		}
+		this.plugin.info(target, Messages.HYPHEN);
+
+		ThreadPool.run(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					TimeUnit.MINUTES.sleep(5);
+				} catch (Exception e) {
+				}
+
+				try {
+					myFriends.removeRequest(target);
+				} catch (NotAddedException e) {
+					return;
+				}
+
+				FriendCommand.this.plugin.info(player, Messages.HYPHEN);
+				FriendCommand.this.plugin.info(player, langUtils.getString("Add.Expired.YourSelf").replace("%targetDisplayName", targetFriends.getDisplayName()));
+				FriendCommand.this.plugin.info(player, Messages.HYPHEN);
+
+				FriendCommand.this.plugin.info(target, Messages.HYPHEN);
+				FriendCommand.this.plugin.info(target, langUtils.getString("Add.Expired.Target").replace("%displayName", myFriends.getDisplayName()));
+				FriendCommand.this.plugin.info(target, Messages.HYPHEN);
+			}
+		});
 	}
 
 }
