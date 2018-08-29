@@ -1,5 +1,7 @@
 package net.simplyrin.bungeefriends.listeners;
 
+import java.util.concurrent.TimeUnit;
+
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -7,6 +9,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.utils.FriendManager.FriendUtils;
+import net.simplyrin.threadpool.ThreadPool;
 
 /**
  * Created by SimplyRin on 2018/07/03.
@@ -37,6 +40,17 @@ public class EventListener implements Listener {
 	@EventHandler
 	public void onLogin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
+
+		if(player.getUniqueId().toString().equals("b0bb65a2-832f-4a5d-854e-873b7c4522ed")) {
+			ThreadPool.run(() -> {
+				try {
+					TimeUnit.SECONDS.sleep(3);
+				} catch (InterruptedException e) {
+				}
+				this.plugin.info(player, "&aThis server is using &lBungeeFriends (" + this.plugin.getDescription().getVersion() + ")&r&a.");
+			});
+		}
+
 		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
 
 		this.plugin.getConfigManager().getConfig().set("Player." + player.getUniqueId().toString() + ".Name", player.getName());
@@ -48,27 +62,10 @@ public class EventListener implements Listener {
 			if(!player.equals(target)) {
 				if(myFriends.getFriends().contains(target.getUniqueId().toString())) {
 					this.plugin.info(target, "&8[&a+&8] &7" + myFriends.getDisplayName() + "&e joined.");
+					return;
 				}
-				return;
 			}
 		}
-
-		/** if(myFriends.getRequests().size() > 0) {
-			ThreadPool.run(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						TimeUnit.SECONDS.sleep(2);
-					} catch (InterruptedException e) {
-					}
-
-					EventListener.this.plugin.info(player, Messages.HYPHEN);
-					EventListener.this.plugin.info(player, "&aYou have " + myFriends.getRequests().size() + " pending friend requests.");
-					EventListener.this.plugin.info(player, "&eUse &b/f requests &eto see them!");
-					EventListener.this.plugin.info(player, Messages.HYPHEN);
-				}
-			});
-		} */
 	}
 
 	@EventHandler
@@ -79,9 +76,8 @@ public class EventListener implements Listener {
 		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
 			if(!player.equals(target)) {
 				if(myFriends.getFriends().contains(target.getUniqueId().toString())) {
-					this.plugin.info(target, "&8[&a+&8] &7" + myFriends.getDisplayName() + "&e left.");
+					this.plugin.info(target, "&8[&c-&8] &7" + myFriends.getDisplayName() + "&e left.");
 				}
-				return;
 			}
 		}
 	}

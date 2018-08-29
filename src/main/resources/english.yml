@@ -1,0 +1,85 @@
+#
+# Translator: @SimplyRin_
+# Language: English
+#
+Language: English
+
+Ingame_Only: "&cThis command is available only in the game."
+No_Permission: "&cYou do not have access to this command!"
+
+# Exceptions
+Exceptions:
+  AlreadySent: "&cYou've already sent a friend request to this person!"
+  AlreadyFriend: "&cYou're already friends with this person!"
+  IsntOnYourFriends: "&c%targetDisplayName &cisn't on your friends list!"
+  CantAddYourSelf: "&cYou can't add yourself as a friend!"
+  CantRemoveYourself: "&cYou can not remove yourself!"
+  NoInvited: "&cThat person hasn't invited you to be friends! Try &e/friend add %name"
+  HasntFriend: "&cThat person hasn't invited you to be friends! Try &e/friend add %name"
+
+# Commands
+No-Joined-The-Party: "&cYou must be in a party to use this command!"
+Cant-Find: "&cCan't find a player by the name of '%name'"
+
+Add:
+  Usage: "&cUsage: /friend add <player>"
+  Sent: "&eYou sent a friend request to %targetDisplayName&e!"
+  5-Minutes: "&eThey have 5 minutes to accept it!"
+  Accept:
+    Prefix: "&a&l[ACCEPT]&r"
+    Message: "&bClick to accept the friend request"
+  Deny:
+    Prefix: "&c&l[DENY]&r"
+    Message: "&bClick to deny the friend request"
+  Request:
+    Received: "&eFriend request from %displayName&e!"
+  Expired:
+    YourSelf: "&eYour friend request to %targetDisplayName &ehas expired."
+    Target: "&eThe friend request from %displayName &ehas expired."
+
+Remove:
+  Usage: "&cUsage: /friend remove <player>"
+  YourSelf: "&eYour removed %targetDisplayName &efrom your friends list!"
+  Target: "&e%displayName &eremoved you from their friends list!"
+
+Accept:
+  Usage: "&cUsage: /friend accept <player>"
+  YourSelf: "&aYou are now friends with %targetDisplayName"
+  Target: "&aYou are now friends with %displayName"
+
+Deny:
+  Usage: "&cUsage: /friend deny <player>"
+  Declined: "&eDeclined %targetDisplayName&e's friend request!"
+
+List:
+  DontHave:
+    One: "&eYou don't have any friends yet!"
+    Two: "&eAdd some with /friend add <player>"
+  Online: "&e%targetDisplayName &eis in a %server Server."
+  Offline: "&e%targetDisplayName &cis currently offline"
+
+Lang:
+  Usage: "&cInvalid usage! '/party lang <language>'"
+  Available: "&bCurrently available languages:"
+  Update: "&aSelected language: &e%lang&a!"
+
+Force-Add:
+  Usage: "&cUsage: /friend force-add <player>"
+  YourSelf: "&aYou are now friends with %targetDisplayName &c&l[FORCE]"
+  Target: "&aYou are now friends with %displayName &c&l[FORCE]"
+
+Prefix:
+  Usage: "&cUsage: /friend prefix <player> <prefix>"
+  Current: "&7%targetDisplayName&e's currently prefix is '%prefix&e'"
+  To: "&7%targetDisplayName&e's prefix has been changed to '%prefix&e'"
+
+Help:
+  Command: "&eFriend Commands:"
+  Lang: "&e/friend lang &7- &bChange the displayed language"
+  Add: "&e/friend add &7- &bAdd a player as a friend"
+  Remove: "&e/friend remove &7- &bRemove a player from your friends"
+  Accept: "&e/friend accept &7- &bAccept a friend request"
+  Deny: "&e/friend deny &7- &bDecline a friend request"
+  List: "&e/friend list &7- &bList your friends"
+  Force-Add: "&e/friend force-add &7- &bYou will be forced to be friends with the player."
+  Prefix: "&e/friend prefix &7- &bSet player prefix."

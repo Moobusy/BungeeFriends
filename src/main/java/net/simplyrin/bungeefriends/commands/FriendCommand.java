@@ -1,5 +1,6 @@
 package net.simplyrin.bungeefriends.commands;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
@@ -18,7 +20,9 @@ import net.simplyrin.bungeefriends.exceptions.NotAddedException;
 import net.simplyrin.bungeefriends.messages.Messages;
 import net.simplyrin.bungeefriends.messages.Permissions;
 import net.simplyrin.bungeefriends.utils.FriendManager.FriendUtils;
+import net.simplyrin.bungeefriends.utils.LanguageManager.LanguageUtils;
 import net.simplyrin.bungeefriends.utils.MessageBuilder;
+import net.simplyrin.config.Config;
 import net.simplyrin.threadpool.ThreadPool;
 
 /**
@@ -57,6 +61,7 @@ public class FriendCommand extends Command {
 
 		ProxiedPlayer player = (ProxiedPlayer) sender;
 		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
+		LanguageUtils langUtils = this.plugin.getLanguageManager().getPlayer(player);
 
 		if(!player.hasPermission(Permissions.MAIN)) {
 			this.plugin.info(player, Messages.NO_PERMISSION);
@@ -69,39 +74,40 @@ public class FriendCommand extends Command {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+					LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
 
 					try {
 						myFriends.addRequest(target);
 					} catch (AlreadyAddedException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cYou've already sent a friend request to this person!");
+						this.plugin.info(player, langUtils.getString("Exceptions.AlreadySent"));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					} catch (FailedAddingException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cYou're already friends with this person!");
+						this.plugin.info(player, langUtils.getString("Exceptions.AlreadyFriend"));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&eYou sent a friend request to " + targetFriends.getDisplayName() + "&e!");
-					this.plugin.info(player, "&eThey have 5 minutes to accept it!");
+					this.plugin.info(player, langUtils.getString("Add.Sent").replace("%targetDisplayName", targetFriends.getDisplayName()));
+					this.plugin.info(player, langUtils.getString("Add.5-Minutes"));
 					this.plugin.info(player, Messages.HYPHEN);
 
 					TextComponent prefix = MessageBuilder.get(this.plugin.getPrefix());
 					TextComponent grayHyphen = MessageBuilder.get("&r &8- &r", null, ChatColor.DARK_GRAY, null, false);
 
-					TextComponent accept = MessageBuilder.get("&a&l[ACCEPT]&r", "/friend accept " + myFriends.getName(), ChatColor.GREEN, "&bClick to accept the friend request", true);
-					TextComponent deny = MessageBuilder.get("&c&l[DENY]&r", "/friend deny " + myFriends.getName(), ChatColor.GREEN, "&bClick to deny the friend request", true);
+					TextComponent accept = MessageBuilder.get(targetLangUtils.getString("Add.Accept.Prefix"), "/friend accept " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Accept.Message"), true);
+					TextComponent deny = MessageBuilder.get(targetLangUtils.getString("Add.Deny.Prefix"), "/friend deny " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Deny.Message"), true);
 
 					this.plugin.info(target, Messages.HYPHEN);
-					this.plugin.info(target, "&eFriend request from " + myFriends.getDisplayName() + "&e!");
+					this.plugin.info(target, targetLangUtils.getString("Add.Request.Received").replace("%displayName", myFriends.getDisplayName()));
 					if(targetFriends.getPlayer() != null) {
 						targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny);
 					}
@@ -122,17 +128,17 @@ public class FriendCommand extends Command {
 							}
 
 							FriendCommand.this.plugin.info(player, Messages.HYPHEN);
-							FriendCommand.this.plugin.info(player, "&eYour friend request to " + targetFriends.getDisplayName() + "&e has expired.");
+							FriendCommand.this.plugin.info(player, langUtils.getString("Add.Expired.YourSelf").replace("%targetDisplayName", targetFriends.getDisplayName()));
 							FriendCommand.this.plugin.info(player, Messages.HYPHEN);
 
 							FriendCommand.this.plugin.info(target, Messages.HYPHEN);
-							FriendCommand.this.plugin.info(target, "&eThe friend request from " + myFriends.getDisplayName() + "&e has expired.");
+							FriendCommand.this.plugin.info(target, langUtils.getString("Add.Expired.Target").replace("%displayName", myFriends.getDisplayName()));
 							FriendCommand.this.plugin.info(target, Messages.HYPHEN);
 						}
 					});
 					return;
 				}
-				this.plugin.info(player, "&cUsage: /friend add <player>");
+				this.plugin.info(player, langUtils.getString("Add.Usage"));
 				return;
 			}
 
@@ -141,35 +147,36 @@ public class FriendCommand extends Command {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+					LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
 
 					try {
 						myFriends.remove(target);
 					} catch (NotAddedException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&c" + targetFriends.getDisplayName() + "&c isn't on your friends list!");
+						this.plugin.info(player, langUtils.getString("Exceptions.IsntOnYourFriends").replace("%targetDisplayName", targetFriends.getDisplayName()));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					} catch (FaliedRemovingException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&c" + e.getMessage());
+						this.plugin.info(player, langUtils.getString("Exceptions.CantRemoveYourself"));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&eYou removed " + targetFriends.getDisplayName() + "&e from your friends list!");
+					this.plugin.info(player, langUtils.getString("Remove.YourSelf").replace("%targetDisplayName", targetFriends.getDisplayName()));
 					this.plugin.info(player, Messages.HYPHEN);
 
 					this.plugin.info(target, Messages.HYPHEN);
-					this.plugin.info(target, "&e" + targetFriends.getDisplayName() + "&e removed you from their friends list!");
+					this.plugin.info(target, targetLangUtils.getString("Remove.Target").replace("%displayName", myFriends.getDisplayName()));
 					this.plugin.info(target, Messages.HYPHEN);
 					return;
 				}
-				this.plugin.info(player, "&cUsage: /friend remove <player>");
+				this.plugin.info(player, langUtils.getString("Remove.Usage"));
 				return;
 			}
 
@@ -178,27 +185,28 @@ public class FriendCommand extends Command {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+					LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
 
 					try {
 						targetFriends.removeRequest(player);
 					} catch (NotAddedException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat person hasn't invited you to be friends! Try &e/friend add " + targetFriends.getName());
+						this.plugin.info(player, langUtils.getString("NoInvited").replace("%name", targetFriends.getName()));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&aYou are now friends with " + targetFriends.getDisplayName());
+					this.plugin.info(player, langUtils.getString("Accept.YourSelf").replace("%targetDisplayName", targetFriends.getDisplayName()));
 					this.plugin.info(player, Messages.HYPHEN);
 
 					this.plugin.info(target, Messages.HYPHEN);
-					this.plugin.info(target, "&aYou are now friends with " + myFriends.getDisplayName());
+					this.plugin.info(target, targetLangUtils.getString("Accept.Target").replace("%displayName", myFriends.getDisplayName()));
 					this.plugin.info(target, Messages.HYPHEN);
 
 					try {
@@ -210,7 +218,7 @@ public class FriendCommand extends Command {
 					}
 					return;
 				}
-				this.plugin.info(player, "&cUsage: /friend accept <player>");
+				this.plugin.info(player, langUtils.getString("Accept.Usage"));
 				return;
 			}
 
@@ -219,7 +227,7 @@ public class FriendCommand extends Command {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
@@ -229,17 +237,17 @@ public class FriendCommand extends Command {
 						targetFriends.removeRequest(player);
 					} catch (NotAddedException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cThat person hasn't invited you to be friends! Try &e/friend add " + targetFriends.getName());
+						this.plugin.info(player, langUtils.getString("Exceptions.HasntFriend").replace("%name", targetFriends.getName()));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&eDeclined " + targetFriends.getDisplayName() + "&e's friend request!");
+					this.plugin.info(player, langUtils.getString("Deny.Declined").replace("%targetDisplayName", targetFriends.getDisplayName()));
 					this.plugin.info(player, Messages.HYPHEN);
 					return;
 				}
-				this.plugin.info(player, "&cUsage: /friend deny <player>");
+				this.plugin.info(player, langUtils.getString("Deny.Usage"));
 				return;
 			}
 
@@ -248,8 +256,8 @@ public class FriendCommand extends Command {
 
 				if(list.size() == 0) {
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&eYou don't have any friends yet!");
-					this.plugin.info(player, "&eAdd some with /friend add <player>");
+					this.plugin.info(player, langUtils.getString("List.DontHave.One"));
+					this.plugin.info(player, langUtils.getString("List.DontHave.Two"));
 					this.plugin.info(player, Messages.HYPHEN);
 					return;
 				}
@@ -262,9 +270,9 @@ public class FriendCommand extends Command {
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(uuid));
 
 					if(target != null) {
-						online.add("&e" + targetFriends.getDisplayName() + "&e is in a " + target.getServer().getInfo().getName() + " Server.");
+						online.add(langUtils.getString("List.Online").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%server", target.getServer().getInfo().getName()));
 					} else {
-						offline.add("&e" + targetFriends.getDisplayName() + "&c is currently offline");
+						offline.add(langUtils.getString("List.Offline"));
 					}
 				}
 
@@ -279,29 +287,45 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			/** if(args[0].equalsIgnoreCase("requests")) {
-				this.plugin.info(player, Messages.HYPHEN);
-				if(myFriends.getRequests().size() > 0) {
-					for(String list : myFriends.getRequests()) {
-						FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(list));
-
-						TextComponent prefix = MessageBuilder.get(this.plugin.getPrefix());
-
-						TextComponent space = MessageBuilder.get(" ");
-						TextComponent name = MessageBuilder.get(myFriends.getDisplayName());
-
-						TextComponent accept = MessageBuilder.get("&a&l[ACCEPT]&r", "/friend accept " + targetFriends.getName(), ChatColor.GREEN, "&bClick to accept the friend request", true);
-						TextComponent deny = MessageBuilder.get("&c&l[DENY]&r", "/friend deny " + targetFriends.getName(), ChatColor.GREEN, "&bClick to deny the friend request", true);
-
-						player.sendMessage(prefix, name, space, accept, space, deny);
-					}
-					this.plugin.info(player, Messages.HYPHEN);
-				} else {
-					this.plugin.info(player, "&eThere is no request for you!");
-					this.plugin.info(player, Messages.HYPHEN);
+			if(args[0].equalsIgnoreCase("lang") || args[0].equalsIgnoreCase("language")) {
+				File folder = this.plugin.getDataFolder();
+				if(!folder.exists()) {
+					folder.mkdir();
 				}
+
+				File languageFolder = new File(folder, "Language");
+				if(!languageFolder.exists()) {
+					languageFolder.mkdir();
+				}
+
+				List<String> availableList = new ArrayList<>();
+				String available = "";
+				File[] languages = languageFolder.listFiles();
+				for(File languageFile : languages) {
+					Configuration langConfig = Config.getConfig(languageFile);
+					if(langConfig.getString("Language").length() > 1) {
+						availableList.add(languageFile.getName().toLowerCase().replace(".yml", ""));
+						available += langConfig.getString("Language") + ",";
+					}
+				}
+
+				if(args.length > 1) {
+					String lang = args[1];
+					if(availableList.contains(lang.toLowerCase())) {
+						langUtils.setLanguage(lang.toLowerCase());
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, langUtils.getString("Lang.Update").replace("%lang", langUtils.getLanguage()));
+						this.plugin.info(player, Messages.HYPHEN);
+						return;
+					}
+				}
+
+				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString("Lang.Usage"));
+				this.plugin.info(player, langUtils.getString("Lang.Available") + " <" + available.substring(0, available.length() - 1) + ">");
+				this.plugin.info(player, Messages.HYPHEN);
 				return;
-			} */
+			}
 
 			if(args[0].equalsIgnoreCase("force-add")) {
 				if(!player.hasPermission(Permissions.ADMIN)) {
@@ -313,38 +337,39 @@ public class FriendCommand extends Command {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+					LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
 
 					try {
 						myFriends.add(target);
 					} catch (AlreadyAddedException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cYou're already friends with this person!");
+						this.plugin.info(player, langUtils.getString("Exceptions.AlreadyFriend"));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					} catch (FailedAddingException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&c" + e.getMessage());
+						this.plugin.info(player, langUtils.getString("Exceptions.CantAddYourSelf"));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
 					this.plugin.info(player, Messages.HYPHEN);
-					this.plugin.info(player, "&aYou are now friends with " + targetFriends.getDisplayName() + " &c&l[FORCE]");
+					this.plugin.info(player, langUtils.getString("Force-Add.YourSelf").replace("%targetDisplayName", targetFriends.getDisplayName()));
 					this.plugin.info(player, Messages.HYPHEN);
 
 					this.plugin.info(target, Messages.HYPHEN);
-					this.plugin.info(target, "&aYou are now friends with " + myFriends.getDisplayName() + " &c&l[FORCE]");
+					this.plugin.info(target, targetLangUtils.getString("Force-Add.Target").replace("%displayName", myFriends.getDisplayName()));
 					this.plugin.info(target, Messages.HYPHEN);
 					return;
 				}
 
-				this.plugin.info(player, "&cUsage: /friend force-add <player>");
+				this.plugin.info(player, langUtils.getString("Force-Add.Usage"));
 				return;
 			}
 
@@ -358,7 +383,7 @@ public class FriendCommand extends Command {
 					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, "&cCan't find a player by the name of '" + args[1] + "'");
+						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
@@ -375,34 +400,32 @@ public class FriendCommand extends Command {
 							prefix += " ";
 						}
 
-						this.plugin.info(player, "&7" + targetFriends.getDisplayName() + "&e's prefix has been changed to '" + ChatColor.translateAlternateColorCodes('&', prefix).substring(0, prefix.length() - 1) + "&e'");
 						targetFriends.setPrefix(prefix);
-						this.plugin.info(player, "&eNew display name is '&7" + targetFriends.getDisplayName() + "&e'");
+						this.plugin.info(player, langUtils.getString("Prefix.To").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%prefix", ChatColor.translateAlternateColorCodes('&', prefix).substring(0, prefix.length() - 1)));
 						return;
 					}
 
-					this.plugin.info(player, "&7" + targetFriends.getDisplayName() + "&e's currently prefix is '" + targetFriends.getPrefix().substring(0, targetFriends.getPrefix().length() - 1) + "&e'");
+					this.plugin.info(player, langUtils.getString("Prefix.Current").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%prefix", targetFriends.getPrefix().substring(0, targetFriends.getPrefix().length() - 1)));
 					return;
 				}
 
-				this.plugin.info(player, "&cUsage: /friend prefix <player> <prefix>");
+				this.plugin.info(player, langUtils.getString("Prefix.Usage"));
 				return;
 			}
 		}
 
 		this.plugin.info(player, Messages.HYPHEN);
-		this.plugin.info(player, "&eFriend Commands:");
-		this.plugin.info(player, "&e/friend add &7- &bAdd a player as a friend");
-		this.plugin.info(player, "&e/friend remove &7- &bRemove a player from your friends");
-		this.plugin.info(player, "&e/friend accept &7- &bAccept a friend request");
-		this.plugin.info(player, "&e/friend deny &7- &bDecline a friend request");
-		this.plugin.info(player, "&e/friend list &7- &bList your friends");
-		// this.plugin.info(player, "&e/friend requests &7- &bView friend requests");
-		// this.plugin.info(player, "&e/friend toggle &7- &bToggle friend requests");
+		this.plugin.info(player, langUtils.getString("Help.Command"));
+		this.plugin.info(player, langUtils.getString("Help.Lang"));
+		this.plugin.info(player, langUtils.getString("Help.Add"));
+		this.plugin.info(player, langUtils.getString("Help.Remove"));
+		this.plugin.info(player, langUtils.getString("Help.Accept"));
+		this.plugin.info(player, langUtils.getString("Help.Deny"));
+		this.plugin.info(player, langUtils.getString("Help.List"));
 		if(player.hasPermission(Permissions.ADMIN)) {
 			this.plugin.info(player, Messages.HYPHEN);
-			this.plugin.info(player, "&e/friend force-add &7- &bYou will be forced to be friends with the player.");
-			this.plugin.info(player, "&e/friend prefix &7- &bSet player prefix.");
+			this.plugin.info(player, langUtils.getString("Help.Force-Add"));
+			this.plugin.info(player, langUtils.getString("Help.Prefix"));
 		}
 		this.plugin.info(player, Messages.HYPHEN);
 	}

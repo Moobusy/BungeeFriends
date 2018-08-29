@@ -23,8 +23,4 @@ public class FaliedRemovingException extends Exception {
 	public FaliedRemovingException() {
 	}
 
-	public FaliedRemovingException(String message) {
-		super(message);
-	}
-
 }

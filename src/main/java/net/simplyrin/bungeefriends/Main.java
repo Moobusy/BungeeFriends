@@ -11,6 +11,7 @@ import net.simplyrin.bungeefriends.commands.FriendCommand;
 import net.simplyrin.bungeefriends.listeners.EventListener;
 import net.simplyrin.bungeefriends.utils.ConfigManager;
 import net.simplyrin.bungeefriends.utils.FriendManager;
+import net.simplyrin.bungeefriends.utils.LanguageManager;
 import net.simplyrin.bungeefriends.utils.MessageBuilder;
 import net.simplyrin.bungeefriends.utils.PlayerManager;
 import net.simplyrin.bungeeparties.utils.NameManager;
@@ -44,6 +45,9 @@ public class Main extends Plugin {
 	@Getter
 	private FriendManager friendManager;
 
+	@Getter
+	private LanguageManager languageManager;
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -51,6 +55,8 @@ public class Main extends Plugin {
 		plugin.configManager = new ConfigManager(plugin);
 		plugin.playerManager = new PlayerManager(plugin);
 		plugin.friendManager = new FriendManager(plugin);
+
+		plugin.languageManager = new LanguageManager(plugin);
 
 		plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin));
 		plugin.getProxy().getPluginManager().registerListener(plugin, new EventListener(plugin));

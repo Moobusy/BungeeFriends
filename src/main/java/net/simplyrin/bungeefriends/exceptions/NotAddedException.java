@@ -23,8 +23,4 @@ public class NotAddedException extends Exception {
 	public NotAddedException() {
 	}
 
-	public NotAddedException(String message) {
-		super(message);
-	}
-
 }

@@ -106,7 +106,7 @@ public class FriendManager {
 
 		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException {
 			if(this.uuid.toString().equals(uuid.toString())) {
-				throw new FailedAddingException("You can't add yourself as a friend!");
+				throw new FailedAddingException();
 			}
 
 			List<String> list = this.getFriends();
@@ -147,7 +147,7 @@ public class FriendManager {
 
 		public FriendUtils add(UUID uuid) throws AlreadyAddedException, FailedAddingException {
 			if(this.uuid.toString().equals(uuid.toString())) {
-				throw new FailedAddingException("You can't add yourself as a friend!");
+				throw new FailedAddingException();
 			}
 
 			List<String> list = this.getFriends();
@@ -174,7 +174,7 @@ public class FriendManager {
 
 		public FriendUtils remove(UUID uuid) throws NotAddedException, FaliedRemovingException {
 			if(this.uuid.toString().equals(uuid.toString())) {
-				throw new FaliedRemovingException(this.getDisplayName() + " &cisn't on your friends list!");
+				throw new FaliedRemovingException();
 			}
 
 			List<String> list = this.getFriends();

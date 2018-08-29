@@ -23,8 +23,4 @@ public class FailedAddingException extends Exception {
 	public FailedAddingException() {
 	}
 
-	public FailedAddingException(String message) {
-		super(message);
-	}
-
 }
