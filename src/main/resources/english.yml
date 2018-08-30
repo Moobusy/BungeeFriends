@@ -39,7 +39,7 @@ Add:
 
 Remove:
   Usage: "&cUsage: /friend remove <player>"
-  YourSelf: "&eYour removed %targetDisplayName &efrom your friends list!"
+  YourSelf: "&eYou removed %targetDisplayName &efrom your friends list!"
   Target: "&e%displayName &eremoved you from their friends list!"
 
 Accept:
