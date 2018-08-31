@@ -15,8 +15,8 @@ import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
-import net.simplyrin.bungeefriends.exceptions.FaliedRemovingException;
 import net.simplyrin.bungeefriends.exceptions.NotAddedException;
+import net.simplyrin.bungeefriends.exceptions.SelfException;
 import net.simplyrin.bungeefriends.messages.Messages;
 import net.simplyrin.bungeefriends.messages.Permissions;
 import net.simplyrin.bungeefriends.utils.FriendManager.FriendUtils;
@@ -97,7 +97,7 @@ public class FriendCommand extends Command {
 						this.plugin.info(player, langUtils.getString("Exceptions.IsntOnYourFriends").replace("%targetDisplayName", targetFriends.getDisplayName()));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
-					} catch (FaliedRemovingException e) {
+					} catch (SelfException e) {
 						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Exceptions.CantRemoveYourself"));
 						this.plugin.info(player, Messages.HYPHEN);
@@ -208,7 +208,7 @@ public class FriendCommand extends Command {
 					if(target != null) {
 						online.add(langUtils.getString("List.Online").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%server", target.getServer().getInfo().getName()));
 					} else {
-						offline.add(langUtils.getString("List.Offline"));
+						offline.add(langUtils.getString("List.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));
 					}
 				}
 
@@ -391,14 +391,19 @@ public class FriendCommand extends Command {
 
 		try {
 			myFriends.addRequest(target);
-		} catch (AlreadyAddedException e) {
+		} catch (FailedAddingException e) {
 			this.plugin.info(player, Messages.HYPHEN);
 			this.plugin.info(player, langUtils.getString("Exceptions.AlreadySent"));
 			this.plugin.info(player, Messages.HYPHEN);
 			return;
-		} catch (FailedAddingException e) {
+		} catch (AlreadyAddedException e) {
 			this.plugin.info(player, Messages.HYPHEN);
 			this.plugin.info(player, langUtils.getString("Exceptions.AlreadyFriend"));
+			this.plugin.info(player, Messages.HYPHEN);
+			return;
+		} catch (SelfException e) {
+			this.plugin.info(player, Messages.HYPHEN);
+			this.plugin.info(player, langUtils.getString("Exceptions.CantAddYourSelf"));
 			this.plugin.info(player, Messages.HYPHEN);
 			return;
 		}

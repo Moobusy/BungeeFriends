@@ -1,0 +1,86 @@
+#
+# Translator: @LingKun
+# Language: Chinese
+#
+Language: Chinese
+
+Ingame_Only: "&c\u8fd9\u4e2a\u6307\u4ee4\u4ec5\u4ec5\u53ea\u6709\u6e38\u620f\u73a9\u5bb6\u80fd\u7528."
+No_Permission: "&c\u65e0\u6743\u9650\u4f7f\u7528\u8be5\u6307\u4ee4!"
+
+# \u5176\u4ed6\u63d0\u793a
+Exceptions:
+  AlreadySent: "&c\u6210\u529f\u53d1\u9001\u597d\u53cb\u8bf7\u6c42!"
+  AlreadyFriend: "&c\u4f60\u5df2\u7ecf\u6210\u4e3a\u4e86\u8fd9\u540d\u73a9\u5bb6\u7684\u597d\u53cb!"
+  IsntOnYourFriends: "&c%targetDisplayName &c\u4e0d\u5728\u4f60\u7684\u597d\u53cb\u5217\u8868\u4e2d!"
+  CantAddYourSelf: "&c\u4e0d\u80fd\u52a0\u81ea\u5df1\u5f53\u505a\u597d\u53cb\u54e6!"
+  CantRemoveYourself: "&c\u4f60\u65e0\u6cd5\u4ece\u597d\u53cb\u5217\u8868\u4e2d\u5220\u9664\u81ea\u5df1!"
+  NoInvited: "&c\u8be5\u540d\u73a9\u5bb6\u8fd8\u6ca1\u6709\u9080\u8bf7\u4f60\u6210\u4e3a\u597d\u53cb\u54e6! \u5c1d\u8bd5\u4f7f\u7528 &e/friend add %name"
+  HasntFriend: "&c\u8be5\u540d\u73a9\u5bb6\u8fd8\u6ca1\u6709\u9080\u8bf7\u4f60\u6210\u4e3a\u597d\u53cb\u54e6! T\u5c1d\u8bd5\u4f7f\u7528 &e/friend add %name"
+
+# \u547d\u4ee4\u63d0\u793a
+No-Joined-The-Party: "&c\u4f60\u5fc5\u987b\u52a0\u5165\u4e00\u4e2a\u961f\u4f0d\u624d\u80fd\u4f7f\u7528\u6307\u4ee4!"
+Cant-Find: "&c\u6ca1\u6709\u627e\u5230\u8be5\u540d\u73a9\u5bb6 '%name'"
+
+Add:
+  Usage: "&c\u6b63\u786e\u683c\u5f0f: /friend add <\u73a9\u5bb6>"
+  Sent: "&e\u6210\u529f\u53d1\u9001\u597d\u53cb\u8bf7\u6c42\u81f3 %targetDisplayName&e!"
+  5-Minutes: "&e\u8be5\u540d\u73a9\u5bb6\u8fd8\u6709 5 \u5206\u949f\u540c\u610f\u65f6\u95f4!"
+  Accept:
+    Prefix: "&a&l[\u540c\u610f]&r"
+    Message: "&b\u5de6\u952e\u5355\u51fb\u540c\u610f\u597d\u53cb\u8bf7\u6c42"
+  Deny:
+    Prefix: "&c&l[\u62d2\u7edd]&r"
+    Message: "&b\u5de6\u952e\u5355\u51fb\u62d2\u7edd\u597d\u53cb\u8bf7\u6c42"
+  Request:
+    Received: "&e\u6536\u5230\u4e00\u4e2a\u6765\u81ea %displayName &e\u7684\u597d\u53cb\u8bf7\u6c42!"
+  Expired:
+    YourSelf: "&e\u4f60\u53d1\u9001\u7ed9 %targetDisplayName &e\u7684\u597d\u53cb\u8bf7\u6c42\u5df2\u7ecf\u8fc7\u671f."
+    Target: "&e\u6765\u81ea\u4e8e %displayName &e\u7684\u597d\u53cb\u8bf7\u6c42\u5df2\u7ecf\u8fc7\u671f."
+
+Remove:
+  Usage: "&c\u6b63\u786e\u683c\u5f0f: /friend remove <\u73a9\u5bb6>"
+  YourSelf: "&e\u4f60\u5df2\u7ecf\u5c06 %targetDisplayName &e\u4ece\u4f60\u7684\u597d\u53cb\u5217\u8868\u4e2d\u5220\u9664!"
+  Target: "&e%displayName &e\u5c06\u4f60\u4ece\u597d\u53cb\u5217\u8868\u4e2d\u62c9\u9ed1!"
+
+Accept:
+  Usage: "&c\u6b63\u786e\u683c\u5f0f: /friend accept <\u73a9\u5bb6>"
+  YourSelf: "&a\u6210\u529f\u6dfb\u52a0\u597d\u53cb\u81f3 %targetDisplayName"
+  Target: "&a\u6210\u529f\u6dfb\u52a0\u597d\u53cb\u81f3 %displayName"
+
+Deny:
+  Usage: "&c\u6b63\u786e\u683c\u5f0f: /friend deny <\u73a9\u5bb6>"
+  Declined: "&e\u62d2\u7edd %targetDisplayName&e\u7684\u597d\u53cb\u8bf7\u6c42!"
+
+List:
+  DontHave:
+    One: "&e\u4f60\u8fd8\u6ca1\u6709\u597d\u53cb\u54e6!"
+    Two: "&e\u53ef\u4ee5\u518d\u6dfb\u52a0\u4e00\u4e9b\u597d\u53cb\u589e\u52a0\u597d\u611f\u5ea6\u54e6! /friend add <\u73a9\u5bb6>"
+  Online: "&e%targetDisplayName &e\u6b63\u5728 %server Server &e\u670d\u52a1\u5668."
+  Offline: "&e%targetDisplayName &c\u5f53\u524d\u79bb\u7ebf\u72b6\u6001"
+
+Lang:
+  Usage: "&c\u9519\u8bef\u7684\u683c\u5f0f! '/party lang <\u8bed\u8a00>'"
+  Available: "&b\u5f53\u524d\u53ef\u7528\u8bed\u8a00:"
+  Update: "&a\u9009\u62e9\u7684\u8bed\u8a00: &e%lang&a!"
+
+Force-Add:
+  Usage: "&c\u6b63\u786e\u683c\u5f0f: /friend force-add <\u73a9\u5bb6>"
+  YourSelf: "&a\u4f60\u5df2\u7ecf\u662f %targetDisplayName &a\u7684\u597d\u53cb\u4e86 &c&l[\u5f3a\u5236]"
+  Target: "&a\u4f60\u5df2\u7ecf\u662f %displayName &a\u7684\u597d\u53cb\u4e86 &c&l[\u5f3a\u5236]"
+
+Prefix:
+  Usage: "&c\u6b63\u786e\u683c\u5f0f: /friend prefix <\u73a9\u5bb6> <\u524d\u7f00>"
+  Current: "&7%targetDisplayName&e\u7684\u524d\u7f00\u6210\u529f\u8bbe\u7f6e\u4e3a '%prefix&e'"
+  To: "&7%targetDisplayName&e\u7684\u524d\u7f00\u5df2\u7ecf\u66f4\u6539\u4e3a '%prefix&e'"
+
+Help:
+  Command: "&e\u597d\u53cb \u5e2e\u52a9:"
+  Help: "&e/friend help &7- &b\u83b7\u53d6\u597d\u53cb\u5217\u8868"
+  Lang: "&e/friend lang &7- &b\u6539\u53d8\u63d2\u4ef6\u8bed\u8a00"
+  Add: "&e/friend add &7- &b\u9080\u8bf7\u4e00\u540d\u73a9\u5bb6\u4e3a\u597d\u53cb"
+  Remove: "&e/friend remove &7- &b\u4ece\u4f60\u7684\u597d\u53cb\u4e2d\u5220\u9664\u8be5\u540d\u73a9\u5bb6"
+  Accept: "&e/friend accept &7- &b\u540c\u610f\u597d\u53cb\u8bf7\u6c42"
+  Deny: "&e/friend deny &7- &b\u62d2\u7edd\u597d\u53cb\u8bf7\u6c42"
+  List: "&e/friend list &7- &b\u67e5\u770b\u597d\u53cb\u5217\u8868"
+  Force-Add: "&e/friend force-add &7- &b\u5f3a\u5236\u6dfb\u52a0\u597d\u53cb."
+  Prefix: "&e/friend prefix &7- &b\u8bbe\u7f6e\u73a9\u5bb6\u524d\u7f00."
