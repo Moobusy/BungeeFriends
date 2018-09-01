@@ -64,7 +64,7 @@ public class FriendCommand extends Command {
 		LanguageUtils langUtils = this.plugin.getLanguageManager().getPlayer(player);
 
 		if(!player.hasPermission(Permissions.MAIN)) {
-			this.plugin.info(player, Messages.NO_PERMISSION);
+			this.plugin.info(player, langUtils.getString(Messages.NO_PERMISSION));
 			return;
 		}
 

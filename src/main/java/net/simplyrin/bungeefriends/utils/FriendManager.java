@@ -55,7 +55,8 @@ public class FriendManager {
 		public FriendUtils(UUID uuid) {
 			this.uuid = uuid;
 
-			if(FriendManager.this.plugin.getConfigManager().getConfig().get("Player." + this.uuid.toString()) == null) {
+			Object object = FriendManager.this.plugin.getConfigManager().getConfig().get("Player." + this.uuid.toString());
+			if(object == null || object.equals("")) {
 				ProxiedPlayer player = FriendManager.this.plugin.getProxy().getPlayer(this.uuid);
 
 				FriendManager.this.plugin.info("Creating data for player " + player.getName() + "...");
@@ -64,6 +65,7 @@ public class FriendManager {
 				FriendManager.this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
 
 				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Name", player.getName());
+				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Language", "english");
 				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Toggle-Reception-Request", true);
 				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Prefix", "&7");
 				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Friends", "&7");
