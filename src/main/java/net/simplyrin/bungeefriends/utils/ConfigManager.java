@@ -73,14 +73,12 @@ public class ConfigManager {
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Toggle-Reception-Request", true);
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Prefix", "&c[CREATOR] ");
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Friends", (List<String>) Arrays.asList("64636120-8633-4541-aa5f-412b42ddb04d"));
-			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Language", "english");
 
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Name", "SimplyFoxy");
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Language", "english");
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Toggle-Reception-Request", true);
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Prefix", "&c[CREATOR] ");
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Friends", (List<String>) Arrays.asList("b0bb65a2-832f-4a5d-854e-873b7c4522ed"));
-			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Language", "english");
 
 			Config.saveConfig(this.config, config);
 		}
