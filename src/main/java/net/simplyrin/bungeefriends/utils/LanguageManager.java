@@ -53,12 +53,15 @@ public class LanguageManager {
 
 		String[] langs = { "english", "japanese", "chinese" };
 		for(String lang : langs) {
-			try {
-				InputStream inputStream = LanguageManager.this.plugin.getResourceAsStream(lang + ".yml");
-				FileOutputStream outputStream = new FileOutputStream(new File(languageFolder, lang + ".yml"));
-				ByteStreams.copy(inputStream, outputStream);
-			} catch (Exception e) {
-				e.printStackTrace();
+			File languageFile = new File(languageFolder, lang + ".yml");
+			if(!languageFile.exists()) {
+				try {
+					InputStream inputStream = LanguageManager.this.plugin.getResourceAsStream(lang + ".yml");
+					FileOutputStream outputStream = new FileOutputStream(languageFile);
+					ByteStreams.copy(inputStream, outputStream);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
