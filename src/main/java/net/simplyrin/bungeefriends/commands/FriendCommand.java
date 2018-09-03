@@ -425,15 +425,21 @@ public class FriendCommand extends Command {
 						}
 
 						targetFriends.setPrefix(prefix);
+						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Prefix.To").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%prefix", ChatColor.translateAlternateColorCodes('&', prefix).substring(0, prefix.length() - 1)));
+						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
+					this.plugin.info(player, Messages.HYPHEN);
 					this.plugin.info(player, langUtils.getString("Prefix.Current").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%prefix", targetFriends.getPrefix().substring(0, targetFriends.getPrefix().length() - 1)));
+					this.plugin.info(player, Messages.HYPHEN);
 					return;
 				}
 
+				this.plugin.info(player, Messages.HYPHEN);
 				this.plugin.info(player, langUtils.getString("Prefix.Usage"));
+				this.plugin.info(player, Messages.HYPHEN);
 				return;
 			}
 
