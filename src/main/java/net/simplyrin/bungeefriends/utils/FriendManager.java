@@ -122,7 +122,6 @@ public class FriendManager {
 
 			FriendUtils targetFriendUtils = FriendManager.this.getPlayer(uuid);
 			List<String> ignoreList = targetFriendUtils.getIgnoreList();
-			FriendManager.this.plugin.getProxy().getConsole().sendMessage(targetFriendUtils.getDisplayName() + "'s Ignore List: " + ignoreList.toString());
 			if(ignoreList.contains(this.uuid.toString())) {
 				throw new IgnoredException();
 			}
@@ -216,16 +215,7 @@ public class FriendManager {
 			return this.addIgnore(player.getUniqueId());
 		}
 
-		public FriendUtils addIgnore(UUID uuid) throws AlreadyAddedException { // already added to ignore event
-			/**
-			 * Not Found: Can't find a player by the name of 'args'
-			 *
-			 * Added: &aAdded %targetDisplayName &ato your ignore list.
-			 * Already Added: &cYou've already ignored that player! &b/ignore remove Player &ato unignore them!
-			 *
-			 * Removed: &aRemoved %targetDisplayName &afrom your ignore list.
-			 * Not Added: &cYou aren't ignoring that player! &b/ignore add Player &cto ignore!
-			 */
+		public FriendUtils addIgnore(UUID uuid) throws AlreadyAddedException {
 			List<String> ignoreList = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
 			if(ignoreList.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
