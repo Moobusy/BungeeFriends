@@ -15,6 +15,7 @@ import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
+import net.simplyrin.bungeefriends.exceptions.IgnoredException;
 import net.simplyrin.bungeefriends.exceptions.NotAddedException;
 import net.simplyrin.bungeefriends.exceptions.SelfException;
 import net.simplyrin.bungeefriends.messages.Messages;
@@ -132,7 +133,7 @@ public class FriendCommand extends Command {
 						targetFriends.removeRequest(player);
 					} catch (NotAddedException e) {
 						this.plugin.info(player, Messages.HYPHEN);
-						this.plugin.info(player, langUtils.getString("NoInvited").replace("%name", targetFriends.getName()));
+						this.plugin.info(player, langUtils.getString("Exceptions.NoInvited").replace("%name", targetFriends.getName()));
 						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
@@ -263,6 +264,93 @@ public class FriendCommand extends Command {
 				return;
 			}
 
+			if(args[0].equalsIgnoreCase("ignore")) {
+				if(args.length > 1) {
+					if(args[1].equalsIgnoreCase("add")) {
+						if(args.length > 2) {
+							UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[2]);
+							if(target == null) {
+								this.plugin.info(player, Messages.HYPHEN);
+								this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[2]));
+								this.plugin.info(player, Messages.HYPHEN);
+								return;
+							}
+							FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+
+							try {
+								myFriends.addIgnore(target);
+							} catch (AlreadyAddedException e) {
+								this.plugin.info(player, Messages.HYPHEN);
+								this.plugin.info(player, langUtils.getString("Ignore.AlreadyAdded").replace("%targetDisplayName", targetFriends.getDisplayName()));
+								this.plugin.info(player, Messages.HYPHEN);
+								return;
+							}
+
+							this.plugin.info(player, Messages.HYPHEN);
+							this.plugin.info(player, langUtils.getString("Ignore.Added").replace("%targetDisplayName", targetFriends.getDisplayName()));
+							this.plugin.info(player, Messages.HYPHEN);
+							return;
+						}
+
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, langUtils.getString("Ignore.Usage.Add"));
+						this.plugin.info(player, Messages.HYPHEN);
+						return;
+					}
+
+					if(args[1].equalsIgnoreCase("remove")) {
+						if(args.length > 2) {
+							UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[2]);
+							if(target == null) {
+								this.plugin.info(player, Messages.HYPHEN);
+								this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[2]));
+								this.plugin.info(player, Messages.HYPHEN);
+								return;
+							}
+							FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
+
+							try {
+								myFriends.removeIgnore(target);
+							} catch (NotAddedException e) {
+								this.plugin.info(player, Messages.HYPHEN);
+								this.plugin.info(player, langUtils.getString("Ignore.NotAdded").replace("%targetDisplayName", targetFriends.getDisplayName()));
+								this.plugin.info(player, Messages.HYPHEN);
+								return;
+							}
+
+							this.plugin.info(player, Messages.HYPHEN);
+							this.plugin.info(player, langUtils.getString("Ignore.Removed").replace("%targetDisplayName", targetFriends.getDisplayName()));
+							this.plugin.info(player, Messages.HYPHEN);
+							return;
+						}
+
+						this.plugin.info(player, Messages.HYPHEN);
+						this.plugin.info(player, langUtils.getString("Ignore.Usage.Remove"));
+						this.plugin.info(player, Messages.HYPHEN);
+						return;
+					}
+
+					if(args[1].equalsIgnoreCase("list")) {
+						this.plugin.info(player, Messages.HYPHEN);
+						List<String> ignoreList = myFriends.getIgnoreList();
+						if(ignoreList.size() == 0) {
+							this.plugin.info(player, langUtils.getString("Ignore.Havent.One"));
+							this.plugin.info(player, langUtils.getString("Ignore.Havent.Two"));
+							this.plugin.info(player, Messages.HYPHEN);
+							return;
+						}
+						for(String targetUniqueId : myFriends.getIgnoreList()) {
+							FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(targetUniqueId));
+							this.plugin.info(player, "&e- " + targetFriends.getDisplayName());
+						}
+						this.plugin.info(player, Messages.HYPHEN);
+						return;
+					}
+				}
+				this.plugin.info(player, langUtils.getString("Ignore.Usage.Main"));
+				return;
+			}
+
 			if(args[0].equalsIgnoreCase("force-add")) {
 				if(!player.hasPermission(Permissions.ADMIN)) {
 					this.plugin.info(player, Messages.NO_PERMISSION);
@@ -370,6 +458,7 @@ public class FriendCommand extends Command {
 		this.plugin.info(player, langUtils.getString("Help.Accept"));
 		this.plugin.info(player, langUtils.getString("Help.Deny"));
 		this.plugin.info(player, langUtils.getString("Help.List"));
+		this.plugin.info(player, langUtils.getString("Help.Ignore"));
 		if(player.hasPermission(Permissions.ADMIN)) {
 			this.plugin.info(player, Messages.HYPHEN);
 			this.plugin.info(player, langUtils.getString("Help.Force-Add"));
@@ -406,6 +495,11 @@ public class FriendCommand extends Command {
 			this.plugin.info(player, langUtils.getString("Exceptions.CantAddYourSelf"));
 			this.plugin.info(player, Messages.HYPHEN);
 			return;
+		} catch (IgnoredException e) {
+			this.plugin.info(player, Messages.HYPHEN);
+			this.plugin.info(player, langUtils.getString("Exceptions.Ignored"));
+			this.plugin.info(player, Messages.HYPHEN);
+			return;
 		}
 
 		this.plugin.info(player, Messages.HYPHEN);
@@ -418,11 +512,12 @@ public class FriendCommand extends Command {
 
 		TextComponent accept = MessageBuilder.get(targetLangUtils.getString("Add.Accept.Prefix"), "/friend accept " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Accept.Message"), true);
 		TextComponent deny = MessageBuilder.get(targetLangUtils.getString("Add.Deny.Prefix"), "/friend deny " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Deny.Message"), true);
+		TextComponent ignore = MessageBuilder.get(targetLangUtils.getString("Add.Ignore.Prefix"), "/friend ignore add " + myFriends.getName(), ChatColor.GREEN, targetLangUtils.getString("Add.Ignore.Message"), true);
 
 		this.plugin.info(target, Messages.HYPHEN);
 		this.plugin.info(target, targetLangUtils.getString("Add.Request.Received").replace("%displayName", myFriends.getDisplayName()));
 		if(targetFriends.getPlayer() != null) {
-			targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny);
+			targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny, grayHyphen, ignore);
 		}
 		this.plugin.info(target, Messages.HYPHEN);
 

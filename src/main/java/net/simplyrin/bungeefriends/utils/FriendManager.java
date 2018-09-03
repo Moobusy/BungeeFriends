@@ -7,6 +7,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
+import net.simplyrin.bungeefriends.exceptions.IgnoredException;
 import net.simplyrin.bungeefriends.exceptions.NotAddedException;
 import net.simplyrin.bungeefriends.exceptions.SelfException;
 
@@ -105,11 +106,11 @@ public class FriendManager {
 			return FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
 		}
 
-		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException, SelfException {
+		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException {
 			return this.addRequest(player.getUniqueId());
 		}
 
-		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException, SelfException {
+		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException {
 			if(this.uuid.toString().equals(uuid.toString())) {
 				throw new SelfException();
 			}
@@ -117,6 +118,13 @@ public class FriendManager {
 			List<String> list = this.getFriends();
 			if(list.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
+			}
+
+			FriendUtils targetFriendUtils = FriendManager.this.getPlayer(uuid);
+			List<String> ignoreList = targetFriendUtils.getIgnoreList();
+			FriendManager.this.plugin.getProxy().getConsole().sendMessage(targetFriendUtils.getDisplayName() + "'s Ignore List: " + ignoreList.toString());
+			if(ignoreList.contains(this.uuid.toString())) {
+				throw new IgnoredException();
 			}
 
 			List<String> requests = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
@@ -197,6 +205,47 @@ public class FriendManager {
 			}
 			targetList.remove(this.uuid.toString());
 			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + uuid.toString() + ".Friends", targetList);
+			return this;
+		}
+
+		public List<String> getIgnoreList() {
+			return FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
+		}
+
+		public FriendUtils addIgnore(ProxiedPlayer player) throws AlreadyAddedException {
+			return this.addIgnore(player.getUniqueId());
+		}
+
+		public FriendUtils addIgnore(UUID uuid) throws AlreadyAddedException { // already added to ignore event
+			/**
+			 * Not Found: Can't find a player by the name of 'args'
+			 *
+			 * Added: &aAdded %targetDisplayName &ato your ignore list.
+			 * Already Added: &cYou've already ignored that player! &b/ignore remove Player &ato unignore them!
+			 *
+			 * Removed: &aRemoved %targetDisplayName &afrom your ignore list.
+			 * Not Added: &cYou aren't ignoring that player! &b/ignore add Player &cto ignore!
+			 */
+			List<String> ignoreList = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
+			if(ignoreList.contains(uuid.toString())) {
+				throw new AlreadyAddedException();
+			}
+			ignoreList.add(uuid.toString());
+			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".IgnoreList", ignoreList);
+			return this;
+		}
+
+		public FriendUtils removeIgnore(ProxiedPlayer player) throws NotAddedException {
+			return this.removeIgnore(player.getUniqueId());
+		}
+
+		public FriendUtils removeIgnore(UUID uuid) throws NotAddedException {
+			List<String> ignoreList = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
+			if(!ignoreList.contains(uuid.toString())) {
+				throw new NotAddedException();
+			}
+			ignoreList.remove(uuid.toString());
+			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".IgnoreList", ignoreList);
 			return this;
 		}
 

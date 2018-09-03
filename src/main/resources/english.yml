@@ -11,6 +11,7 @@ No_Permission: "&cYou do not have access to this command!"
 Exceptions:
   AlreadySent: "&cYou've already sent a friend request to this person!"
   AlreadyFriend: "&cYou're already friends with this person!"
+  Ignored: "&cThat player has added you to their ignored players list!"
   IsntOnYourFriends: "&c%targetDisplayName &cisn't on your friends list!"
   CantAddYourSelf: "&cYou can't add yourself as a friend!"
   CantRemoveYourself: "&cYou can not remove yourself!"
@@ -31,11 +32,15 @@ Add:
   Deny:
     Prefix: "&c&l[DENY]&r"
     Message: "&bClick to deny the friend request"
+  Ignore:
+    Prefix: "&7&l[IGNORE]"
+    Message: "&bClick to block all future friend requests."
   Request:
     Received: "&eFriend request from %displayName&e!"
   Expired:
     YourSelf: "&eYour friend request to %targetDisplayName &ehas expired."
     Target: "&eThe friend request from %displayName &ehas expired."
+
 
 Remove:
   Usage: "&cUsage: /friend remove <player>"
@@ -63,6 +68,19 @@ Lang:
   Available: "&bCurrently available languages:"
   Update: "&aSelected language: &e%lang&a!"
 
+Ignore:
+  Usage:
+    Main: "&cInvalid usage! '/friend ignore <add|remove|list>'"
+    Add: "&cInvalid usage! '/friend ignore add <player>'"
+    Remove: "&cInvalid usage! '/friend ignore add <player>'"
+  Havent:
+    One: "&eYou don't have any ignores yet!"
+    Two: "&eAdd some with /friend ignore add <player>"
+  Added: "&aAdded %targetDisplayName &ato your ignore list."
+  AlreadyAdded: "&cYou've already ignored that player! &b/ignore remove Player &cto unignore them!"
+  Removed: "&aRemoved %targetDisplayName &afrom your ignore list."
+  NotAdded: "&cYou aren't ignoring that player! &b/ignore add Player &cto ignore!"
+
 Force-Add:
   Usage: "&cUsage: /friend force-add <player>"
   YourSelf: "&aYou are now friends with %targetDisplayName &c&l[FORCE]"
@@ -82,5 +100,6 @@ Help:
   Accept: "&e/friend accept &7- &bAccept a friend request"
   Deny: "&e/friend deny &7- &bDecline a friend request"
   List: "&e/friend list &7- &bList your friends"
+  Ignore: "&e/friend ignore &7- &bManage Ignore list"
   Force-Add: "&e/friend force-add &7- &bYou will be forced to be friends with the player."
   Prefix: "&e/friend prefix &7- &bSet player prefix."
