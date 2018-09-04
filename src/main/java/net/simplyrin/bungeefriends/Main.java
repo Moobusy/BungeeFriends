@@ -14,6 +14,7 @@ import net.simplyrin.bungeefriends.utils.FriendManager;
 import net.simplyrin.bungeefriends.utils.LanguageManager;
 import net.simplyrin.bungeefriends.utils.MessageBuilder;
 import net.simplyrin.bungeefriends.utils.PlayerManager;
+import net.simplyrin.bungeefriends.utils.PrefixManager;
 import net.simplyrin.bungeeparties.utils.NameManager;
 
 /**
@@ -41,6 +42,8 @@ public class Main extends Plugin {
 	@Getter
 	private ConfigManager configManager;
 	@Getter
+	private PrefixManager prefixManager;
+	@Getter
 	private PlayerManager playerManager;
 	@Getter
 	private FriendManager friendManager;
@@ -53,6 +56,7 @@ public class Main extends Plugin {
 		plugin = this;
 
 		plugin.configManager = new ConfigManager(plugin);
+		plugin.prefixManager = new PrefixManager(plugin);
 		plugin.playerManager = new PlayerManager(plugin);
 		plugin.friendManager = new FriendManager(plugin);
 

@@ -292,9 +292,7 @@ public class FriendCommand extends Command {
 							return;
 						}
 
-						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Ignore.Usage.Add"));
-						this.plugin.info(player, Messages.HYPHEN);
 						return;
 					}
 
@@ -437,9 +435,7 @@ public class FriendCommand extends Command {
 					return;
 				}
 
-				this.plugin.info(player, Messages.HYPHEN);
 				this.plugin.info(player, langUtils.getString("Prefix.Usage"));
-				this.plugin.info(player, Messages.HYPHEN);
 				return;
 			}
 

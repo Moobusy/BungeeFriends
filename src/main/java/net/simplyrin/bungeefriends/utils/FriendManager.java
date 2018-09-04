@@ -1,5 +1,6 @@
 package net.simplyrin.bungeefriends.utils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -91,6 +92,20 @@ public class FriendManager {
 		}
 
 		public String getPrefix() {
+			ProxiedPlayer player = this.getPlayer();
+			if(player != null) {
+				Collection<String> collection = FriendManager.this.plugin.getPrefixManager().getConfig().getSection("List").getKeys();
+				for(String list : collection) {
+					String prefix = FriendManager.this.plugin.getPrefixManager().getConfig().getString("List." + list + ".Prefix");
+					String permission = FriendManager.this.plugin.getPrefixManager().getConfig().getString("List." + list + ".Permission");
+
+					if(player.hasPermission(permission)) {
+						FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Prefix", prefix);
+						return prefix;
+					}
+				}
+			}
+
 			return FriendManager.this.plugin.getConfigManager().getConfig().getString("Player." + this.uuid.toString() + ".Prefix");
 		}
 
