@@ -81,7 +81,7 @@ public class FriendCommand extends Command {
 
 			if(args[0].equalsIgnoreCase("remove")) {
 				if(args.length > 1) {
-					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
+					UUID target = this.plugin.getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
@@ -119,7 +119,7 @@ public class FriendCommand extends Command {
 
 			if(args[0].equalsIgnoreCase("accept")) {
 				if(args.length > 1) {
-					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
+					UUID target = this.plugin.getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
@@ -161,7 +161,7 @@ public class FriendCommand extends Command {
 
 			if(args[0].equalsIgnoreCase("deny")) {
 				if(args.length > 1) {
-					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
+					UUID target = this.plugin.getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
@@ -202,6 +202,7 @@ public class FriendCommand extends Command {
 				List<String> online = new ArrayList<>();
 				List<String> offline = new ArrayList<>();
 
+				System.out.println(list.toString());
 				for(String uuid : list) {
 					ProxiedPlayer target = this.plugin.getProxy().getPlayer(UUID.fromString(uuid));
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(uuid));
@@ -268,7 +269,7 @@ public class FriendCommand extends Command {
 				if(args.length > 1) {
 					if(args[1].equalsIgnoreCase("add")) {
 						if(args.length > 2) {
-							UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[2]);
+							UUID target = this.plugin.getPlayerUniqueId(args[2]);
 							if(target == null) {
 								this.plugin.info(player, Messages.HYPHEN);
 								this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[2]));
@@ -298,7 +299,7 @@ public class FriendCommand extends Command {
 
 					if(args[1].equalsIgnoreCase("remove")) {
 						if(args.length > 2) {
-							UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[2]);
+							UUID target = this.plugin.getPlayerUniqueId(args[2]);
 							if(target == null) {
 								this.plugin.info(player, Messages.HYPHEN);
 								this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[2]));
@@ -356,7 +357,7 @@ public class FriendCommand extends Command {
 				}
 
 				if(args.length > 1) {
-					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
+					UUID target = this.plugin.getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
@@ -402,7 +403,7 @@ public class FriendCommand extends Command {
 				}
 
 				if(args.length > 1) {
-					UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(args[1]);
+					UUID target = this.plugin.getPlayerUniqueId(args[1]);
 					if(target == null) {
 						this.plugin.info(player, Messages.HYPHEN);
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
@@ -470,7 +471,7 @@ public class FriendCommand extends Command {
 	}
 
 	public void add(ProxiedPlayer player, FriendUtils myFriends, LanguageUtils langUtils, String name) {
-		UUID target = this.plugin.getPlayerManager().getPlayerUniqueId(name);
+		UUID target = this.plugin.getPlayerUniqueId(name);
 		if(target == null) {
 			this.plugin.info(player, Messages.HYPHEN);
 			this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", name));

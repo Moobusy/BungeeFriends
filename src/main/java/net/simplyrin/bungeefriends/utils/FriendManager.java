@@ -57,20 +57,19 @@ public class FriendManager {
 		public FriendUtils(UUID uuid) {
 			this.uuid = uuid;
 
-			Object object = FriendManager.this.plugin.getConfigManager().getConfig().get("Player." + this.uuid.toString());
+			Object object = FriendManager.this.plugin.getString("Player." + this.uuid.toString() + ".Name");
 			if(object == null || object.equals("")) {
 				ProxiedPlayer player = FriendManager.this.plugin.getProxy().getPlayer(this.uuid);
 
 				FriendManager.this.plugin.info("Creating data for player " + player.getName() + "...");
 
-				FriendManager.this.plugin.getPlayerManager().getConfig().set("Name." + player.getName().toLowerCase(), player.getUniqueId().toString());
-				FriendManager.this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
+				FriendManager.this.plugin.set("Name." + player.getName().toLowerCase(), player.getUniqueId().toString());
+				FriendManager.this.plugin.set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
 
-				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Name", player.getName());
-				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Language", "english");
-				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Toggle-Reception-Request", true);
-				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Prefix", "&7");
-				FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Friends", "&7");
+				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Name", player.getName());
+				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", "english");
+				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Prefix", "&7");
+				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Friends", "[]");
 			}
 		}
 
@@ -83,11 +82,11 @@ public class FriendManager {
 		}
 
 		public String getName() {
-			return FriendManager.this.plugin.getConfigManager().getConfig().getString("Player." + this.uuid.toString() + ".Name");
+			return FriendManager.this.plugin.getString("Player." + this.uuid.toString() + ".Name");
 		}
 
 		public FriendUtils setPrefix(String prefix) {
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Prefix", prefix);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Prefix", prefix);
 			return this;
 		}
 
@@ -100,25 +99,21 @@ public class FriendManager {
 					String permission = FriendManager.this.plugin.getPrefixManager().getConfig().getString("List." + list + ".Permission");
 
 					if(player.hasPermission(permission)) {
-						FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Prefix", prefix);
+						FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Prefix", prefix);
 						return prefix;
 					}
 				}
 			}
 
-			return FriendManager.this.plugin.getConfigManager().getConfig().getString("Player." + this.uuid.toString() + ".Prefix");
+			return FriendManager.this.plugin.getString("Player." + this.uuid.toString() + ".Prefix");
 		}
 
 		public UUID getUniqueId() {
 			return this.uuid;
 		}
 
-		public boolean isEnabledReceiveRequest() {
-			return FriendManager.this.plugin.getConfigManager().getConfig().getBoolean("Player." + this.uuid.toString() + ".Toggle-Reception-Request");
-		}
-
 		public List<String> getRequests() {
-			return FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
+			return FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Requests");
 		}
 
 		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException {
@@ -141,12 +136,12 @@ public class FriendManager {
 				throw new IgnoredException();
 			}
 
-			List<String> requests = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
+			List<String> requests = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Requests");
 			if(requests.contains(uuid.toString())) {
 				throw new FailedAddingException();
 			}
 			requests.add(uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Requests", requests);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Requests", requests);
 			return this;
 		}
 
@@ -155,17 +150,17 @@ public class FriendManager {
 		}
 
 		public FriendUtils removeRequest(UUID uuid) throws NotAddedException {
-			List<String> requests = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Requests");
+			List<String> requests = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Requests");
 			if(!requests.contains(uuid.toString())) {
 				throw new NotAddedException();
 			}
 			requests.remove(uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Requests", requests);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Requests", requests);
 			return this;
 		}
 
 		public List<String> getFriends() {
-			return FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".Friends");
+			return FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Friends");
 		}
 
 		public FriendUtils add(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException {
@@ -182,7 +177,7 @@ public class FriendManager {
 				throw new AlreadyAddedException();
 			}
 			list.add(uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Friends", list);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Friends", list);
 
 
 			FriendUtils targetFriends = FriendManager.this.plugin.getFriendManager().getPlayer(uuid);
@@ -191,7 +186,7 @@ public class FriendManager {
 				throw new AlreadyAddedException();
 			}
 			targetList.add(this.uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + uuid.toString() + ".Friends", targetList);
+			FriendManager.this.plugin.set("Player." + uuid.toString() + ".Friends", targetList);
 			return this;
 		}
 
@@ -209,7 +204,7 @@ public class FriendManager {
 				throw new NotAddedException();
 			}
 			list.remove(uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Friends", list);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Friends", list);
 
 
 			FriendUtils targetFriends = FriendManager.this.plugin.getFriendManager().getPlayer(uuid);
@@ -218,12 +213,12 @@ public class FriendManager {
 				throw new NotAddedException();
 			}
 			targetList.remove(this.uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + uuid.toString() + ".Friends", targetList);
+			FriendManager.this.plugin.set("Player." + uuid.toString() + ".Friends", targetList);
 			return this;
 		}
 
 		public List<String> getIgnoreList() {
-			return FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
+			return FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".IgnoreList");
 		}
 
 		public FriendUtils addIgnore(ProxiedPlayer player) throws AlreadyAddedException {
@@ -231,12 +226,12 @@ public class FriendManager {
 		}
 
 		public FriendUtils addIgnore(UUID uuid) throws AlreadyAddedException {
-			List<String> ignoreList = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
+			List<String> ignoreList = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".IgnoreList");
 			if(ignoreList.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
 			}
 			ignoreList.add(uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".IgnoreList", ignoreList);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".IgnoreList", ignoreList);
 			return this;
 		}
 
@@ -245,12 +240,12 @@ public class FriendManager {
 		}
 
 		public FriendUtils removeIgnore(UUID uuid) throws NotAddedException {
-			List<String> ignoreList = FriendManager.this.plugin.getConfigManager().getConfig().getStringList("Player." + this.uuid.toString() + ".IgnoreList");
+			List<String> ignoreList = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".IgnoreList");
 			if(!ignoreList.contains(uuid.toString())) {
 				throw new NotAddedException();
 			}
 			ignoreList.remove(uuid.toString());
-			FriendManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".IgnoreList", ignoreList);
+			FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".IgnoreList", ignoreList);
 			return this;
 		}
 
