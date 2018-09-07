@@ -42,6 +42,7 @@ Hypixel のフレンド機能の BungeeCord 用パクリプラグイン
 
 # ふぉろーみー？
 - [Twitter (@SimplyFoxy_)](https://twitter.com/SimplyFoxy_) - 更新情報をつぶやきます
+
 - GitHub (SimplyRin/BungeeFriends)
 
 
@@ -51,6 +52,7 @@ Hypixel のフレンド機能の BungeeCord 用パクリプラグイン
 
 # 貢献者
 [LingKun](https://www.spigotmc.org/members/yubao.587341/): 中国語翻訳者
+
 [SiderRMC](https://www.spigotmc.org/members/siderrmc.527191/): 中国語翻訳者, YouTube ビデオ作成者
 
 
