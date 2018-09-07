@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
@@ -52,7 +53,6 @@ public class MySQLManager {
 		this.createConfig();
 		if(this.config.getBoolean("Enable")) {
 			this.loginToMySQL();
-			this.init();
 			this.migrate();
 		}
 	}
@@ -98,10 +98,29 @@ public class MySQLManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		this.autoReconnect();
 	}
 
-	public void init() {
+	public void autoReconnect() {
+		this.plugin.info("Reconnect in 30 minutes...");
 
+		try {
+			TimeUnit.MINUTES.sleep(30);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		this.plugin.info("Reconnecting...");
+		try {
+			this.editor = this.editor.getMySQL().reconnect();
+		} catch (SQLException e) {
+			this.plugin.info("Reconnection failed");
+			this.autoReconnect();
+			return;
+		}
+		this.plugin.info("Reconnection was successfully completed!");
+		this.autoReconnect();
 	}
 
 	public void migrate() {
