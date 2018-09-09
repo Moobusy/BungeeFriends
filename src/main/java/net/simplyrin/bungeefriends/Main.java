@@ -81,6 +81,8 @@ public class Main extends Plugin {
 		plugin.info("&4&lThis MySQL support version has no data guarantee.");
 		plugin.info("&4&lPlease use it at your own risk.");
 		plugin.info("");
+		plugin.info("&e&lLoaded BungeeFriends version: " + plugin.getDescription().getVersion());
+		plugin.info("");
 		plugin.info("&c" + Messages.HYPHEN);
 
 		this.isEnabledMySQL = this.mySQLManager.getConfig().getBoolean("Enable");

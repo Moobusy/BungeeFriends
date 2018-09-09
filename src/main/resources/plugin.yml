@@ -1,5 +1,5 @@
 main: net.simplyrin.bungeefriends.Main
 name: BungeeFriends
-version: 1.5-SNAPSHOT-Pre1
+version: 1.5-SNAPSHOT-Pre2
 author: SimplyRin
 softdepend: [BungeeParties]
