@@ -13,6 +13,7 @@ import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.tools.MySQL;
 import net.simplyrin.bungeefriends.tools.MySQL.Editor;
 import net.simplyrin.config.Config;
+import net.simplyrin.threadpool.ThreadPool;
 
 /**
  * Created by SimplyRin on 2018/09/04.
@@ -99,7 +100,9 @@ public class MySQLManager {
 			e.printStackTrace();
 		}
 
-		this.autoReconnect();
+		ThreadPool.run(() -> {
+			this.autoReconnect();
+		});
 	}
 
 	public void autoReconnect() {
