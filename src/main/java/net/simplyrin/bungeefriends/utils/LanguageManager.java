@@ -85,15 +85,15 @@ public class LanguageManager {
 		public LanguageUtils(UUID uuid) {
 			this.uuid = uuid;
 
-			Object lang = LanguageManager.this.plugin.getConfigManager().getConfig().get("Player." + this.uuid.toString() + ".Language");
+			Object lang = LanguageManager.this.plugin.getString("Player." + this.uuid.toString() + ".Language");
 			if(lang == null || lang.equals("")) {
-				LanguageManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Language", "english");
+				LanguageManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", "english");
 				LanguageManager.this.configMap.put("english", Config.getConfig(this.getFile("english")));
 			}
 		}
 
 		public String getLanguage() {
-			String key = LanguageManager.this.plugin.getConfigManager().getConfig().getString("Player." + this.uuid.toString() + ".Language");
+			String key = LanguageManager.this.plugin.getString("Player." + this.uuid.toString() + ".Language");
 			if(key == null || key.equals("")) {
 				return "english";
 			}
@@ -101,7 +101,7 @@ public class LanguageManager {
 		}
 
 		public void setLanguage(String key) {
-			LanguageManager.this.plugin.getConfigManager().getConfig().set("Player." + this.uuid.toString() + ".Language", key);
+			LanguageManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", key);
 		}
 
 		public String getString(String configKey) {

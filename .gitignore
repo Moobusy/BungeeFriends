@@ -27,3 +27,5 @@ hs_err_pid*
 .settings/
 target/
 build.bat
+config.yml
+src/main/test/

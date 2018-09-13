@@ -53,10 +53,10 @@ public class EventListener implements Listener {
 
 		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
 
-		this.plugin.getConfigManager().getConfig().set("Player." + player.getUniqueId().toString() + ".Name", player.getName());
+		this.plugin.set("Player." + player.getUniqueId().toString() + ".Name", player.getName());
 
-		this.plugin.getPlayerManager().getConfig().set("Name." + player.getName().toLowerCase(), player.getUniqueId().toString());
-		this.plugin.getPlayerManager().getConfig().set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
+		this.plugin.set("Name." + player.getName().toLowerCase(), player.getUniqueId().toString());
+		this.plugin.set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
 
 		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
 			if(!player.equals(target)) {
