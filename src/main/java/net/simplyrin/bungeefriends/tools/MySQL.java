@@ -144,7 +144,6 @@ public class MySQL {
 			try {
 				result = this.statement.executeUpdate("update " + this.table + " set value = '" + object + "' where _key ='" + key + "'");
 			} catch (SQLException e) {
-				// e.printStackTrace();
 				return false;
 			}
 
@@ -177,7 +176,6 @@ public class MySQL {
 					}
 				}
 			} catch (SQLException e) {
-				// e.printStackTrace();
 			}
 			return null;
 		}
@@ -185,7 +183,6 @@ public class MySQL {
 		public List<String> getList(String key) {
 			String value = this.get(key);
 			if(value == null || value.equals("[]")) {
-				System.out.println(key + " is null return new list");
 				return new ArrayList<>();
 			}
 			String[] result = value.split(Pattern.quote(",&%$%&,"));

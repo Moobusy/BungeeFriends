@@ -68,15 +68,15 @@ public class ConfigManager {
 
 			this.config.set("Plugin.Prefix", "&7[&cFriends&7] &r");
 
+			this.config.set("Plugin.Disable-Alias", false);
+
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Name", "SimplyRin");
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Language", "english");
-			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Toggle-Reception-Request", true);
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Prefix", "&c[CREATOR] ");
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Friends", (List<String>) Arrays.asList("64636120-8633-4541-aa5f-412b42ddb04d"));
 
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Name", "SimplyFoxy");
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Language", "english");
-			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Toggle-Reception-Request", true);
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Prefix", "&c[CREATOR] ");
 			this.config.set("Player.64636120-8633-4541-aa5f-412b42ddb04d.Friends", (List<String>) Arrays.asList("b0bb65a2-832f-4a5d-854e-873b7c4522ed"));
 
@@ -84,6 +84,11 @@ public class ConfigManager {
 		}
 
 		this.config = Config.getConfig(config);
+
+		if(this.config.get("Plugin.Disable-Alias") == null || this.config.getString("Plugin.Disable-Alias").equals("")) {
+			this.config.set("Plugin.Disable-Alias", false);
+		}
+
 		this.saveAndReload();
 	}
 

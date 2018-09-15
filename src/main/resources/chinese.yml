@@ -102,3 +102,16 @@ Help:
   Ignore: "&e/friend ignore &7- &b\u7ba1\u7406\u5c4f\u853d\u5217\u8868"
   Force-Add: "&e/friend force-add <\u73a9\u5bb6> &7- &b\u5f3a\u5236\u6dfb\u52a0\u73a9\u5bb6\u4e3a\u597d\u53cb"
   Prefix: "&e/friend prefix <\u73a9\u5bb6> <\u524d\u7f00> &7- &b\u8bbe\u7f6e\u73a9\u5bb6\u7684\u524d\u7f00"
+
+# Tell Command
+Tell-Command:
+  Usage: "&cUsage: /tell <player> <message>"
+  YourSelf: "&dTo: %targetDisplayName&7: %message"
+  Target: "&dFrom: %displayName&7: %message"
+  MustBeFriends: "&cYou must be friends with %targetDisplayName!"
+  Offline: "&c%targetDisplayName &cis not online!"
+
+# Reply Command
+Reply-Command:
+  Usage: "&cUsage: /reply <message>"
+  Target: "&cReply target: %targetDisplayName"

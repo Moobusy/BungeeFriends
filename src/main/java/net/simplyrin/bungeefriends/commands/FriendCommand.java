@@ -48,8 +48,8 @@ public class FriendCommand extends Command {
 
 	private Main plugin;
 
-	public FriendCommand(Main plugin) {
-		super("friend", null, "f");
+	public FriendCommand(Main plugin, String command) {
+		super(command, null);
 		this.plugin = plugin;
 	}
 
@@ -202,7 +202,6 @@ public class FriendCommand extends Command {
 				List<String> online = new ArrayList<>();
 				List<String> offline = new ArrayList<>();
 
-				System.out.println(list.toString());
 				for(String uuid : list) {
 					ProxiedPlayer target = this.plugin.getProxy().getPlayer(UUID.fromString(uuid));
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(uuid));
@@ -438,6 +437,13 @@ public class FriendCommand extends Command {
 
 				this.plugin.info(player, langUtils.getString("Prefix.Usage"));
 				return;
+			}
+
+			if(args[0].equalsIgnoreCase("migrate")) {
+				if(!player.hasPermission(Permissions.ADMIN)) {
+					this.plugin.info(player, Messages.NO_PERMISSION);
+					return;
+				}
 			}
 
 			if(args[0].equalsIgnoreCase("help")) {

@@ -116,6 +116,11 @@ public class FriendManager {
 			return FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Requests");
 		}
 
+		public boolean isFriend(UUID targetUniqueId) {
+			List<String> list = this.getFriends();
+			return list.contains(targetUniqueId.toString());
+		}
+
 		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException {
 			return this.addRequest(player.getUniqueId());
 		}

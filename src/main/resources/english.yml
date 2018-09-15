@@ -103,3 +103,16 @@ Help:
   Ignore: "&e/friend ignore &7- &bManage Ignore list"
   Force-Add: "&e/friend force-add &7- &bYou will be forced to be friends with the player."
   Prefix: "&e/friend prefix &7- &bSet player prefix."
+
+# Tell Command
+Tell-Command:
+  Usage: "&cUsage: /tell <player> <message>"
+  YourSelf: "&dTo: %targetDisplayName&7: %message"
+  Target: "&dFrom: %displayName&7: %message"
+  MustBeFriends: "&cYou must be friends with %targetDisplayName!"
+  Offline: "&c%targetDisplayName &cis not online!"
+
+# Reply Command
+Reply-Command:
+  Usage: "&cUsage: /reply <message>"
+  Target: "&cReply target: %targetDisplayName"

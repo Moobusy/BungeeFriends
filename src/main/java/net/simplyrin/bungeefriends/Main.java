@@ -1,6 +1,8 @@
 package net.simplyrin.bungeefriends;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -9,8 +11,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.simplyrin.bungeefriends.commands.FriendCommand;
+import net.simplyrin.bungeefriends.commands.ReplyCommand;
+import net.simplyrin.bungeefriends.commands.TellCommand;
 import net.simplyrin.bungeefriends.listeners.EventListener;
-import net.simplyrin.bungeefriends.messages.Messages;
 import net.simplyrin.bungeefriends.utils.ConfigManager;
 import net.simplyrin.bungeefriends.utils.FriendManager;
 import net.simplyrin.bungeefriends.utils.LanguageManager;
@@ -57,8 +60,11 @@ public class Main extends Plugin {
 	@Getter
 	private MySQLManager mySQLManager;
 
+	// target -> from
+	@Getter
+	private Map<UUID, UUID> replyTargetMap;
+
 	private boolean isEnabledMySQL;
-	private String prefix;
 
 	@Override
 	public void onEnable() {
@@ -73,19 +79,19 @@ public class Main extends Plugin {
 
 		plugin.languageManager = new LanguageManager(plugin);
 
-		plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin));
+		plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin, "friend"));
+		plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "reply"));
+		plugin.getProxy().getPluginManager().registerCommand(plugin, new TellCommand(plugin));
+
+		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Alias")) {
+			plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin, "f"));
+			plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "r"));
+		}
+
 		plugin.getProxy().getPluginManager().registerListener(plugin, new EventListener(plugin));
 
-		plugin.info("&c" + Messages.HYPHEN);
-		plugin.info("");
-		plugin.info("&4&lThis MySQL support version has no data guarantee.");
-		plugin.info("&4&lPlease use it at your own risk.");
-		plugin.info("");
-		plugin.info("&e&lLoaded BungeeFriends version: " + plugin.getDescription().getVersion());
-		plugin.info("");
-		plugin.info("&c" + Messages.HYPHEN);
-
-		this.isEnabledMySQL = this.mySQLManager.getConfig().getBoolean("Enable");
+		plugin.replyTargetMap = new HashMap<>();
+		plugin.isEnabledMySQL = plugin.mySQLManager.getConfig().getBoolean("Enable");
 
 		if(plugin.getProxy().getPluginManager().getPlugin("BungeeParties") != null) {
 			NameManager.setBungeeFriendsInstance(plugin);
@@ -97,36 +103,31 @@ public class Main extends Plugin {
 		plugin.configManager.saveAndReload();
 		plugin.playerManager.saveAndReload();
 
-		plugin.mySQLManager.getEditor().getMySQL().disconnect();
+		if(plugin.isEnabledMySQL) {
+			plugin.mySQLManager.getEditor().getMySQL().disconnect();
+		}
 	}
 
 	public String getPrefix() {
-		if(this.prefix == null) {
-			this.prefix = plugin.getString("Plugin.Prefix");
-			if(this.prefix == null) {
-				plugin.set("Plugin.Prefix", plugin.configManager.getConfig().getString("Plugin.Prefix"));
-				this.prefix = plugin.getString("Plugin.Prefix");
-			}
-		}
-		return this.prefix;
+		return plugin.configManager.getConfig().getString("Plugin.Prefix");
 	}
 
 	public String getString(String key) {
-		if(this.isEnabledMySQL) {
+		if(plugin.isEnabledMySQL) {
 			return plugin.getMySQLManager().getEditor().get(key);
 		}
 		return plugin.getConfigManager().getConfig().getString(key);
 	}
 
 	public List<String> getStringList(String key) {
-		if(this.isEnabledMySQL) {
+		if(plugin.isEnabledMySQL) {
 			return plugin.getMySQLManager().getEditor().getList(key);
 		}
 		return plugin.getConfigManager().getConfig().getStringList(key);
 	}
 
 	public void set(String key, List<String> list) {
-		if(this.isEnabledMySQL) {
+		if(plugin.isEnabledMySQL) {
 			plugin.getMySQLManager().getEditor().set(key, list);
 		} else {
 			plugin.getConfigManager().getConfig().set(key, list);
@@ -134,7 +135,7 @@ public class Main extends Plugin {
 	}
 
 	public void set(String key, String value) {
-		if(this.isEnabledMySQL) {
+		if(plugin.isEnabledMySQL) {
 			plugin.getMySQLManager().getEditor().set(key, value);
 		} else {
 			plugin.getConfigManager().getConfig().set(key, value);
@@ -144,7 +145,6 @@ public class Main extends Plugin {
 	public UUID getPlayerUniqueId(String name) {
 		UUID uuid = null;
 		try {
-			System.out.println("Getting value : " + plugin.getString("Name." + name.toLowerCase()));
 			uuid = UUID.fromString(plugin.getString("Name." + name.toLowerCase()));
 		} catch (Exception e) {
 		}
