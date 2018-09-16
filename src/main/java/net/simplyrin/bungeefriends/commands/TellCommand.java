@@ -52,25 +52,25 @@ public class TellCommand extends Command {
 		if(args.length > 0) {
 			UUID target = this.plugin.getPlayerUniqueId(args[0]);
 			if(target == null) {
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[0]));
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				return;
 			}
 			FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
 			LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
 
 			if(!(myFriends.isFriend(targetFriends.getUniqueId()) || player.hasPermission(Permissions.ADMIN))) {
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Tell-Command.MustBeFriends").replace("%targetDisplayName", targetFriends.getDisplayName()));
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				return;
 			}
 
 			if(targetFriends.getPlayer() == null) {
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Tell-Command.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				return;
 			}
 

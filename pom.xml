@@ -4,7 +4,7 @@
 
   <groupId>net.simplyrin.bungeefriends</groupId>
   <artifactId>BungeeFriends</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>BungeeFriends</name>

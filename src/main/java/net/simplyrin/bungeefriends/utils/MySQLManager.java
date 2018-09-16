@@ -58,13 +58,13 @@ public class MySQLManager {
 		this.createConfig();
 		if(this.config.getBoolean("Enable")) {
 
-			this.plugin.info("&c" + Messages.HYPHEN);
+			this.plugin.info("&c" + Messages.CONSOLE_HYPHEN);
 			this.plugin.info("");
 			this.plugin.info("&4&lMySQL is currently under development");
 			this.plugin.info("&4&lData guarantee is not supported.");
 			this.plugin.info("&4&lPlease use it at your own risk.");
 			this.plugin.info("");
-			this.plugin.info("&c" + Messages.HYPHEN);
+			this.plugin.info("&c" + Messages.CONSOLE_HYPHEN);
 
 			this.loginToMySQL();
 			this.migrate();

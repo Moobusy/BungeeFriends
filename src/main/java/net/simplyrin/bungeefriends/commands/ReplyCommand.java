@@ -55,9 +55,9 @@ public class ReplyCommand extends Command {
 			LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(targetUniqueId);
 
 			if(targetFriends.getPlayer() == null) {
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Tell-Command.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));
-				this.plugin.info(player, Messages.HYPHEN);
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				return;
 			}
 

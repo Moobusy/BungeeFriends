@@ -8,6 +8,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.simplyrin.bungeefriends.Main;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
+import net.simplyrin.bungeefriends.exceptions.FriendSlotLimitException;
 import net.simplyrin.bungeefriends.exceptions.IgnoredException;
 import net.simplyrin.bungeefriends.exceptions.NotAddedException;
 import net.simplyrin.bungeefriends.exceptions.SelfException;
@@ -121,11 +122,11 @@ public class FriendManager {
 			return list.contains(targetUniqueId.toString());
 		}
 
-		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException {
+		public FriendUtils addRequest(ProxiedPlayer player) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException, FriendSlotLimitException {
 			return this.addRequest(player.getUniqueId());
 		}
 
-		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException {
+		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException, FriendSlotLimitException {
 			if(this.uuid.toString().equals(uuid.toString())) {
 				throw new SelfException();
 			}
@@ -133,6 +134,13 @@ public class FriendManager {
 			List<String> list = this.getFriends();
 			if(list.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
+			}
+
+			ProxiedPlayer player = this.getPlayer();
+			if(player != null) {
+				if(this.getPlayer().hasPermission("friends.limit." + this.getFriends().size())) {
+					throw new FriendSlotLimitException();
+				}
 			}
 
 			FriendUtils targetFriendUtils = FriendManager.this.getPlayer(uuid);

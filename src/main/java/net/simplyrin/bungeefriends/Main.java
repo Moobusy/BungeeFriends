@@ -83,8 +83,10 @@ public class Main extends Plugin {
 		plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "reply"));
 		plugin.getProxy().getPluginManager().registerCommand(plugin, new TellCommand(plugin));
 
-		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Alias")) {
+		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./f")) {
 			plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin, "f"));
+		}
+		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./r")) {
 			plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "r"));
 		}
 

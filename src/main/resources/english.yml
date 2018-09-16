@@ -6,6 +6,7 @@ Language: English
 
 Ingame_Only: "&cThis command is available only in the game."
 No_Permission: "&cYou do not have access to this command!"
+Hyphen: "&9&m---------------------------------------------"
 
 # Exceptions
 Exceptions:
@@ -17,6 +18,7 @@ Exceptions:
   CantRemoveYourself: "&cYou can not remove yourself!"
   NoInvited: "&cThat person hasn't invited you to be friends! Try &e/friend add %name"
   HasntFriend: "&cThat person hasn't invited you to be friends! Try &e/friend add %name"
+  SlotLimitReached: "&cYou have reached the maximum of friends! To add more friends please remove some!"
 
 # Commands
 No-Joined-The-Party: "&cYou must be in a party to use this command!"

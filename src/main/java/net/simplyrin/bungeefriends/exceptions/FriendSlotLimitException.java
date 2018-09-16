@@ -1,7 +1,7 @@
-package net.simplyrin.bungeefriends.messages;
+package net.simplyrin.bungeefriends.exceptions;
 
 /**
- * Created by SimplyRin on 2018/07/03.
+ * Created by SimplyRin on 2018/09/15.
  *
  * Copyright (C) 2018 SimplyRin
  *
@@ -18,12 +18,9 @@ package net.simplyrin.bungeefriends.messages;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class Messages {
+public class FriendSlotLimitException extends Exception {
 
-	public static final String INGAME_ONLY = "&cThis command is available only in the game.";
-	public static final String NO_PERMISSION = "No_Permission";
-
-	public static final String HYPHEN = "Hyphen";
-	public static final String CONSOLE_HYPHEN = "&9&m---------------------------------------------";
+	public FriendSlotLimitException() {
+	}
 
 }

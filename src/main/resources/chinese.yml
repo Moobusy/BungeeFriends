@@ -6,6 +6,7 @@ Language: Chinese
 
 Ingame_Only: "&c\u8be5\u6307\u4ee4\u4ec5\u5728\u6e38\u620f\u4e2d\u53ef\u7528!"
 No_Permission: "&c\u4f60\u6ca1\u6709\u6743\u9650\u4f7f\u7528\u8be5\u6307\u4ee4!"
+Hyphen: "&9&m---------------------------------------------"
 
 # Exceptions
 Exceptions:
@@ -17,6 +18,7 @@ Exceptions:
   CantRemoveYourself: "&c\u4f60\u4e0d\u80fd\u79fb\u9664\u81ea\u5df1!"
   NoInvited: "&c\u90a3\u4f4d\u73a9\u5bb6\u6ca1\u6709\u5411\u4f60\u53d1\u9001\u597d\u53cb\u8bf7\u6c42! \u8bf7\u4f7f\u7528 &e/friend add %name &c\u6dfb\u52a0\u597d\u53cb!"
   HasntFriend: "&c\u90a3\u4f4d\u73a9\u5bb6\u6ca1\u6709\u5411\u4f60\u53d1\u9001\u597d\u53cb\u8bf7\u6c42! \u8bf7\u4f7f\u7528 &e/friend add %name &c\u6dfb\u52a0\u597d\u53cb!"
+  SlotLimitReached: "&cYou have reached the maximum of friends! To add more friends please remove some!"
 
 # Commands
 No-Joined-The-Party: "&c\u4f60\u5fc5\u987b\u5728\u7ec4\u961f\u4e2d\u624d\u80fd\u4f7f\u7528\u8be5\u6307\u4ee4!"
@@ -105,13 +107,13 @@ Help:
 
 # Tell Command
 Tell-Command:
-  Usage: "&cUsage: /tell <player> <message>"
-  YourSelf: "&dTo: %targetDisplayName&7: %message"
-  Target: "&dFrom: %displayName&7: %message"
-  MustBeFriends: "&cYou must be friends with %targetDisplayName!"
-  Offline: "&c%targetDisplayName &cis not online!"
+  Usage: "&c\u7528\u6cd5: /tell <\u73a9\u5bb6> <\u6d88\u606f>"
+  YourSelf: "&d\u53d1\u81f3: %targetDisplayName&7: %message"
+  Target: "&d\u6765\u81ea: %displayName&7: %message"
+  MustBeFriends: "&c\u4f60\u4e0e %targetDisplayName &c\u5fc5\u987b\u5148\u6210\u4e3a\u597d\u53cb!"
+  Offline: "&c%targetDisplayName &c\u5f53\u524d\u79bb\u7ebf!"
 
 # Reply Command
 Reply-Command:
-  Usage: "&cUsage: /reply <message>"
-  Target: "&cReply target: %targetDisplayName"
+  Usage: "&c\u7528\u6cd5: /reply <\u6d88\u606f>"
+  Target: "&c\u56de\u590d\u76ee\u6807: %targetDisplayName"

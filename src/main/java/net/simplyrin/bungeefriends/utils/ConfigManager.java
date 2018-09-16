@@ -68,7 +68,9 @@ public class ConfigManager {
 
 			this.config.set("Plugin.Prefix", "&7[&cFriends&7] &r");
 
-			this.config.set("Plugin.Disable-Alias", false);
+			this.config.set("Plugin.Disable-Aliases./f", false);
+			this.config.set("Plugin.Disable-Aliases./r", false);
+			this.config.set("Plugin.Default-SlotLimit", 20);
 
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Name", "SimplyRin");
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Language", "english");
@@ -85,8 +87,13 @@ public class ConfigManager {
 
 		this.config = Config.getConfig(config);
 
-		if(this.config.get("Plugin.Disable-Alias") == null || this.config.getString("Plugin.Disable-Alias").equals("")) {
-			this.config.set("Plugin.Disable-Alias", false);
+		this.config.set("Plugin.Disable-Alias", null);
+
+		if(!this.config.getBoolean("Plugin.Disable-Aliases./f")) {
+			this.config.set("Plugin.Disable-Aliases./f", false);
+		}
+		if(!this.config.getBoolean("Plugin.Disable-Aliases./r")) {
+			this.config.set("Plugin.Disable-Aliases./r", false);
 		}
 
 		this.saveAndReload();
