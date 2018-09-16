@@ -18,7 +18,7 @@ Exceptions:
   CantRemoveYourself: "&c\u4f60\u4e0d\u80fd\u79fb\u9664\u81ea\u5df1!"
   NoInvited: "&c\u90a3\u4f4d\u73a9\u5bb6\u6ca1\u6709\u5411\u4f60\u53d1\u9001\u597d\u53cb\u8bf7\u6c42! \u8bf7\u4f7f\u7528 &e/friend add %name &c\u6dfb\u52a0\u597d\u53cb!"
   HasntFriend: "&c\u90a3\u4f4d\u73a9\u5bb6\u6ca1\u6709\u5411\u4f60\u53d1\u9001\u597d\u53cb\u8bf7\u6c42! \u8bf7\u4f7f\u7528 &e/friend add %name &c\u6dfb\u52a0\u597d\u53cb!"
-  SlotLimitReached: "&cYou have reached the maximum of friends! To add more friends please remove some!"
+  SlotLimitReached: "&c\u597d\u53cb\u6570\u91cf\u5df2\u8fbe\u4e0a\u9650! \u8bf7\u5148\u5220\u9664\u4e00\u4e9b\u518d\u7ee7\u7eed\u6dfb\u52a0!"
 
 # Commands
 No-Joined-The-Party: "&c\u4f60\u5fc5\u987b\u5728\u7ec4\u961f\u4e2d\u624d\u80fd\u4f7f\u7528\u8be5\u6307\u4ee4!"
