@@ -70,7 +70,8 @@ public class ConfigManager {
 
 			this.config.set("Plugin.Disable-Aliases./f", false);
 			this.config.set("Plugin.Disable-Aliases./r", false);
-			this.config.set("Plugin.Default-SlotLimit", 20);
+			this.config.set("Plugin.Disable-Aliases./fl", false);
+			this.config.set("Plugin.Disable-Language", "english");
 
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Name", "SimplyRin");
 			this.config.set("Player.b0bb65a2-832f-4a5d-854e-873b7c4522ed.Language", "english");
@@ -89,14 +90,21 @@ public class ConfigManager {
 
 		this.config.set("Plugin.Disable-Alias", null);
 
-		if(!this.config.getBoolean("Plugin.Disable-Aliases./f")) {
-			this.config.set("Plugin.Disable-Aliases./f", false);
-		}
-		if(!this.config.getBoolean("Plugin.Disable-Aliases./r")) {
-			this.config.set("Plugin.Disable-Aliases./r", false);
+		this.resetValue("Plugin.Disable-Aliases./f");
+		this.resetValue("Plugin.Disable-Aliases./r");
+		this.resetValue("Plugin.Disable-Aliases./fl");
+
+		if(this.config.getString("Plugin.Default-Language").equals("")) {
+			this.config.set("Plugin.Default-Language", "english");
 		}
 
 		this.saveAndReload();
+	}
+
+	public void resetValue(String key) {
+		if(!this.config.getBoolean(key)) {
+			this.config.set(key, false);
+		}
 	}
 
 }

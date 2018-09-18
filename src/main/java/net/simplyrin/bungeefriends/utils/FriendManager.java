@@ -12,6 +12,7 @@ import net.simplyrin.bungeefriends.exceptions.FriendSlotLimitException;
 import net.simplyrin.bungeefriends.exceptions.IgnoredException;
 import net.simplyrin.bungeefriends.exceptions.NotAddedException;
 import net.simplyrin.bungeefriends.exceptions.SelfException;
+import net.simplyrin.bungeefriends.messages.Permissions;
 
 /**
  * Created by SimplyRin on 2018/07/03.
@@ -68,7 +69,7 @@ public class FriendManager {
 				FriendManager.this.plugin.set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
 
 				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Name", player.getName());
-				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", "english");
+				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", FriendManager.this.plugin.getConfigManager().getConfig().getString("Plugin.Default-Language"));
 				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Prefix", "&7");
 				FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Friends", "[]");
 			}
@@ -138,7 +139,7 @@ public class FriendManager {
 
 			ProxiedPlayer player = this.getPlayer();
 			if(player != null) {
-				if(this.getPlayer().hasPermission("friends.limit." + this.getFriends().size())) {
+				if(this.getPlayer().hasPermission("friends.limit." + this.getFriends().size()) && !this.getPlayer().hasPermission(Permissions.ADMIN)) {
 					throw new FriendSlotLimitException();
 				}
 			}

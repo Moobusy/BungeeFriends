@@ -13,6 +13,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.simplyrin.bungeefriends.commands.FriendCommand;
 import net.simplyrin.bungeefriends.commands.ReplyCommand;
 import net.simplyrin.bungeefriends.commands.TellCommand;
+import net.simplyrin.bungeefriends.commands.alias.FLCommand;
 import net.simplyrin.bungeefriends.listeners.EventListener;
 import net.simplyrin.bungeefriends.utils.ConfigManager;
 import net.simplyrin.bungeefriends.utils.FriendManager;
@@ -60,7 +61,6 @@ public class Main extends Plugin {
 	@Getter
 	private MySQLManager mySQLManager;
 
-	// target -> from
 	@Getter
 	private Map<UUID, UUID> replyTargetMap;
 
@@ -88,6 +88,9 @@ public class Main extends Plugin {
 		}
 		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./r")) {
 			plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "r"));
+		}
+		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./fl")) {
+			plugin.getProxy().getPluginManager().registerCommand(plugin, new FLCommand(plugin));
 		}
 
 		plugin.getProxy().getPluginManager().registerListener(plugin, new EventListener(plugin));
