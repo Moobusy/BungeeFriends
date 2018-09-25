@@ -51,7 +51,7 @@ public class LanguageManager {
 			languageFolder.mkdir();
 		}
 
-		String[] langs = { "english", "japanese", "chinese" };
+		String[] langs = { "english", "japanese", "chinese", "arabic" };
 		for(String lang : langs) {
 			File languageFile = new File(languageFolder, lang + ".yml");
 			if(!languageFile.exists()) {
