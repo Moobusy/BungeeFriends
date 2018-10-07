@@ -214,14 +214,62 @@ public class FriendCommand extends Command {
 					}
 				}
 
+				List<String> all = new ArrayList<>();
+				all.addAll(online);
+				all.addAll(offline);
+
+				int page = 1;
+				if (args.length > 1) {
+					try {
+						page = Integer.valueOf(args[1]).intValue();
+					} catch (Exception e) {
+					}
+				}
+				int currentPage = page;
+
+				int onePage = 8;
+				page = page * onePage;
+
+				int min = page - (onePage - 1);
+				int max = page;
+
+				double ceil = (double) all.size() / onePage;
+				int maxPage = (int) Math.ceil(ceil) - 1;
+
+				if (currentPage > maxPage) {
+
+				}
+
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
+				this.plugin.info(player, "               " + langUtils.getString("List.Page").replace("%%currentPage%%", String.valueOf(currentPage).replace("%%maxPage%%", String.valueOf(maxPage))));
+
+				while (true) {
+					String printMessage;
+					try {
+						printMessage = all.get(min - 1);
+					} catch (Exception e) {
+						break;
+					}
+
+					this.plugin.info(player, printMessage);
+
+					if (min == max) {
+						break;
+					}
+
+					min++;
+				}
+
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
+
+				/** this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				for(String message : online) {
 					this.plugin.info(player, message);
 				}
 				for(String message : offline) {
 					this.plugin.info(player, message);
 				}
-				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN)); */
 				return;
 			}
 
@@ -243,7 +291,7 @@ public class FriendCommand extends Command {
 					Configuration langConfig = Config.getConfig(languageFile);
 					if(langConfig.getString("Language").length() > 1) {
 						availableList.add(languageFile.getName().toLowerCase().replace(".yml", ""));
-						available += langConfig.getString("Language") + ",";
+						available += langConfig.getString("Language") + ", ";
 					}
 				}
 
