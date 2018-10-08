@@ -6,55 +6,14 @@ Hypixel のフレンド機能の BungeeCord 用パクリプラグイン
 ハイピクセルサーバーのフレンドシステムを再現したプラグインです。
 
 
-# コマンド
-```
-メインコマンド:
-- /friend help - ヘルプメッセージを表示
-- /friend lang - 表示される言語を変更します
-- /friend add - プレーヤーをフレンドとして追加します *Alias: /p <player>
-- /friend remove - フレンドからプレイヤーを削除します
-- /friend accept - リクエストを承諾します
-- /friend deny - リクエストを拒否します
-- /friend list - フレンドリストを表示します
-```
-
-**管理者向けコマンド:**
-```
-- /friend force-add - プリエやーと強制的にフレンドになります
-- /friend prefix - プレイヤーのプレフィックスを変更します
-```
-
-
-# 権限
-```
-/friend <add,remove,accept,deny,list>: friends.command.main
-/friend <force-add,prefix>: friends.command.admin
-```
-
-
-# 同期可能プラグイン
-- [BungeeParties](https://www.spigotmc.org/resources/bungeeparties-hypixel-party-plugin.59297/)
-
-
-# テストサーバー
-- `s.rin.pink`
-
-
-# ふぉろーみー？
-- [Twitter (@SimplyFoxy_)](https://twitter.com/SimplyFoxy_) - 更新情報をつぶやきます
-
-- GitHub (SimplyRin/BungeeFriends)
-
-
-# 他言語フォーラム
-[Chinese (http://www.mcbbs.net)](http://www.mcbbs.net/thread-814106-1-1.html): LingKun により作成されました
-
-
 # 貢献者
 [LingKun](https://www.spigotmc.org/members/yubao.587341/): 中国語翻訳者
 
 [SiderRMC](https://www.spigotmc.org/members/siderrmc.527191/): 中国語翻訳者, YouTube ビデオ作成者
 
+[IbrahemAlobeidi](https://twitter.com/ibrahemalobeidi): アラビア語翻訳者
+
+[Septy](https://crowdin.com/profile/SeptyFTW): ルーマニア語翻訳者
 
 # YouTube ビデオ
 - [Recommending Two Useful BungeeCord Plugins! BungeeFriends & BungeeParties (Imitation of Hypixel)](https://youtu.be/RJvqWSwadDQ)
