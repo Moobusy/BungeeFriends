@@ -6,12 +6,13 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
-import net.simplyrin.config.Config;
+import net.simplyrin.bungeefriends.config.Config;
 
 /**
  * Created by SimplyRin on 2018/08/29.
@@ -88,7 +89,7 @@ public class LanguageManager {
 			Object lang = LanguageManager.this.plugin.getString("Player." + this.uuid.toString() + ".Language");
 			if(lang == null || lang.equals("")) {
 				LanguageManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", "english");
-				LanguageManager.this.configMap.put("english", Config.getConfig(this.getFile("english")));
+				LanguageManager.this.configMap.put("english", Config.getConfig(this.getFile("english"), Charsets.UTF_8));
 			}
 		}
 
@@ -109,7 +110,7 @@ public class LanguageManager {
 
 			if(config == null) {
 				File file = new File(this.getLanguagesFolder(), this.getLanguage().toLowerCase() + ".yml");
-				LanguageManager.this.configMap.put(this.getLanguage(), Config.getConfig(file));
+				LanguageManager.this.configMap.put(this.getLanguage(), Config.getConfig(file, Charsets.UTF_8));
 			}
 
 			config = LanguageManager.this.configMap.get(this.getLanguage());

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Charsets;
+
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -13,6 +15,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
+import net.simplyrin.bungeefriends.config.Config;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
 import net.simplyrin.bungeefriends.exceptions.FriendSlotLimitException;
@@ -24,7 +27,6 @@ import net.simplyrin.bungeefriends.messages.Permissions;
 import net.simplyrin.bungeefriends.utils.FriendManager.FriendUtils;
 import net.simplyrin.bungeefriends.utils.LanguageManager.LanguageUtils;
 import net.simplyrin.bungeefriends.utils.MessageBuilder;
-import net.simplyrin.config.Config;
 import net.simplyrin.threadpool.ThreadPool;
 
 /**
@@ -237,11 +239,11 @@ public class FriendCommand extends Command {
 				int maxPage = (int) Math.ceil(ceil) - 1;
 
 				if (currentPage > maxPage) {
-
+					maxPage = currentPage;
 				}
 
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
-				this.plugin.info(player, "               " + langUtils.getString("List.Page").replace("%%currentPage%%", String.valueOf(currentPage).replace("%%maxPage%%", String.valueOf(maxPage))));
+				this.plugin.info(player, "               " + langUtils.getString("List.Page").replace("%%currentPage%%", String.valueOf(currentPage)).replace("%%maxPage%%", String.valueOf(maxPage)));
 
 				while (true) {
 					String printMessage;
@@ -288,7 +290,7 @@ public class FriendCommand extends Command {
 				String available = "";
 				File[] languages = languageFolder.listFiles();
 				for(File languageFile : languages) {
-					Configuration langConfig = Config.getConfig(languageFile);
+					Configuration langConfig = Config.getConfig(languageFile, Charsets.UTF_8);
 					if(langConfig.getString("Language").length() > 1) {
 						availableList.add(languageFile.getName().toLowerCase().replace(".yml", ""));
 						available += langConfig.getString("Language") + ", ";

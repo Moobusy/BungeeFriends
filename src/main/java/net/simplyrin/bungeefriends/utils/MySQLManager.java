@@ -7,13 +7,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Charsets;
+
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
+import net.simplyrin.bungeefriends.config.Config;
 import net.simplyrin.bungeefriends.messages.Messages;
 import net.simplyrin.bungeefriends.tools.MySQL;
 import net.simplyrin.bungeefriends.tools.MySQL.Editor;
-import net.simplyrin.config.Config;
 import net.simplyrin.threadpool.ThreadPool;
 
 /**
@@ -85,7 +87,7 @@ public class MySQLManager {
 				e.printStackTrace();
 			}
 
-			this.config = Config.getConfig(file);
+			this.config = Config.getConfig(file, Charsets.UTF_8);
 			this.config.set("Enable", false);
 			this.config.set("DebugMode", false);
 			this.config.set("Username", "ROOT");
@@ -97,7 +99,7 @@ public class MySQLManager {
 			Config.saveConfig(this.config, file);
 		}
 
-		this.config = Config.getConfig(file);
+		this.config = Config.getConfig(file, Charsets.UTF_8);
 
 		this.debugMode = this.config.getBoolean("DebugMode");
 	}
@@ -158,7 +160,7 @@ public class MySQLManager {
 
 		File file = new File(folder, "config.yml");
 		if(file.exists()) {
-			Configuration config = Config.getConfig(file);
+			Configuration config = Config.getConfig(file, Charsets.UTF_8);
 			if(config.getBoolean("Plugin.AlreadyMigrated")) {
 				return;
 			}
@@ -196,7 +198,7 @@ public class MySQLManager {
 
 		file = new File(folder, "player.yml");
 		if(file.exists()) {
-			Configuration config = Config.getConfig(file);
+			Configuration config = Config.getConfig(file, Charsets.UTF_8);
 			if(config.getBoolean("Plugin.AlreadyMigrated")) {
 				return;
 			}

@@ -3,10 +3,12 @@ package net.simplyrin.bungeefriends.utils;
 import java.io.File;
 import java.io.IOException;
 
+import com.google.common.base.Charsets;
+
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
-import net.simplyrin.config.Config;
+import net.simplyrin.bungeefriends.config.Config;
 
 /**
  * Created by SimplyRin on 2018/09/04.
@@ -45,7 +47,7 @@ public class PrefixManager {
 		File config = new File(this.plugin.getDataFolder(), "prefix.yml");
 
 		Config.saveConfig(this.config, config);
-		this.config = Config.getConfig(config);
+		this.config = Config.getConfig(config, Charsets.UTF_8);
 	}
 
 	public void createConfig() {
@@ -62,7 +64,7 @@ public class PrefixManager {
 				e.printStackTrace();
 			}
 
-			this.config = Config.getConfig(prefix);
+			this.config = Config.getConfig(prefix, Charsets.UTF_8);
 
 			this.config.set("List.VIP.Prefix", "&a[VIP] ");
 			this.config.set("List.VIP.Permission", "friends.prefix.vip");
@@ -73,7 +75,7 @@ public class PrefixManager {
 			Config.saveConfig(this.config, prefix);
 		}
 
-		this.config = Config.getConfig(prefix);
+		this.config = Config.getConfig(prefix, Charsets.UTF_8);
 		this.saveAndReload();
 	}
 
