@@ -41,7 +41,7 @@ public class FLCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!(sender instanceof ProxiedPlayer)) {
+		if (!(sender instanceof ProxiedPlayer)) {
 			this.plugin.info(Messages.INGAME_ONLY);
 			return;
 		}
@@ -52,7 +52,7 @@ public class FLCommand extends Command {
 
 		List<String> list = myFriends.getFriends();
 
-		if(list.size() == 0) {
+		if (list.size() == 0) {
 			this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 			this.plugin.info(player, langUtils.getString("List.DontHave.One"));
 			this.plugin.info(player, langUtils.getString("List.DontHave.Two"));
@@ -67,7 +67,7 @@ public class FLCommand extends Command {
 			ProxiedPlayer target = this.plugin.getProxy().getPlayer(UUID.fromString(uuid));
 			FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(uuid));
 
-			if(target != null) {
+			if (target != null) {
 				online.add(langUtils.getString("List.Online").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%server", target.getServer().getInfo().getName()));
 			} else {
 				offline.add(langUtils.getString("List.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));

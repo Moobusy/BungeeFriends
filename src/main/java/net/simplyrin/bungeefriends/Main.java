@@ -44,8 +44,6 @@ import net.simplyrin.bungeeparties.utils.NameManager;
  */
 public class Main extends Plugin {
 
-	private static Main plugin;
-
 	@Getter
 	private ConfigManager configManager;
 	@Getter
@@ -68,118 +66,116 @@ public class Main extends Plugin {
 
 	@Override
 	public void onEnable() {
-		plugin = this;
+		this.configManager = new ConfigManager(this);
+		this.prefixManager = new PrefixManager(this);
+		this.playerManager = new PlayerManager(this);
+		this.friendManager = new FriendManager(this);
 
-		plugin.configManager = new ConfigManager(plugin);
-		plugin.prefixManager = new PrefixManager(plugin);
-		plugin.playerManager = new PlayerManager(plugin);
-		plugin.friendManager = new FriendManager(plugin);
+		this.mySQLManager = new MySQLManager(this);
 
-		plugin.mySQLManager = new MySQLManager(plugin);
+		this.languageManager = new LanguageManager(this);
 
-		plugin.languageManager = new LanguageManager(plugin);
+		this.getProxy().getPluginManager().registerCommand(this, new FriendCommand(this, "friend"));
+		this.getProxy().getPluginManager().registerCommand(this, new ReplyCommand(this, "reply"));
+		this.getProxy().getPluginManager().registerCommand(this, new TellCommand(this));
 
-		plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin, "friend"));
-		plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "reply"));
-		plugin.getProxy().getPluginManager().registerCommand(plugin, new TellCommand(plugin));
-
-		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./f")) {
-			plugin.getProxy().getPluginManager().registerCommand(plugin, new FriendCommand(plugin, "f"));
+		if (!this.configManager.getConfig().getBoolean("this.Disable-Aliases./f")) {
+			this.getProxy().getPluginManager().registerCommand(this, new FriendCommand(this, "f"));
 		}
-		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./r")) {
-			plugin.getProxy().getPluginManager().registerCommand(plugin, new ReplyCommand(plugin, "r"));
+		if (!this.configManager.getConfig().getBoolean("this.Disable-Aliases./r")) {
+			this.getProxy().getPluginManager().registerCommand(this, new ReplyCommand(this, "r"));
 		}
-		if(!plugin.configManager.getConfig().getBoolean("Plugin.Disable-Aliases./fl")) {
-			plugin.getProxy().getPluginManager().registerCommand(plugin, new FLCommand(plugin));
+		if (!this.configManager.getConfig().getBoolean("this.Disable-Aliases./fl")) {
+			this.getProxy().getPluginManager().registerCommand(this, new FLCommand(this));
 		}
 
-		plugin.getProxy().getPluginManager().registerListener(plugin, new EventListener(plugin));
+		this.getProxy().getPluginManager().registerListener(this, new EventListener(this));
 
-		plugin.replyTargetMap = new HashMap<>();
-		plugin.isEnabledMySQL = plugin.mySQLManager.getConfig().getBoolean("Enable");
+		this.replyTargetMap = new HashMap<>();
+		this.isEnabledMySQL = this.mySQLManager.getConfig().getBoolean("Enable");
 
-		if(plugin.getProxy().getPluginManager().getPlugin("BungeeParties") != null) {
-			NameManager.setBungeeFriendsInstance(plugin);
+		if (this.getProxy().getPluginManager().getPlugin("BungeeParties") != null) {
+			NameManager.setBungeeFriendsInstance(this);
 		}
 	}
 
 	@Override
 	public void onDisable() {
-		plugin.configManager.saveAndReload();
-		plugin.playerManager.saveAndReload();
+		this.configManager.saveAndReload();
+		this.playerManager.saveAndReload();
 
-		if(plugin.isEnabledMySQL) {
-			plugin.mySQLManager.getEditor().getMySQL().disconnect();
+		if (this.isEnabledMySQL) {
+			this.mySQLManager.getEditor().getMySQL().disconnect();
 		}
 	}
 
 	public String getPrefix() {
-		return plugin.configManager.getConfig().getString("Plugin.Prefix");
+		return this.configManager.getConfig().getString("this.Prefix");
 	}
 
 	public String getString(String key) {
-		if(plugin.isEnabledMySQL) {
-			return plugin.getMySQLManager().getEditor().get(key);
+		if (this.isEnabledMySQL) {
+			return this.getMySQLManager().getEditor().get(key);
 		}
-		return plugin.getConfigManager().getConfig().getString(key);
+		return this.getConfigManager().getConfig().getString(key);
 	}
 
 	public List<String> getStringList(String key) {
-		if(plugin.isEnabledMySQL) {
-			return plugin.getMySQLManager().getEditor().getList(key);
+		if (this.isEnabledMySQL) {
+			return this.getMySQLManager().getEditor().getList(key);
 		}
-		return plugin.getConfigManager().getConfig().getStringList(key);
+		return this.getConfigManager().getConfig().getStringList(key);
 	}
 
 	public void set(String key, List<String> list) {
-		if(plugin.isEnabledMySQL) {
-			plugin.getMySQLManager().getEditor().set(key, list);
+		if (this.isEnabledMySQL) {
+			this.getMySQLManager().getEditor().set(key, list);
 		} else {
-			plugin.getConfigManager().getConfig().set(key, list);
+			this.getConfigManager().getConfig().set(key, list);
 		}
 	}
 
 	public void set(String key, String value) {
-		if(plugin.isEnabledMySQL) {
-			plugin.getMySQLManager().getEditor().set(key, value);
+		if (this.isEnabledMySQL) {
+			this.getMySQLManager().getEditor().set(key, value);
 		} else {
-			plugin.getConfigManager().getConfig().set(key, value);
+			this.getConfigManager().getConfig().set(key, value);
 		}
 	}
 
 	public UUID getPlayerUniqueId(String name) {
 		UUID uuid = null;
 		try {
-			uuid = UUID.fromString(plugin.getString("Name." + name.toLowerCase()));
+			uuid = UUID.fromString(this.getString("Name." + name.toLowerCase()));
 		} catch (Exception e) {
 		}
 		return uuid;
 	}
 
 	public String getPlayerName(UUID uuid) {
-		return plugin.getString("UUID." + uuid.toString());
+		return this.getString("UUID." + uuid.toString());
 	}
 
 	@SuppressWarnings("deprecation")
 	public void info(String args) {
-		plugin.getProxy().getConsole().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPrefix() + args));
+		this.getProxy().getConsole().sendMessage(ChatColor.translateAlternateColorCodes('&', this.getPrefix() + args));
 	}
 
 	@SuppressWarnings("deprecation")
 	public void info(ProxiedPlayer player, String args) {
-		player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPrefix() + args));
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', this.getPrefix() + args));
 	}
 
 	@SuppressWarnings("deprecation")
 	public void info(UUID uuid, String args) {
 		ProxiedPlayer player = this.getProxy().getPlayer(uuid);
-		if(player != null) {
-			player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getPrefix() + args));
+		if (player != null) {
+			player.sendMessage(ChatColor.translateAlternateColorCodes('&', this.getPrefix() + args));
 		}
 	}
 
 	public void info(ProxiedPlayer player, TextComponent args) {
-		player.sendMessage(MessageBuilder.get(plugin.getPrefix()), args);
+		player.sendMessage(MessageBuilder.get(this.getPrefix()), args);
 	}
 
 }

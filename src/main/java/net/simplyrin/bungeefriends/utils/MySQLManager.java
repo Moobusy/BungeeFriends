@@ -58,7 +58,7 @@ public class MySQLManager {
 		this.plugin = plugin;
 
 		this.createConfig();
-		if(this.config.getBoolean("Enable")) {
+		if (this.config.getBoolean("Enable")) {
 
 			this.plugin.info("&c" + Messages.CONSOLE_HYPHEN);
 			this.plugin.info("");
@@ -75,12 +75,12 @@ public class MySQLManager {
 
 	public void createConfig() {
 		File folder = this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File file = new File(folder, "mysql.yml");
-		if(!file.exists()) {
+		if (!file.exists()) {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
@@ -124,7 +124,7 @@ public class MySQLManager {
 	}
 
 	public void autoReconnect() {
-		if(this.debugMode) {
+		if (this.debugMode) {
 			this.plugin.info("Reconnect in 30 minutes...");
 		}
 
@@ -134,19 +134,19 @@ public class MySQLManager {
 			e.printStackTrace();
 		}
 
-		if(this.debugMode) {
+		if (this.debugMode) {
 			this.plugin.info("Reconnecting...");
 		}
 		try {
 			this.editor = this.editor.getMySQL().reconnect();
 		} catch (SQLException e) {
-			if(this.debugMode) {
+			if (this.debugMode) {
 				this.plugin.info("Reconnection failed");
 			}
 			this.autoReconnect();
 			return;
 		}
-		if(this.debugMode) {
+		if (this.debugMode) {
 			this.plugin.info("Reconnection was successfully completed!");
 		}
 		this.autoReconnect();
@@ -154,26 +154,26 @@ public class MySQLManager {
 
 	public void migrate() {
 		File folder = this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File file = new File(folder, "config.yml");
-		if(file.exists()) {
+		if (file.exists()) {
 			Configuration config = Config.getConfig(file, Charsets.UTF_8);
-			if(config.getBoolean("Plugin.AlreadyMigrated")) {
+			if (config.getBoolean("Plugin.AlreadyMigrated")) {
 				return;
 			}
 
-			if(this.debugMode) {
+			if (this.debugMode) {
 				this.plugin.info("Migration from config file to MySQL is starting... (config.yml)");
 			}
 
 			this.editor.set("Plugin.Prefix", config.getString("Plugin.Prefix"));
 
 			Collection<String> player = config.getSection("Player").getKeys();
-			for(String value : player) {
-				if(this.debugMode) {
+			for (String value : player) {
+				if (this.debugMode) {
 					this.plugin.info("Migrating: " + value);
 				}
 				this.editor.set("Player." + value + ".Name", config.getString("Player." + value + ".Name"));
@@ -181,7 +181,7 @@ public class MySQLManager {
 				this.editor.set("Player." + value + ".Prefix", config.getString("Player." + value + ".Prefix"));
 				this.editor.set("Player." + value + ".Friends", config.getStringList("Player." + value + ".Friends"));
 				List<String> list = config.getStringList("Player." + value + ".Requests");
-				if(list.size() == 0) {
+				if (list.size() == 0) {
 					this.editor.set("Player." + value + ".Requests", "[]");
 				} else {
 					this.editor.set("Player." + value + ".Requests", config.getStringList("Player." + value + ".Requests"));
@@ -191,32 +191,32 @@ public class MySQLManager {
 			config.set("Plugin.AlreadyMigrated", true);
 			Config.saveConfig(config, file);
 
-			if(this.debugMode) {
+			if (this.debugMode) {
 				this.plugin.info("Migration successful! (config.yml)");
 			}
 		}
 
 		file = new File(folder, "player.yml");
-		if(file.exists()) {
+		if (file.exists()) {
 			Configuration config = Config.getConfig(file, Charsets.UTF_8);
-			if(config.getBoolean("Plugin.AlreadyMigrated")) {
+			if (config.getBoolean("Plugin.AlreadyMigrated")) {
 				return;
 			}
 
-			if(this.debugMode) {
+			if (this.debugMode) {
 				this.plugin.info("Migration from config file to MySQL is starting... (player.yml)");
 			}
 
 			Collection<String> collection = config.getSection("UUID").getKeys();
-			for(String value : collection) {
-				if(this.debugMode) {
+			for (String value : collection) {
+				if (this.debugMode) {
 					this.plugin.info("Migrating: " + value);
 				}
 				this.editor.set("UUID." + value, config.getString("UUID." + value));
 			}
 			collection = config.getSection("Name").getKeys();
-			for(String value : collection) {
-				if(this.debugMode) {
+			for (String value : collection) {
+				if (this.debugMode) {
 					this.plugin.info("Migrating: " + value);
 				}
 				this.editor.set("Name." + value, config.getString("Name." + value));
@@ -225,7 +225,7 @@ public class MySQLManager {
 			config.set("Plugin.AlreadyMigrated", true);
 			Config.saveConfig(config, file);
 
-			if(this.debugMode) {
+			if (this.debugMode) {
 				this.plugin.info("Migration successful! (player.yml)");
 			}
 		}

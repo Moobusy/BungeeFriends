@@ -52,12 +52,12 @@ public class PrefixManager {
 
 	public void createConfig() {
 		File folder = this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File prefix = new File(folder, "prefix.yml");
-		if(!prefix.exists()) {
+		if (!prefix.exists()) {
 			try {
 				prefix.createNewFile();
 			} catch (IOException e) {

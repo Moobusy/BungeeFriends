@@ -33,13 +33,13 @@ public class MessageBuilder {
 	public static TextComponent get(String message, String command, ChatColor color, String hover, boolean bold) {
 		TextComponent textComponent = new TextComponent(ChatColor.translateAlternateColorCodes('&', message));
 
-		if(command != null) {
+		if (command != null) {
 			textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
 		}
-		if(hover != null) {
+		if (hover != null) {
 			textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.translateAlternateColorCodes('&', hover)).create()));
 		}
-		if(color != null) {
+		if (color != null) {
 			textComponent.setColor(color);
 		}
 

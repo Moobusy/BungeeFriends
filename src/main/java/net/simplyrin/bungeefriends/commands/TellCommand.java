@@ -40,7 +40,7 @@ public class TellCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!(sender instanceof ProxiedPlayer)) {
+		if (!(sender instanceof ProxiedPlayer)) {
 			this.plugin.info(Messages.INGAME_ONLY);
 			return;
 		}
@@ -49,9 +49,9 @@ public class TellCommand extends Command {
 		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
 		LanguageUtils langUtils = this.plugin.getLanguageManager().getPlayer(player);
 
-		if(args.length > 0) {
+		if (args.length > 0) {
 			UUID target = this.plugin.getPlayerUniqueId(args[0]);
-			if(target == null) {
+			if (target == null) {
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[0]));
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -60,23 +60,23 @@ public class TellCommand extends Command {
 			FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
 			LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(target);
 
-			if(!(myFriends.isFriend(targetFriends.getUniqueId()) || player.hasPermission(Permissions.ADMIN))) {
+			if (!(myFriends.isFriend(targetFriends.getUniqueId()) || player.hasPermission(Permissions.ADMIN))) {
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Tell-Command.MustBeFriends").replace("%targetDisplayName", targetFriends.getDisplayName()));
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				return;
 			}
 
-			if(targetFriends.getPlayer() == null) {
+			if (targetFriends.getPlayer() == null) {
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Tell-Command.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				return;
 			}
 
-			if(args.length > 1) {
+			if (args.length > 1) {
 				String message = "";
-				for(int i = 1; i < args.length; i++) {
+				for (int i = 1; i < args.length; i++) {
 					message = message + args[i] + " ";
 				}
 

@@ -39,7 +39,7 @@ public class ReplyCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!(sender instanceof ProxiedPlayer)) {
+		if (!(sender instanceof ProxiedPlayer)) {
 			this.plugin.info(Messages.INGAME_ONLY);
 			return;
 		}
@@ -50,11 +50,11 @@ public class ReplyCommand extends Command {
 
 		UUID targetUniqueId = this.plugin.getReplyTargetMap().get(myFriends.getUniqueId());
 
-		if(args.length > 0) {
+		if (args.length > 0) {
 			FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(targetUniqueId);
 			LanguageUtils targetLangUtils = this.plugin.getLanguageManager().getPlayer(targetUniqueId);
 
-			if(targetFriends.getPlayer() == null) {
+			if (targetFriends.getPlayer() == null) {
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 				this.plugin.info(player, langUtils.getString("Tell-Command.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -62,7 +62,7 @@ public class ReplyCommand extends Command {
 			}
 
 			String message = "";
-			for(int i = 0; i < args.length; i++) {
+			for (int i = 0; i < args.length; i++) {
 				message = message + args[i] + " ";
 			}
 
@@ -74,7 +74,7 @@ public class ReplyCommand extends Command {
 		}
 
 		this.plugin.info(player, langUtils.getString("Reply-Command.Usage"));
-		if(targetUniqueId != null) {
+		if (targetUniqueId != null) {
 			FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(targetUniqueId);
 			this.plugin.info(player, langUtils.getString("Reply-Command.Target").replace("%targetDisplayName", targetFriends.getDisplayName()));
 		} else {

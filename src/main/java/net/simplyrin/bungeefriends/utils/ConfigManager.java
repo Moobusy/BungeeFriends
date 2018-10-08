@@ -54,12 +54,12 @@ public class ConfigManager {
 
 	public void createConfig() {
 		File folder = this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File config = new File(folder, "config.yml");
-		if(!config.exists()) {
+		if (!config.exists()) {
 			try {
 				config.createNewFile();
 			} catch (IOException e) {
@@ -96,7 +96,7 @@ public class ConfigManager {
 		this.resetValue("Plugin.Disable-Aliases./r");
 		this.resetValue("Plugin.Disable-Aliases./fl");
 
-		if(this.config.getString("Plugin.Default-Language").equals("")) {
+		if (this.config.getString("Plugin.Default-Language").equals("")) {
 			this.config.set("Plugin.Default-Language", "english");
 		}
 
@@ -104,7 +104,7 @@ public class ConfigManager {
 	}
 
 	public void resetValue(String key) {
-		if(!this.config.getBoolean(key)) {
+		if (!this.config.getBoolean(key)) {
 			this.config.set(key, false);
 		}
 	}

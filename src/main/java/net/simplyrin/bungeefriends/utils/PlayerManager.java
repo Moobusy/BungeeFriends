@@ -67,12 +67,12 @@ public class PlayerManager implements Listener {
 
 	public void createConfig() {
 		File folder = this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File config = new File(folder, "player.yml");
-		if(!config.exists()) {
+		if (!config.exists()) {
 			try {
 				config.createNewFile();
 			} catch (IOException e) {
