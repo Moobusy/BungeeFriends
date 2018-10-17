@@ -119,11 +119,11 @@ public class MySQL {
 		}
 
 		public boolean set(String key, List<String> list) {
-			if(list.size() == 0) {
+			if (list.size() == 0) {
 				return this.set(key, "[]");
 			}
 			String object = "";
-			for(String content : list) {
+			for (String content : list) {
 				object += content + ",&%$%&,";
 			}
 			object = object.substring(0, object.length() - ",&%$%&,".length());
@@ -133,7 +133,7 @@ public class MySQL {
 		public boolean set(String key, String object) {
 			int result = 0;
 
-			if(object == null) {
+			if (object == null) {
 				try {
 					this.statement.executeUpdate("delete from " + this.table + " where _key = '" + key + "';");
 				} catch (SQLException e) {
@@ -147,14 +147,14 @@ public class MySQL {
 				return false;
 			}
 
-			if(result == 0) {
+			if (result == 0) {
 				try {
 					result = this.statement.executeUpdate("insert into " + this.table + " values ('" + key + "', '" + object + "');");
 				} catch (SQLException e) {
 					e.printStackTrace();
 					return false;
 				}
-				if(result == 1) {
+				if (result == 1) {
 					return true;
 				}
 			}
@@ -167,9 +167,9 @@ public class MySQL {
 			try {
 				resultSet = this.statement.executeQuery("select * from " + this.table + ";");
 				while(resultSet.next()) {
-					if(resultSet.getString("_key").equals(key)) {
+					if (resultSet.getString("_key").equals(key)) {
 						String value = resultSet.getString("value");
-						if(value.equals("null")) {
+						if (value.equals("null")) {
 							return null;
 						}
 						return resultSet.getString("value");
@@ -182,12 +182,12 @@ public class MySQL {
 
 		public List<String> getList(String key) {
 			String value = this.get(key);
-			if(value == null || value.equals("[]")) {
+			if (value == null || value.equals("[]")) {
 				return new ArrayList<>();
 			}
 			String[] result = value.split(Pattern.quote(",&%$%&,"));
 			List<String> list = new ArrayList<>();
-			for(String content : result) {
+			for (String content : result) {
 				list.add(content);
 			}
 			return list;

@@ -3,117 +3,99 @@
 # Language: Chinese
 #
 Language: Chinese
-
-Ingame_Only: "&c\u8be5\u6307\u4ee4\u4ec5\u5728\u6e38\u620f\u4e2d\u53ef\u7528!"
-No_Permission: "&c\u4f60\u6ca1\u6709\u6743\u9650\u4f7f\u7528\u8be5\u6307\u4ee4!"
+Ingame_Only: "&c该指令仅在游戏中可用!"
+No_Permission: "&c你没有权限使用该指令!"
 Hyphen: "&9&m---------------------------------------------"
-
-# Exceptions
 Exceptions:
-  AlreadySent: "&c\u4f60\u5df2\u7ecf\u5411\u8fd9\u4f4d\u73a9\u5bb6\u9001\u51fa\u4e86\u597d\u53cb\u8bf7\u6c42!"
-  AlreadyFriend: "&c\u4f60\u4e0e\u8fd9\u4f4d\u73a9\u5bb6\u5df2\u7ecf\u6210\u4e3a\u597d\u53cb!"
-  Ignored: "&c\u90a3\u4f4d\u73a9\u5bb6\u5df2\u5c06\u4f60\u7f6e\u5165\u4ed6\u4eec\u7684\u5c4f\u853d\u5217\u8868\u4e2d!"
-  IsntOnYourFriends: "&c%targetDisplayName &c\u4e0d\u5728\u4f60\u7684\u597d\u53cb\u5217\u8868\u4e2d!"
-  CantAddYourSelf: "&c\u4f60\u4e0d\u80fd\u6dfb\u52a0\u81ea\u5df1\u4e3a\u597d\u53cb!"
-  CantRemoveYourself: "&c\u4f60\u4e0d\u80fd\u79fb\u9664\u81ea\u5df1!"
-  NoInvited: "&c\u90a3\u4f4d\u73a9\u5bb6\u6ca1\u6709\u5411\u4f60\u53d1\u9001\u597d\u53cb\u8bf7\u6c42! \u8bf7\u4f7f\u7528 &e/friend add %name &c\u6dfb\u52a0\u597d\u53cb!"
-  HasntFriend: "&c\u90a3\u4f4d\u73a9\u5bb6\u6ca1\u6709\u5411\u4f60\u53d1\u9001\u597d\u53cb\u8bf7\u6c42! \u8bf7\u4f7f\u7528 &e/friend add %name &c\u6dfb\u52a0\u597d\u53cb!"
-  SlotLimitReached: "&c\u597d\u53cb\u6570\u91cf\u5df2\u8fbe\u4e0a\u9650! \u8bf7\u5148\u5220\u9664\u4e00\u4e9b\u518d\u7ee7\u7eed\u6dfb\u52a0!"
-
-# Commands
-No-Joined-The-Party: "&c\u4f60\u5fc5\u987b\u5728\u7ec4\u961f\u4e2d\u624d\u80fd\u4f7f\u7528\u8be5\u6307\u4ee4!"
-Cant-Find: "&c\u65e0\u6cd5\u627e\u5230\u540d\u4e3a '%name' &c\u7684\u73a9\u5bb6!"
-
+  AlreadySent: "&c你已经向这位玩家送出了好友请求!"
+  AlreadyFriend: "&c你与这位玩家已经成为好友!"
+  Ignored: "&c那位玩家已将你置入他们的屏蔽列表中!"
+  IsntOnYourFriends: "&c%targetDisplayName &c不在你的好友列表中!"
+  CantAddYourSelf: "&c你不能添加自己为好友!"
+  CantRemoveYourself: "&c你不能移除自己!"
+  NoInvited: "&c那位玩家没有向你发送好友请求! 请使用 &e/friend add %name &c添加好友!"
+  HasntFriend: "&c那位玩家没有向你发送好友请求! 请使用 &e/friend add %name &c添加好友!"
+  SlotLimitReached: "&c好友数量已达上限! 请先删除一些再继续添加!"
+No-Joined-The-Party: "&c你必须在组队中才能使用该指令!"
+Cant-Find: "&c无法找到名为 '%name' &c的玩家!"
 Add:
-  Usage: "&c\u7528\u6cd5: /friend add <\u73a9\u5bb6>"
-  Sent: "&e\u4f60\u5411 %targetDisplayName &e\u53d1\u51fa\u4e86\u597d\u53cb\u8bf7\u6c42!"
-  5-Minutes: "&e\u4ed6\u4eec\u67095\u5206\u949f\u63a5\u53d7\u8bf7\u6c42!"
+  Usage: "&c用法: /friend add <玩家>"
+  Sent: "&e你向 %targetDisplayName &e发出了好友请求!"
+  5-Minutes: "&e他们有5分钟接受请求!"
   Accept:
-    Prefix: "&a&l[\u63a5\u53d7]&r"
-    Message: "&b\u70b9\u51fb\u63a5\u53d7\u597d\u53cb\u8bf7\u6c42"
+    Prefix: "&a&l[接受]&r"
+    Message: "&b点击接受好友请求"
   Deny:
-    Prefix: "&c&l[\u62d2\u7edd]&r"
-    Message: "&b\u70b9\u51fb\u62d2\u7edd\u597d\u53cb\u8bf7\u6c42"
+    Prefix: "&c&l[拒绝]&r"
+    Message: "&b点击拒绝好友请求"
   Ignore:
-    Prefix: "&7&l[\u5ffd\u7565]"
-    Message: "&b\u70b9\u51fb\u5c4f\u853d\u5c06\u6765\u6240\u6709\u6765\u81ea\u8be5\u73a9\u5bb6\u7684\u597d\u53cb\u8bf7\u6c42"
+    Prefix: "&7&l[忽略]"
+    Message: "&b点击屏蔽将来所有来自该玩家的好友请求"
   Request:
-    Received: "&e\u6765\u81ea %displayName &e\u7684\u597d\u53cb\u8bf7\u6c42!"
+    Received: "&e来自 %displayName &e的好友请求!"
   Expired:
-    YourSelf: "&e\u5411 %targetDisplayName &e\u53d1\u51fa\u7684\u597d\u53cb\u8bf7\u6c42\u5df2\u5931\u6548."
-    Target: "&e\u6765\u81ea %displayName &e\u7684\u597d\u53cb\u8bf7\u6c42\u5df2\u5931\u6548."
-
+    YourSelf: "&e向 %targetDisplayName &e发出的好友请求已失效."
+    Target: "&e来自 %displayName &e的好友请求已失效."
 Remove:
-  Usage: "&c\u7528\u6cd5: /friend remove <\u73a9\u5bb6>"
-  YourSelf: "&e\u4f60\u4ece\u597d\u53cb\u5217\u8868\u4e2d\u79fb\u9664\u4e86 %targetDisplayName&e!"
-  Target: "&e%displayName &e\u4ece\u4ed6\u4eec\u7684\u597d\u53cb\u5217\u8868\u4e2d\u79fb\u9664\u4e86\u4f60!"
-
+  Usage: "&c用法: /friend remove <玩家>"
+  YourSelf: "&e你从好友列表中移除了 %targetDisplayName&e!"
+  Target: "&e%displayName &e从他们的好友列表中移除了你!"
 Accept:
-  Usage: "&c\u7528\u6cd5: /friend accept <\u73a9\u5bb6>"
-  YourSelf: "&a\u4f60\u73b0\u5728\u4e0e %targetDisplayName &a\u6210\u4e3a\u4e86\u597d\u53cb"
-  Target: "&a\u4f60\u73b0\u5728\u4e0e %displayName &a\u6210\u4e3a\u4e86\u597d\u53cb"
-
+  Usage: "&c用法: /friend accept <玩家>"
+  YourSelf: "&a你现在与 %targetDisplayName &a成为了好友"
+  Target: "&a你现在与 %displayName &a成为了好友"
 Deny:
-  Usage: "&c\u7528\u6cd5: /friend deny <\u73a9\u5bb6>"
-  Declined: "&e\u4f60\u62d2\u7edd\u4e86 %targetDisplayName &e\u7684\u597d\u53cb\u8bf7\u6c42!"
-
+  Usage: "&c用法: /friend deny <玩家>"
+  Declined: "&e你拒绝了 %targetDisplayName &e的好友请求!"
 List:
   DontHave:
-    One: "&e\u4f60\u8fd8\u6ca1\u6709\u4efb\u4f55\u597d\u53cb!"
-    Two: "&e\u4f7f\u7528 /friend add <\u73a9\u5bb6> \u6dfb\u52a0\u4e00\u4e9b\u597d\u53cb"
-  Online: "&e%targetDisplayName &e\u76ee\u524d\u5728 %server \u670d\u52a1\u5668\u4e2d"
-  Offline: "&e%targetDisplayName &c\u5f53\u524d\u79bb\u7ebf"
-
+    One: "&e你还没有任何好友!"
+    Two: "&e使用 /friend add <玩家> 添加一些好友"
+  Online: "&e%targetDisplayName &e目前在 %server 服务器中"
+  Offline: "&e%targetDisplayName &c当前离线"
+  Page: "&6Friends (Page %%currentPage%% of %%maxPage%%)"
 Lang:
-  Usage: "&c\u7528\u6cd5: '/friend lang <\u8bed\u8a00>'"
-  Available: "&b\u53ef\u7528\u8bed\u8a00:"
-  Update: "&a\u5f53\u524d\u8bed\u8a00: &e%lang"
-  
+  Usage: "&c用法: '/friend lang <语言>'"
+  Available: "&b可用语言:"
+  Update: "&a当前语言: &e%lang"
 Ignore:
   Usage:
-    Main: "&c\u7528\u6cd5: '/friend ignore <add|remove|list>'"
-    Add: "&c\u7528\u6cd5: '/friend ignore add <\u73a9\u5bb6>'"
-    Remove: "&c\u7528\u6cd5: '/friend ignore add <\u73a9\u5bb6>'"
+    Main: "&c用法: '/friend ignore <add|remove|list>'"
+    Add: "&c用法: '/friend ignore add <玩家>'"
+    Remove: "&c用法: '/friend ignore add <玩家>'"
   Havent:
-    One: "&e\u4f60\u8fd8\u6ca1\u6709\u5c4f\u853d\u4efb\u4f55\u73a9\u5bb6!"
-    Two: "&e\u4f7f\u7528 /ignore add <\u73a9\u5bb6> \u5c4f\u853d\u73a9\u5bb6"
-  Added: "&a\u5df2\u5c06 %targetDisplayName &a\u52a0\u5165\u5230\u4f60\u7684\u5c4f\u853d\u5217\u8868."
-  AlreadyAdded: "&c\u4f60\u5df2\u7ecf\u5c4f\u853d\u90a3\u4f4d\u73a9\u5bb6\u4e86! \u4f7f\u7528 &b/ignore remove Player &c\u53d6\u6d88\u5c4f\u853d!"
-  Removed: "&a\u5df2\u5c06 %targetDisplayName &a\u4ece\u4f60\u7684\u5c4f\u853d\u5217\u8868\u79fb\u9664."
-  NotAdded: "&c\u4f60\u6ca1\u6709\u5728\u5c4f\u853d\u90a3\u4f4d\u73a9\u5bb6! \u4f7f\u7528 &b/ignore add Player &c\u5c4f\u853d\u73a9\u5bb6!"
-
+    One: "&e你还没有屏蔽任何玩家!"
+    Two: "&e使用 /ignore add <玩家> 屏蔽玩家"
+  Added: "&a已将 %targetDisplayName &a加入到你的屏蔽列表."
+  AlreadyAdded: "&c你已经屏蔽那位玩家了! 使用 &b/ignore remove Player &c取消屏蔽!"
+  Removed: "&a已将 %targetDisplayName &a从你的屏蔽列表移除."
+  NotAdded: "&c你没有在屏蔽那位玩家! 使用 &b/ignore add Player &c屏蔽玩家!"
 Force-Add:
-  Usage: "&c\u7528\u6cd5: /friend force-add <\u73a9\u5bb6>"
-  YourSelf: "&a\u4f60\u73b0\u5728\u4e0e %targetDisplayName &a\u6210\u4e3a\u4e86\u597d\u53cb &c&l[\u5f3a\u5236\u6dfb\u52a0]"
-  Target: "&a\u4f60\u73b0\u5728\u4e0e %targetDisplayName &a\u6210\u4e3a\u4e86\u597d\u53cb &c&l[\u5f3a\u5236\u6dfb\u52a0]"
-
+  Usage: "&c用法: /friend force-add <玩家>"
+  YourSelf: "&a你现在与 %targetDisplayName &a成为了好友 &c&l[强制添加]"
+  Target: "&a你现在与 %targetDisplayName &a成为了好友 &c&l[强制添加]"
 Prefix:
-  Usage: "&c\u7528\u6cd5: /friend prefix <\u73a9\u5bb6> <\u524d\u7f00>"
-  Current: "&7%targetDisplayName &e\u76ee\u524d\u7684\u524d\u7f00\u662f '%prefix&e'"
-  To: "&7%targetDisplayName &e\u7684\u524d\u7f00\u5df2\u88ab\u66f4\u6539\u4e3a '%prefix&e'"
-
+  Usage: "&c用法: /friend prefix <玩家> <前缀>"
+  Current: "&7%targetDisplayName &e目前的前缀是 '%prefix&e'"
+  To: "&7%targetDisplayName &e的前缀已被更改为 '%prefix&e'"
 Help:
-  Command: "&e\u597d\u53cb\u6307\u4ee4:"
-  Help: "&e/friend help &7- &b\u663e\u793a\u6b64\u5e2e\u52a9"
-  Lang: "&e/friend lang <\u8bed\u8a00> &7- &b\u66f4\u6539\u663e\u793a\u8bed\u8a00"
-  Add: "&e/friend add <\u73a9\u5bb6> &7- &b\u6dfb\u52a0\u73a9\u5bb6\u4e3a\u597d\u53cb"
-  Remove: "&e/friend remove <\u73a9\u5bb6> &7- &b\u4ece\u597d\u53cb\u5217\u8868\u4e2d\u79fb\u9664\u73a9\u5bb6"
-  Accept: "&e/friend accept <\u73a9\u5bb6> &7- &b\u63a5\u53d7\u597d\u53cb\u8bf7\u6c42"
-  Deny: "&e/friend deny <\u73a9\u5bb6> &7- &b\u62d2\u7edd\u597d\u53cb\u8bf7\u6c42"
-  List: "&e/friend list &7- &b\u5217\u51fa\u4f60\u7684\u597d\u53cb"
-  Ignore: "&e/friend ignore &7- &b\u7ba1\u7406\u5c4f\u853d\u5217\u8868"
-  Force-Add: "&e/friend force-add <\u73a9\u5bb6> &7- &b\u5f3a\u5236\u6dfb\u52a0\u73a9\u5bb6\u4e3a\u597d\u53cb"
-  Prefix: "&e/friend prefix <\u73a9\u5bb6> <\u524d\u7f00> &7- &b\u8bbe\u7f6e\u73a9\u5bb6\u7684\u524d\u7f00"
-
-# Tell Command
+  Command: "&e好友指令:"
+  Help: "&e/friend help &7- &b显示此帮助"
+  Lang: "&e/friend lang <语言> &7- &b更改显示语言"
+  Add: "&e/friend add <玩家> &7- &b添加玩家为好友"
+  Remove: "&e/friend remove <玩家> &7- &b从好友列表中移除玩家"
+  Accept: "&e/friend accept <玩家> &7- &b接受好友请求"
+  Deny: "&e/friend deny <玩家> &7- &b拒绝好友请求"
+  List: "&e/friend list &7- &b列出你的好友"
+  Ignore: "&e/friend ignore &7- &b管理屏蔽列表"
+  Force-Add: "&e/friend force-add <玩家> &7- &b强制添加玩家为好友"
+  Prefix: "&e/friend prefix <玩家> <前缀> &7- &b设置玩家的前缀"
 Tell-Command:
-  Usage: "&c\u7528\u6cd5: /tell <\u73a9\u5bb6> <\u6d88\u606f>"
-  YourSelf: "&d\u53d1\u81f3: %targetDisplayName&7: %message"
-  Target: "&d\u6765\u81ea: %displayName&7: %message"
-  MustBeFriends: "&c\u4f60\u4e0e %targetDisplayName &c\u5fc5\u987b\u5148\u6210\u4e3a\u597d\u53cb!"
-  Offline: "&c%targetDisplayName &c\u5f53\u524d\u79bb\u7ebf!"
-
-# Reply Command
+  Usage: "&c用法: /tell <玩家> <消息>"
+  YourSelf: "&d发至: %targetDisplayName&7: %message"
+  Target: "&d来自: %displayName&7: %message"
+  MustBeFriends: "&c你与 %targetDisplayName &c必须先成为好友!"
+  Offline: "&c%targetDisplayName &c当前离线!"
 Reply-Command:
-  Usage: "&c\u7528\u6cd5: /reply <\u6d88\u606f>"
-  Target: "&c\u56de\u590d\u76ee\u6807: %targetDisplayName"
+  Usage: "&c用法: /reply <消息>"
+  Target: "&c回复目标: %targetDisplayName"

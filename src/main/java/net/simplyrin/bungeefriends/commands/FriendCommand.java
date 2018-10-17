@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Charsets;
+
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -13,6 +15,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
+import net.simplyrin.bungeefriends.config.Config;
 import net.simplyrin.bungeefriends.exceptions.AlreadyAddedException;
 import net.simplyrin.bungeefriends.exceptions.FailedAddingException;
 import net.simplyrin.bungeefriends.exceptions.FriendSlotLimitException;
@@ -24,7 +27,6 @@ import net.simplyrin.bungeefriends.messages.Permissions;
 import net.simplyrin.bungeefriends.utils.FriendManager.FriendUtils;
 import net.simplyrin.bungeefriends.utils.LanguageManager.LanguageUtils;
 import net.simplyrin.bungeefriends.utils.MessageBuilder;
-import net.simplyrin.config.Config;
 import net.simplyrin.threadpool.ThreadPool;
 
 /**
@@ -56,7 +58,7 @@ public class FriendCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if(!(sender instanceof ProxiedPlayer)) {
+		if (!(sender instanceof ProxiedPlayer)) {
 			this.plugin.info(Messages.INGAME_ONLY);
 			return;
 		}
@@ -65,14 +67,14 @@ public class FriendCommand extends Command {
 		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
 		LanguageUtils langUtils = this.plugin.getLanguageManager().getPlayer(player);
 
-		if(!player.hasPermission(Permissions.MAIN)) {
+		if (!player.hasPermission(Permissions.MAIN)) {
 			this.plugin.info(player, langUtils.getString(Messages.NO_PERMISSION));
 			return;
 		}
 
-		if(args.length > 0) {
-			if(args[0].equalsIgnoreCase("add")) {
-				if(args.length > 1) {
+		if (args.length > 0) {
+			if (args[0].equalsIgnoreCase("add")) {
+				if (args.length > 1) {
 					this.add(player, myFriends, langUtils, args[1]);
 					return;
 				}
@@ -80,10 +82,10 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("remove")) {
-				if(args.length > 1) {
+			if (args[0].equalsIgnoreCase("remove")) {
+				if (args.length > 1) {
 					UUID target = this.plugin.getPlayerUniqueId(args[1]);
-					if(target == null) {
+					if (target == null) {
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -118,10 +120,10 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("accept")) {
-				if(args.length > 1) {
+			if (args[0].equalsIgnoreCase("accept")) {
+				if (args.length > 1) {
 					UUID target = this.plugin.getPlayerUniqueId(args[1]);
-					if(target == null) {
+					if (target == null) {
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -160,10 +162,10 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("deny")) {
-				if(args.length > 1) {
+			if (args[0].equalsIgnoreCase("deny")) {
+				if (args.length > 1) {
 					UUID target = this.plugin.getPlayerUniqueId(args[1]);
-					if(target == null) {
+					if (target == null) {
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -189,10 +191,10 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("list")) {
+			if (args[0].equalsIgnoreCase("list")) {
 				List<String> list = myFriends.getFriends();
 
-				if(list.size() == 0) {
+				if (list.size() == 0) {
 					this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 					this.plugin.info(player, langUtils.getString("List.DontHave.One"));
 					this.plugin.info(player, langUtils.getString("List.DontHave.Two"));
@@ -203,53 +205,101 @@ public class FriendCommand extends Command {
 				List<String> online = new ArrayList<>();
 				List<String> offline = new ArrayList<>();
 
-				for(String uuid : list) {
+				for (String uuid : list) {
 					ProxiedPlayer target = this.plugin.getProxy().getPlayer(UUID.fromString(uuid));
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(uuid));
 
-					if(target != null) {
+					if (target != null) {
 						online.add(langUtils.getString("List.Online").replace("%targetDisplayName", targetFriends.getDisplayName()).replace("%server", target.getServer().getInfo().getName()));
 					} else {
 						offline.add(langUtils.getString("List.Offline").replace("%targetDisplayName", targetFriends.getDisplayName()));
 					}
 				}
 
+				List<String> all = new ArrayList<>();
+				all.addAll(online);
+				all.addAll(offline);
+
+				int page = 1;
+				if (args.length > 1) {
+					try {
+						page = Integer.valueOf(args[1]).intValue();
+					} catch (Exception e) {
+					}
+				}
+				int currentPage = page;
+
+				int onePage = 8;
+				page = page * onePage;
+
+				int min = page - (onePage - 1);
+				int max = page;
+
+				double ceil = (double) all.size() / onePage;
+				int maxPage = (int) Math.ceil(ceil) - 1;
+
+				if (currentPage > maxPage) {
+					maxPage = currentPage;
+				}
+
 				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
-				for(String message : online) {
+				this.plugin.info(player, "               " + langUtils.getString("List.Page").replace("%%currentPage%%", String.valueOf(currentPage)).replace("%%maxPage%%", String.valueOf(maxPage)));
+
+				while (true) {
+					String printMessage;
+					try {
+						printMessage = all.get(min - 1);
+					} catch (Exception e) {
+						break;
+					}
+
+					this.plugin.info(player, printMessage);
+
+					if (min == max) {
+						break;
+					}
+
+					min++;
+				}
+
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
+
+				/** this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
+				for (String message : online) {
 					this.plugin.info(player, message);
 				}
-				for(String message : offline) {
+				for (String message : offline) {
 					this.plugin.info(player, message);
 				}
-				this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
+				this.plugin.info(player, langUtils.getString(Messages.HYPHEN)); */
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("lang") || args[0].equalsIgnoreCase("language")) {
+			if (args[0].equalsIgnoreCase("lang") || args[0].equalsIgnoreCase("language")) {
 				File folder = this.plugin.getDataFolder();
-				if(!folder.exists()) {
+				if (!folder.exists()) {
 					folder.mkdir();
 				}
 
 				File languageFolder = new File(folder, "Language");
-				if(!languageFolder.exists()) {
+				if (!languageFolder.exists()) {
 					languageFolder.mkdir();
 				}
 
 				List<String> availableList = new ArrayList<>();
 				String available = "";
 				File[] languages = languageFolder.listFiles();
-				for(File languageFile : languages) {
-					Configuration langConfig = Config.getConfig(languageFile);
-					if(langConfig.getString("Language").length() > 1) {
+				for (File languageFile : languages) {
+					Configuration langConfig = Config.getConfig(languageFile, Charsets.UTF_8);
+					if (langConfig.getString("Language").length() > 1) {
 						availableList.add(languageFile.getName().toLowerCase().replace(".yml", ""));
-						available += langConfig.getString("Language") + ",";
+						available += langConfig.getString("Language") + ", ";
 					}
 				}
 
-				if(args.length > 1) {
+				if (args.length > 1) {
 					String lang = args[1];
-					if(availableList.contains(lang.toLowerCase())) {
+					if (availableList.contains(lang.toLowerCase())) {
 						langUtils.setLanguage(lang.toLowerCase());
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						this.plugin.info(player, langUtils.getString("Lang.Update").replace("%lang", langUtils.getLanguage()));
@@ -265,12 +315,12 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("ignore")) {
-				if(args.length > 1) {
-					if(args[1].equalsIgnoreCase("add")) {
-						if(args.length > 2) {
+			if (args[0].equalsIgnoreCase("ignore")) {
+				if (args.length > 1) {
+					if (args[1].equalsIgnoreCase("add")) {
+						if (args.length > 2) {
 							UUID target = this.plugin.getPlayerUniqueId(args[2]);
-							if(target == null) {
+							if (target == null) {
 								this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 								this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[2]));
 								this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -297,10 +347,10 @@ public class FriendCommand extends Command {
 						return;
 					}
 
-					if(args[1].equalsIgnoreCase("remove")) {
-						if(args.length > 2) {
+					if (args[1].equalsIgnoreCase("remove")) {
+						if (args.length > 2) {
 							UUID target = this.plugin.getPlayerUniqueId(args[2]);
-							if(target == null) {
+							if (target == null) {
 								this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 								this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[2]));
 								this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -329,16 +379,16 @@ public class FriendCommand extends Command {
 						return;
 					}
 
-					if(args[1].equalsIgnoreCase("list")) {
+					if (args[1].equalsIgnoreCase("list")) {
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						List<String> ignoreList = myFriends.getIgnoreList();
-						if(ignoreList.size() == 0) {
+						if (ignoreList.size() == 0) {
 							this.plugin.info(player, langUtils.getString("Ignore.Havent.One"));
 							this.plugin.info(player, langUtils.getString("Ignore.Havent.Two"));
 							this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 							return;
 						}
-						for(String targetUniqueId : myFriends.getIgnoreList()) {
+						for (String targetUniqueId : myFriends.getIgnoreList()) {
 							FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(UUID.fromString(targetUniqueId));
 							this.plugin.info(player, "&e- " + targetFriends.getDisplayName());
 						}
@@ -350,15 +400,15 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("force-add")) {
-				if(!player.hasPermission(Permissions.ADMIN)) {
+			if (args[0].equalsIgnoreCase("force-add")) {
+				if (!player.hasPermission(Permissions.ADMIN)) {
 					this.plugin.info(player, Messages.NO_PERMISSION);
 					return;
 				}
 
-				if(args.length > 1) {
+				if (args.length > 1) {
 					UUID target = this.plugin.getPlayerUniqueId(args[1]);
-					if(target == null) {
+					if (target == null) {
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -396,15 +446,15 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("prefix")) {
-				if(!player.hasPermission(Permissions.ADMIN)) {
+			if (args[0].equalsIgnoreCase("prefix")) {
+				if (!player.hasPermission(Permissions.ADMIN)) {
 					this.plugin.info(player, Messages.NO_PERMISSION);
 					return;
 				}
 
-				if(args.length > 1) {
+				if (args.length > 1) {
 					UUID target = this.plugin.getPlayerUniqueId(args[1]);
-					if(target == null) {
+					if (target == null) {
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 						this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", args[1]));
 						this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -413,13 +463,13 @@ public class FriendCommand extends Command {
 
 					FriendUtils targetFriends = this.plugin.getFriendManager().getPlayer(target);
 
-					if(args.length > 2) {
+					if (args.length > 2) {
 						String prefix = "";
-						for(int i = 2; i < args.length; i++) {
+						for (int i = 2; i < args.length; i++) {
 							prefix = prefix + args[i] + " ";
 						}
 
-						if(!prefix.endsWith(" ")) {
+						if (!prefix.endsWith(" ")) {
 							prefix += " ";
 						}
 
@@ -440,14 +490,14 @@ public class FriendCommand extends Command {
 				return;
 			}
 
-			if(args[0].equalsIgnoreCase("migrate")) {
-				if(!player.hasPermission(Permissions.ADMIN)) {
+			if (args[0].equalsIgnoreCase("migrate")) {
+				if (!player.hasPermission(Permissions.ADMIN)) {
 					this.plugin.info(player, Messages.NO_PERMISSION);
 					return;
 				}
 			}
 
-			if(args[0].equalsIgnoreCase("help")) {
+			if (args[0].equalsIgnoreCase("help")) {
 				this.printHelp(player, langUtils);
 				return;
 			}
@@ -469,7 +519,7 @@ public class FriendCommand extends Command {
 		this.plugin.info(player, langUtils.getString("Help.Deny"));
 		this.plugin.info(player, langUtils.getString("Help.List"));
 		this.plugin.info(player, langUtils.getString("Help.Ignore"));
-		if(player.hasPermission(Permissions.ADMIN)) {
+		if (player.hasPermission(Permissions.ADMIN)) {
 			this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 			this.plugin.info(player, langUtils.getString("Help.Force-Add"));
 			this.plugin.info(player, langUtils.getString("Help.Prefix"));
@@ -479,7 +529,7 @@ public class FriendCommand extends Command {
 
 	public void add(ProxiedPlayer player, FriendUtils myFriends, LanguageUtils langUtils, String name) {
 		UUID target = this.plugin.getPlayerUniqueId(name);
-		if(target == null) {
+		if (target == null) {
 			this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
 			this.plugin.info(player, langUtils.getString("Cant-Find").replace("%name", name));
 			this.plugin.info(player, langUtils.getString(Messages.HYPHEN));
@@ -531,7 +581,7 @@ public class FriendCommand extends Command {
 
 		this.plugin.info(target, targetLangUtils.getString(Messages.HYPHEN));
 		this.plugin.info(target, targetLangUtils.getString("Add.Request.Received").replace("%displayName", myFriends.getDisplayName()));
-		if(targetFriends.getPlayer() != null) {
+		if (targetFriends.getPlayer() != null) {
 			targetFriends.getPlayer().sendMessage(prefix, accept, grayHyphen, deny, grayHyphen, ignore);
 		}
 		this.plugin.info(target, targetLangUtils.getString(Messages.HYPHEN));

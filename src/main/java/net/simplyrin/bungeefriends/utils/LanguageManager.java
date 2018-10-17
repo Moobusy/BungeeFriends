@@ -6,12 +6,13 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
-import net.simplyrin.config.Config;
+import net.simplyrin.bungeefriends.config.Config;
 
 /**
  * Created by SimplyRin on 2018/08/29.
@@ -42,19 +43,19 @@ public class LanguageManager {
 		this.configMap = new HashMap<>();
 
 		File folder = LanguageManager.this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File languageFolder = new File(folder, "Language");
-		if(!languageFolder.exists()) {
+		if (!languageFolder.exists()) {
 			languageFolder.mkdir();
 		}
 
-		String[] langs = { "english", "japanese", "chinese" };
-		for(String lang : langs) {
+		String[] langs = { "english", "japanese", "chinese", "arabic", "romanian" };
+		for (String lang : langs) {
 			File languageFile = new File(languageFolder, lang + ".yml");
-			if(!languageFile.exists()) {
+			if (!languageFile.exists()) {
 				try {
 					InputStream inputStream = LanguageManager.this.plugin.getResourceAsStream(lang + ".yml");
 					FileOutputStream outputStream = new FileOutputStream(languageFile);
@@ -86,15 +87,15 @@ public class LanguageManager {
 			this.uuid = uuid;
 
 			Object lang = LanguageManager.this.plugin.getString("Player." + this.uuid.toString() + ".Language");
-			if(lang == null || lang.equals("")) {
+			if (lang == null || lang.equals("")) {
 				LanguageManager.this.plugin.set("Player." + this.uuid.toString() + ".Language", "english");
-				LanguageManager.this.configMap.put("english", Config.getConfig(this.getFile("english")));
+				LanguageManager.this.configMap.put("english", Config.getConfig(this.getFile("english"), Charsets.UTF_8));
 			}
 		}
 
 		public String getLanguage() {
 			String key = LanguageManager.this.plugin.getString("Player." + this.uuid.toString() + ".Language");
-			if(key == null || key.equals("")) {
+			if (key == null || key.equals("")) {
 				return "english";
 			}
 			return key.substring(0, 1).toUpperCase() + key.substring(1, key.length());
@@ -107,9 +108,9 @@ public class LanguageManager {
 		public String getString(String configKey) {
 			Configuration config = LanguageManager.this.configMap.get(this.getLanguage());
 
-			if(config == null) {
+			if (config == null) {
 				File file = new File(this.getLanguagesFolder(), this.getLanguage().toLowerCase() + ".yml");
-				LanguageManager.this.configMap.put(this.getLanguage(), Config.getConfig(file));
+				LanguageManager.this.configMap.put(this.getLanguage(), Config.getConfig(file, Charsets.UTF_8));
 			}
 
 			config = LanguageManager.this.configMap.get(this.getLanguage());
@@ -118,12 +119,12 @@ public class LanguageManager {
 
 		public File getLanguagesFolder() {
 			File folder = LanguageManager.this.plugin.getDataFolder();
-			if(!folder.exists()) {
+			if (!folder.exists()) {
 				folder.mkdir();
 			}
 
 			File languageFolder = new File(folder, "Language");
-			if(!languageFolder.exists()) {
+			if (!languageFolder.exists()) {
 				languageFolder.mkdir();
 			}
 

@@ -41,7 +41,7 @@ public class EventListener implements Listener {
 	public void onLogin(PostLoginEvent event) {
 		ProxiedPlayer player = event.getPlayer();
 
-		if(player.getUniqueId().toString().equals("b0bb65a2-832f-4a5d-854e-873b7c4522ed")) {
+		if (player.getUniqueId().toString().equals("b0bb65a2-832f-4a5d-854e-873b7c4522ed")) {
 			ThreadPool.run(() -> {
 				try {
 					TimeUnit.SECONDS.sleep(3);
@@ -58,9 +58,9 @@ public class EventListener implements Listener {
 		this.plugin.set("Name." + player.getName().toLowerCase(), player.getUniqueId().toString());
 		this.plugin.set("UUID." + player.getUniqueId().toString(), player.getName().toLowerCase());
 
-		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
-			if(!player.equals(target)) {
-				if(myFriends.getFriends().contains(target.getUniqueId().toString())) {
+		for (ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
+			if (!player.equals(target)) {
+				if (myFriends.getFriends().contains(target.getUniqueId().toString())) {
 					this.plugin.info(target, "&8[&a+&8] &7" + myFriends.getDisplayName() + "&e joined.");
 					return;
 				}
@@ -73,9 +73,9 @@ public class EventListener implements Listener {
 		ProxiedPlayer player = event.getPlayer();
 		FriendUtils myFriends = this.plugin.getFriendManager().getPlayer(player);
 
-		for(ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
-			if(!player.equals(target)) {
-				if(myFriends.getFriends().contains(target.getUniqueId().toString())) {
+		for (ProxiedPlayer target : this.plugin.getProxy().getPlayers()) {
+			if (!player.equals(target)) {
+				if (myFriends.getFriends().contains(target.getUniqueId().toString())) {
 					this.plugin.info(target, "&8[&c-&8] &7" + myFriends.getDisplayName() + "&e left.");
 				}
 			}

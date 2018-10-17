@@ -64,6 +64,7 @@ List:
     Two: "&eAdd some with /friend add <player>"
   Online: "&e%targetDisplayName &eis in a %server Server."
   Offline: "&e%targetDisplayName &cis currently offline"
+  Page: "&6Friends (Page %%currentPage%% of %%maxPage%%)"
 
 Lang:
   Usage: "&cInvalid usage! '/party lang <language>'"

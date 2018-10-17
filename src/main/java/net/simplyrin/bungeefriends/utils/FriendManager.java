@@ -60,7 +60,7 @@ public class FriendManager {
 			this.uuid = uuid;
 
 			Object object = FriendManager.this.plugin.getString("Player." + this.uuid.toString() + ".Name");
-			if(object == null || object.equals("")) {
+			if (object == null || object.equals("")) {
 				ProxiedPlayer player = FriendManager.this.plugin.getProxy().getPlayer(this.uuid);
 
 				FriendManager.this.plugin.info("Creating data for player " + player.getName() + "...");
@@ -94,13 +94,13 @@ public class FriendManager {
 
 		public String getPrefix() {
 			ProxiedPlayer player = this.getPlayer();
-			if(player != null) {
+			if (player != null) {
 				Collection<String> collection = FriendManager.this.plugin.getPrefixManager().getConfig().getSection("List").getKeys();
-				for(String list : collection) {
+				for (String list : collection) {
 					String prefix = FriendManager.this.plugin.getPrefixManager().getConfig().getString("List." + list + ".Prefix");
 					String permission = FriendManager.this.plugin.getPrefixManager().getConfig().getString("List." + list + ".Permission");
 
-					if(player.hasPermission(permission)) {
+					if (player.hasPermission(permission)) {
 						FriendManager.this.plugin.set("Player." + this.uuid.toString() + ".Prefix", prefix);
 						return prefix;
 					}
@@ -128,30 +128,30 @@ public class FriendManager {
 		}
 
 		public FriendUtils addRequest(UUID uuid) throws AlreadyAddedException, FailedAddingException, SelfException, IgnoredException, FriendSlotLimitException {
-			if(this.uuid.toString().equals(uuid.toString())) {
+			if (this.uuid.toString().equals(uuid.toString())) {
 				throw new SelfException();
 			}
 
 			List<String> list = this.getFriends();
-			if(list.contains(uuid.toString())) {
+			if (list.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
 			}
 
 			ProxiedPlayer player = this.getPlayer();
-			if(player != null) {
-				if(this.getPlayer().hasPermission("friends.limit." + this.getFriends().size()) && !this.getPlayer().hasPermission(Permissions.ADMIN)) {
+			if (player != null) {
+				if (this.getPlayer().hasPermission("friends.limit." + this.getFriends().size()) && !this.getPlayer().hasPermission(Permissions.ADMIN)) {
 					throw new FriendSlotLimitException();
 				}
 			}
 
 			FriendUtils targetFriendUtils = FriendManager.this.getPlayer(uuid);
 			List<String> ignoreList = targetFriendUtils.getIgnoreList();
-			if(ignoreList.contains(this.uuid.toString())) {
+			if (ignoreList.contains(this.uuid.toString())) {
 				throw new IgnoredException();
 			}
 
 			List<String> requests = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Requests");
-			if(requests.contains(uuid.toString())) {
+			if (requests.contains(uuid.toString())) {
 				throw new FailedAddingException();
 			}
 			requests.add(uuid.toString());
@@ -165,7 +165,7 @@ public class FriendManager {
 
 		public FriendUtils removeRequest(UUID uuid) throws NotAddedException {
 			List<String> requests = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".Requests");
-			if(!requests.contains(uuid.toString())) {
+			if (!requests.contains(uuid.toString())) {
 				throw new NotAddedException();
 			}
 			requests.remove(uuid.toString());
@@ -182,12 +182,12 @@ public class FriendManager {
 		}
 
 		public FriendUtils add(UUID uuid) throws AlreadyAddedException, FailedAddingException {
-			if(this.uuid.toString().equals(uuid.toString())) {
+			if (this.uuid.toString().equals(uuid.toString())) {
 				throw new FailedAddingException();
 			}
 
 			List<String> list = this.getFriends();
-			if(list.contains(uuid.toString())) {
+			if (list.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
 			}
 			list.add(uuid.toString());
@@ -196,7 +196,7 @@ public class FriendManager {
 
 			FriendUtils targetFriends = FriendManager.this.plugin.getFriendManager().getPlayer(uuid);
 			List<String> targetList = targetFriends.getFriends();
-			if(targetList.contains(this.uuid.toString())) {
+			if (targetList.contains(this.uuid.toString())) {
 				throw new AlreadyAddedException();
 			}
 			targetList.add(this.uuid.toString());
@@ -209,12 +209,12 @@ public class FriendManager {
 		}
 
 		public FriendUtils remove(UUID uuid) throws NotAddedException, SelfException {
-			if(this.uuid.toString().equals(uuid.toString())) {
+			if (this.uuid.toString().equals(uuid.toString())) {
 				throw new SelfException();
 			}
 
 			List<String> list = this.getFriends();
-			if(!list.contains(uuid.toString())) {
+			if (!list.contains(uuid.toString())) {
 				throw new NotAddedException();
 			}
 			list.remove(uuid.toString());
@@ -223,7 +223,7 @@ public class FriendManager {
 
 			FriendUtils targetFriends = FriendManager.this.plugin.getFriendManager().getPlayer(uuid);
 			List<String> targetList = targetFriends.getFriends();
-			if(!targetList.contains(this.uuid.toString())) {
+			if (!targetList.contains(this.uuid.toString())) {
 				throw new NotAddedException();
 			}
 			targetList.remove(this.uuid.toString());
@@ -241,7 +241,7 @@ public class FriendManager {
 
 		public FriendUtils addIgnore(UUID uuid) throws AlreadyAddedException {
 			List<String> ignoreList = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".IgnoreList");
-			if(ignoreList.contains(uuid.toString())) {
+			if (ignoreList.contains(uuid.toString())) {
 				throw new AlreadyAddedException();
 			}
 			ignoreList.add(uuid.toString());
@@ -255,7 +255,7 @@ public class FriendManager {
 
 		public FriendUtils removeIgnore(UUID uuid) throws NotAddedException {
 			List<String> ignoreList = FriendManager.this.plugin.getStringList("Player." + this.uuid.toString() + ".IgnoreList");
-			if(!ignoreList.contains(uuid.toString())) {
+			if (!ignoreList.contains(uuid.toString())) {
 				throw new NotAddedException();
 			}
 			ignoreList.remove(uuid.toString());

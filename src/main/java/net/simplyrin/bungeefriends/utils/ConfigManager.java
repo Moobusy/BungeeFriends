@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.base.Charsets;
+
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.simplyrin.bungeefriends.Main;
-import net.simplyrin.config.Config;
+import net.simplyrin.bungeefriends.config.Config;
 
 /**
  * Created by SimplyRin on 2018/07/03.
@@ -47,24 +49,24 @@ public class ConfigManager {
 		File config = new File(this.plugin.getDataFolder(), "config.yml");
 
 		Config.saveConfig(this.config, config);
-		this.config = Config.getConfig(config);
+		this.config = Config.getConfig(config, Charsets.UTF_8);
 	}
 
 	public void createConfig() {
 		File folder = this.plugin.getDataFolder();
-		if(!folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdir();
 		}
 
 		File config = new File(folder, "config.yml");
-		if(!config.exists()) {
+		if (!config.exists()) {
 			try {
 				config.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			this.config = Config.getConfig(config);
+			this.config = Config.getConfig(config, Charsets.UTF_8);
 
 			this.config.set("Plugin.Prefix", "&7[&cFriends&7] &r");
 
@@ -86,7 +88,7 @@ public class ConfigManager {
 			Config.saveConfig(this.config, config);
 		}
 
-		this.config = Config.getConfig(config);
+		this.config = Config.getConfig(config, Charsets.UTF_8);
 
 		this.config.set("Plugin.Disable-Alias", null);
 
@@ -94,7 +96,7 @@ public class ConfigManager {
 		this.resetValue("Plugin.Disable-Aliases./r");
 		this.resetValue("Plugin.Disable-Aliases./fl");
 
-		if(this.config.getString("Plugin.Default-Language").equals("")) {
+		if (this.config.getString("Plugin.Default-Language").equals("")) {
 			this.config.set("Plugin.Default-Language", "english");
 		}
 
@@ -102,7 +104,7 @@ public class ConfigManager {
 	}
 
 	public void resetValue(String key) {
-		if(!this.config.getBoolean(key)) {
+		if (!this.config.getBoolean(key)) {
 			this.config.set(key, false);
 		}
 	}
